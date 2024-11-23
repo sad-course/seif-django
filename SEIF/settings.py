@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 import os
-import environ
-
+from dotenv import load_dotenv
 
 from pathlib import Path
 
@@ -20,9 +19,9 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 #configurando env
-env = environ.Env()
-environ.Env.read_env()
-
+load_dotenv();
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -58,11 +57,10 @@ INTERNAL_IPS = [ "127.0.0.1" ]
 
 #configurando Node path de acordo com o OS
 if os.name == 'nt':
-    NPM_BIN_PATH = env('NPM_BIN_PATH_WINDOWS')
+    NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_WINDOWS", default="")
 else:
-    NPM_BIN_PATH = env('NPM_BIN_PATH_LINUX')
+    NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_LINUX", default="")
 
-print(NPM_BIN_PATH)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
