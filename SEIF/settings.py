@@ -10,11 +10,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+#configurando env
+load_dotenv();
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -48,7 +55,12 @@ INSTALLED_APPS = [
 TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [ "127.0.0.1" ]
 
-NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
+#configurando Node path de acordo com o OS
+if os.name == 'nt':
+    NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_WINDOWS", default="")
+else:
+    NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_LINUX", default="")
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
