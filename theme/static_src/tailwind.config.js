@@ -43,6 +43,23 @@ module.exports = {
     ],
     theme: {
         extend: {
+            colors: {
+                "green-900": "#052E16",
+                "green-700": "#638E5A",
+                "green-400": "#67B263",
+                "green-200": "#8FDD8B",
+                "gray-600": "#2E2D2D",
+                "gray-400": "#656565",
+                "gray-300": "#8C8C8C",
+                "gray-200": "#EEEEEE",
+                "gray-250": "#CCCCCC",
+                "gray-100": "#FFFFFF",
+                "RED-400": "#AA1B1B",
+                "red-200": "#E75F5F",
+                "yellow-400": "#D0B623",
+                "yellow-200": "#FFEE8B"
+
+            }
         },
     },
     plugins: [
