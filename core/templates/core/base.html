@@ -7,9 +7,27 @@
     {% tailwind_css %}
     <title>SEIF</title>
 </head>
-<body>
-
-    <main>
+<body class = "max-w-[1440px] h-screen m-auto flex flex-col items-center">
+    <header class = "w-full h-28 px-24 flex flex-col">
+        <div class = "flex justify-between items-center my-7 text-lg">
+            <a> ICON </a>
+    
+            <nav class = "flex justify-between items-center gap-32">
+                <ul class = "flex items-center gap-8">
+                    <li><a>Home</a></li>
+                    <li><a>Publique um evento</a></li>
+                </ul>
+    
+                <div>
+                    <button class = "min-w-44 py-4 bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
+                        Entrar
+                    </button>
+                </div>
+            </nav>
+        </div>
+        <div class = "w-full bg-gray-600 h-px"/>
+    </header>
+    <main >
         {% block content %}
         {% endblock %}
     </main>
