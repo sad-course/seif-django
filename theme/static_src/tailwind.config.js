@@ -54,7 +54,7 @@ module.exports = {
                 "gray-200": "#EEEEEE",
                 "gray-250": "#CCCCCC",
                 "gray-100": "#FFFFFF",
-                "RED-400": "#AA1B1B",
+                "red-400": "#AA1B1B",
                 "red-200": "#E75F5F",
                 "yellow-400": "#D0B623",
                 "yellow-200": "#FFEE8B"
