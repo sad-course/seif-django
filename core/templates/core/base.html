@@ -1,16 +1,25 @@
 {% load static tailwind_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
     {% tailwind_css %}
     <title>SEIF</title>
 </head>
-<body class = "max-w-[1440px] h-screen m-auto flex flex-col items-center">
-    <header class = "w-full h-28 px-24 flex flex-col">
+<body class = "max-w-[1440px] font-inter h-screen m-auto flex flex-col items-center">
+    <header class = "w-full min-h-28 flex flex-col">
         <div class = "flex justify-between items-center my-7 text-lg">
-            <a> ICON </a>
+            <div class = "flex items-center gap-2">
+                <a><img src = "static/img/logoifrn.png" alt="" /></a>
+                <a class = "font-extrabold text-gray-600 text-4xl"> SEIF </a>
+            </div>
     
             <nav class = "flex justify-between items-center gap-32">
                 <ul class = "flex items-center gap-8">
@@ -19,13 +28,13 @@
                 </ul>
     
                 <div>
-                    <button class = "min-w-44 py-4 bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
+                    <button class = "min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
                         Entrar
                     </button>
                 </div>
             </nav>
         </div>
-        <div class = "w-full bg-gray-600 h-px"/>
+        <div class = "w-full bg-gray-400 h-px"/>
     </header>
     <main >
         {% block content %}
