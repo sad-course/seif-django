@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
     'django_browser_reload',
+    'dj_svg',
 
     'core',
 ]
@@ -60,7 +61,6 @@ if os.name == 'nt':
     NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_WINDOWS", default="")
 else:
     NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_LINUX", default="")
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -139,7 +139,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
