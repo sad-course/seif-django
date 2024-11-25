@@ -1,4 +1,5 @@
-
+[![Django TailWind Badge](https://img.shields.io/badge/Django%20Tailwind-8A2BE2)](https://django-tailwind.readthedocs.io/en/latest/index.html)
+[![Django Project Badge](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)](https://docs.djangoproject.com/en/5.1/)
 ### Getting started
 If not existing virtual environment, create one by running
 ```bash
