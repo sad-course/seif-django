@@ -1,5 +1,6 @@
 {% load static tailwind_tags %}
 {% load static %}
+{% load svg %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -34,7 +35,7 @@
                 </div>
             </nav>
         </div>
-        <div class = "w-full bg-gray-400 h-px"/>
+        <div class = "w-full bg-gray-400 h-px"></div>
     </header>
 
     <main class="max-w-[1440px] h-screen flex flex-col items-center justify-center">
@@ -43,33 +44,37 @@
     </main>
 
     <footer class = "w-full h-96 bg-green-900 flex justify-center text-gray-100">
-        <div class = "max-w-[1440px] w-full px-8 pt-10 flex flex-col gap-10">
-            <div class = "flex justify-between items-center gap-[400px]">
-                <div>
+        <div class = "max-w-[1440px] w-full px-8 py-10 flex flex-col">
+            <div class = "flex justify-between items-center gap-[400px] pb-10">
+                <div class = "flex flex-col gap-8">
                     <img src = "static/img/logowhiteif.png" alt = ""/>
         
                     <h3> SEIF </h3>
-                    <ul>
-                        <li></li>
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                    <ul class = "flex items-center gap-8">
+                        <li><a href=""> {% svg 'instagram' %} </a></li>
+                        <li><a href=""> {% svg 'facebook 1' %} </a></li>
+                        <li><a href=""> {% svg 'github 1' %} </a></li>
+                        <li><a href=""> {% svg 'twitter 1' %} </a></li>
                     </ul>
                 </div>
 
-                <div>
-                    <h3 >Instituto Federal de Educação, Ciência e 
+                <div class = "flex flex-col gap-10">
+                    <h3 class = "font-bold text-2xl gap-8" >
+                        Instituto Federal de Educação, Ciência e 
                         Tecnologia do Rio Grande do Norte - Campus Pau dos Ferros
                     </h3>
-                    <p>Endereço: BR 405, Km 154, s/n, Bairro Chico Cajá
+                    <p class = "w-[500px] text-gray-200 text-base" >
+                        Endereço: BR 405, Km 154, s/n, Bairro Chico Cajá
                         E-mail: comunicacao.pf@ifrn.edu.br - Pau dos Ferros-RN
                         CEP:59900-000 Telefone:(84) 4005 4109
                     </p>
                 </div>
             </div>
 
-            <div class = "w-full bg-gray-100 h-px"/>
-            <span>Copyright © 2024 | Sistema de Gerenciamento de Eventos Acadêmicos do IFRN</span>
+            <div class = "w-full bg-gray-100 h-px"> </div>
+            <span class = "pt-7 text-base">
+                Copyright © 2024 | Sistema de Gerenciamento de Eventos Acadêmicos do IFRN
+            </span>
             
         <div/>
     </footer>
