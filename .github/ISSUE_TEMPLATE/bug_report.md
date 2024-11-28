@@ -1,3 +1,10 @@
+---
+name: Bug Report
+about: Use this template to report a bug
+title: "[DATE]: [FEATURE NAME]"
+labels: bug, needs triage
+assignees: Mirlaaa
+---
 <!--- Title format in Teamwork: Action-verb driven description of problem or feature. -->
 # Type of Issue: Bug
 <!---
