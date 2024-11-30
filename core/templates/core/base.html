@@ -28,24 +28,43 @@
                     <li><a>Publique um evento</a></li>
                 </ul>
     
-                <div class = "flex items-center gap-12">
+                <div class = "flex items-center gap-12 relative">
                     <!-- Esses elementos so irão aparecer quando o usuário estiver logado-->
                     <div class = "cursor-pointer">
                         {% svg 'notifications_unread' %}
                     </div>
 
-                    <div class = "cursor-pointer">
+                    <div id = "user-icon" class = "cursor-pointer">
                         {% svg 'account-icon' %}
                     </div>
-
+                    
+                    <!-- Dropdown menu -->
+                    <div id = "menu-dropdown" class = "hidden absolute z-50 top-0 mt-12 right-32 bg-gray-200 rounded-lg w-64 min-h-48 py-6 px-3">
+                        <ul class = "flex flex-col items-start gap-8">
+                            <li><a href="" class = "flex items-center gap-1"> 
+                                {% svg 'calendar' %} Meus eventos
+                            </a></li>
+                            <li><a href="" class = "flex items-center gap-1"> 
+                                {% svg 'Award'  %} Meus certificados 
+                            </a></li>
+                            <li><a href="" class = "flex items-center gap-1"> 
+                                {% svg 'fi-ss-user' %} Meu perfil 
+                            </a></li>
+                        </ul>
+                    </div>
+                 
+                    <!---->
                     <div class = "flex items-center gap-2 cursor-pointer">
                         <span>Sair</span>
                         {% svg 'logout'%}
                     </div>
                     <!---->
-                    <button class = "min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
+
+                    <!-- Botão do aparece quando o usuário NÃO está logado-->
+                    <button class = "hidden min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
                         Entrar
                     </button>
+                    <!---->
                 </div>
             </nav>
         </div>
@@ -92,5 +111,7 @@
             
         <div/>
     </footer>
+
+    <script src = {% static 'js/script.js'%}/>
 </body>
 </html>
