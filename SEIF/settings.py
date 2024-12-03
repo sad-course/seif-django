@@ -58,7 +58,7 @@ INTERNAL_IPS = [ "127.0.0.1" ]
 
 #configurando Node path de acordo com o OS
 if os.name == 'nt':
-    NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_WINDOWS", default="")
+    NPM_BIN_PATH = r'C:\Program Files\nodejs\npm.cmd'
 else:
     NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_LINUX", default="")
 

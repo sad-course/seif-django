@@ -2,8 +2,34 @@
 {% load svg %}
 {% block content %}
 
-<div>
-    <h1> seif em andamento </h1>
+<!-- Search input -->
+<div class = "w-full flex justify-end py-12">
+    <div class = "min-w-[450px] flex items-center gap-3 bg-gray-200 rounded-lg px-5">
+        {% svg 'search' %}
+        <input 
+            type="text" 
+            placeholder = "Pesquise aqui"
+            class = "border-none bg-transparent w-full outline-none"
+        />
+    </div>
 </div>
-  
+<!-- Search input -->
+
+<!-- Carrossel -->
+<div class = "w-full flex flex-col items-center gap-4">
+    <div class= "w-full h-80 bg-gray-250">
+    </div>
+
+    <!--Bolinhas-->
+    <ul class = "flex items-center gap-3">
+        <li class = "w-5 h-5 rounded-full bg-green-700" ></li>
+        <li class = "w-5 h-5 rounded-full bg-green-200"></li>
+        <li class = "w-5 h-5 rounded-full bg-green-200"></li>
+        <li class = "w-5 h-5 rounded-full bg-green-200"></li>
+    </ul>
+
+</div>
+<!-- Carrossel -->
+
+<!-- Listagem cards de eventos -->
 {% endblock %}
