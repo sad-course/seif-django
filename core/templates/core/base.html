@@ -1,17 +1,117 @@
 {% load static tailwind_tags %}
+{% load static %}
+{% load svg %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
     {% tailwind_css %}
     <title>SEIF</title>
 </head>
-<body>
+<body class = "w-full h-screen font-inter flex flex-col items-center">
+    <header class = "max-w-[1440px] w-full min-h-40 flex flex-col px-8">
+        <div class = "flex justify-between items-center mt-8 mb-4 text-lg">
+            <div class = "flex items-center gap-2">
+                <a><img src = "static/img/logoifrn.png" alt="" /></a>
+                <a class = "font-extrabold text-gray-600 text-4xl"> SEIF </a>
+            </div>
+    
+            <nav class = "flex justify-between items-center gap-32">
+                <ul class = "flex items-center gap-8 cursor-pointer">
+                    <li><a>Home</a></li>
+                    <li><a>Publique um evento</a></li>
+                </ul>
+    
+                <div class = "flex items-center gap-12 relative">
+                    <!-- Esses elementos so irão aparecer quando o usuário estiver logado-->
+                    <div class = "cursor-pointer">
+                        {% svg 'notifications_unread' %}
+                    </div>
 
-    <main>
+                    <div id = "user-icon" class = "cursor-pointer">
+                        {% svg 'account-icon' %}
+                    </div>
+                    
+                    <!-- Dropdown menu -->
+                    <div id = "menu-dropdown" class = "hidden absolute z-50 top-0 mt-12 right-32 bg-gray-200 rounded-lg w-64 min-h-48 py-6 px-3">
+                        <ul class = "flex flex-col items-start gap-8">
+                            <li><a href="" class = "flex items-center gap-1"> 
+                                {% svg 'calendar' %} Meus eventos
+                            </a></li>
+                            <li><a href="" class = "flex items-center gap-1"> 
+                                {% svg 'Award'  %} Meus certificados 
+                            </a></li>
+                            <li><a href="" class = "flex items-center gap-1"> 
+                                {% svg 'fi-ss-user' %} Meu perfil 
+                            </a></li>
+                        </ul>
+                    </div>
+                 
+                    <!---->
+                    <div class = "flex items-center gap-2 cursor-pointer">
+                        <span>Sair</span>
+                        {% svg 'logout'%}
+                    </div>
+                    <!---->
+
+                    <!-- Botão do aparece quando o usuário NÃO está logado-->
+                    <button class = "hidden min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
+                        Entrar
+                    </button>
+                    <!---->
+                </div>
+            </nav>
+        </div>
+        <div class = "w-full bg-gray-400 h-px"></div>
+    </header>
+
+    <main class="w-full max-w-[1440px] h-screen flex flex-col items-center justify-center px-8">
         {% block content %}
         {% endblock %}
     </main>
+
+    <footer class = "w-full h-96 bg-green-900 flex justify-center text-gray-100">
+        <div class = "max-w-[1440px] w-full px-8 py-10 flex flex-col">
+            <div class = "flex justify-between items-center gap-[400px] pb-10">
+                <div class = "flex flex-col gap-8">
+                    <img src = "static/img/logowhiteif.png" alt = ""/>
+        
+                    <h3> SEIF </h3>
+                    <ul class = "flex items-center gap-8">
+                        <li><a href=""> {% svg 'instagram' %} </a></li>
+                        <li><a href=""> {% svg 'facebook 1' %} </a></li>
+                        <li><a href=""> {% svg 'github 1' %} </a></li>
+                        <li><a href=""> {% svg 'twitter 1' %} </a></li>
+                    </ul>
+                </div>
+
+                <div class = "flex flex-col gap-10">
+                    <h3 class = "font-bold text-2xl gap-8" >
+                        Instituto Federal de Educação, Ciência e 
+                        Tecnologia do Rio Grande do Norte - Campus Pau dos Ferros
+                    </h3>
+                    <p class = "w-[500px] text-gray-200 text-base" >
+                        Endereço: BR 405, Km 154, s/n, Bairro Chico Cajá <br/>
+                        E-mail: comunicacao.pf@ifrn.edu.br - Pau dos Ferros-RN <br/>
+                        CEP:59900-000 Telefone:(84) 4005 4109 <br/>
+                    </p>
+                </div>
+            </div>
+
+            <div class = "w-full bg-gray-100 h-px"> </div>
+            <span class = "pt-7 text-base">
+                Copyright © 2024 | Sistema de Gerenciamento de Eventos Acadêmicos do IFRN
+            </span>
+            
+        <div/>
+    </footer>
+
+    <script src = {% static 'js/script.js'%}/>
 </body>
 </html>

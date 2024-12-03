@@ -59,7 +59,10 @@ module.exports = {
                 "yellow-400": "#D0B623",
                 "yellow-200": "#FFEE8B"
 
-            }
+            },
+            fontFamily: {
+                'inter': ['Inter', 'sans-serif'],
+              }
         },
     },
     plugins: [
