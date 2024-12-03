@@ -32,4 +32,31 @@
 <!-- Carrossel -->
 
 <!-- Listagem cards de eventos -->
+<section class = "w-full flex flex-col pb-10">
+    <div class = "flex justify-between items-center" >
+        <h3 class = "font-bold text-2xl">Encontre eventos</h3>
+
+        <!--Filtros-->
+        <div class = "flex flex-col items-end gap-3 text-base font-semibold py-5">
+            <span> FILTROS</span>
+            <ul class = "flex items-center gap-4 prose-li:flex prose-li:items-center">
+                <li>Status</li>
+                <li>Tipo</li>
+                <li>
+                    Campi
+                    {% svg 'keyboard_arrow_down' %}
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <!--Cards-->
+    <section class = "w-full flex flex-col gap-6 pb-10">
+        <div class = "w-full min-h-52 border border-gray-300 rounded-lg flex items-center">
+            <div class = "w-60 h-full bg-gray-400">
+
+            </div>
+        </div>
+    </section>
+</section>
 {% endblock %}
