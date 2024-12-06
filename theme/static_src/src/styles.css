@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .circle{
+        @apply w-5 h-5 rounded-full bg-green-200
+    }
+    .tag-default{
+        @apply min-w-24 w-full min-h-5 rounded-md text-center py-1 px-3 bg-green-200 text-green-400;
+    }
+    .tag-progress{
+        @apply min-w-24 w-full min-h-5 rounded-md text-center py-1 px-3 bg-yellow-200 text-yellow-400;
+    }
+    .tag-finished{
+        @apply min-w-24 w-full min-h-5 rounded-md text-center py-1 px-3 bg-red-200 text-red-400;
+    }
+    .btn-default{
+        @apply w-[190px] min-h-14 bg-green-400 text-center rounded-md text-base font-semibold text-gray-100;
+    }
+    .card-event {
+        @apply w-full min-h-52 border border-gray-300 rounded-lg flex items-center;
+    }
+}
