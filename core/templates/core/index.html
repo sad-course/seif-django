@@ -39,16 +39,16 @@
         <!--Filtros-->
         <div class = "flex flex-col items-end gap-3 text-base font-semibold py-5">
             <span> FILTROS</span>
-            <ul class = "flex items-center gap-4 prose-li:flex prose-li:items-center">
-                <li class = "border-b-2 border-transparent hover:border-green-400">
+            <ul class = "flex items-center gap-4 prose-li:flex prose-li:items-center prose-li:cursor-pointer">
+                <li class = "list-border-bottom">
                     Status
                     {% svg 'keyboard_arrow_down' %}
                 </li>
-                <li class = "border-b-2 border-transparent hover:border-green-400">
+                <li class = "list-border-bottom">
                     Tipo
                     {% svg 'keyboard_arrow_down' %}
                 </li>
-                <li class = "border-b-2 border-transparent hover:border-green-400">
+                <li class = "list-border-bottom">
                     Campi
                     {% svg 'keyboard_arrow_down' %}
                 </li>
@@ -59,8 +59,105 @@
 
     </div>
     <!--Cards-->
-    <section class = "w-full flex flex-col gap-6 pb-10">
-      
+    <section class = "w-full flex flex-wrap gap-10 justify-start pb-10">
+        <div class = "card-event">
+            <!--Imagem-->
+            <div class  ="w-full h-[320px] bg-gray-300 rounded-tl-md rounded-tr-md"></div>
+
+            <!--Informações-->
+            <div class = "flex flex-col justify-between min-h-[calc(630px-320px)] p-3">
+                <div>
+
+                    <!--Tags-->
+                    <div class = "flex flex-wrap justify-between gap-2 items-center">
+                        <div class = "tag-progress"> em andamento</div>
+                        <div class = "tag-default"> tecnologia</div>
+                        <div class = "tag-default"> ciencia </div>
+                        <div class = "tag-default"> ciencia </div>
+                    </div>
+                    <h2 class = "font-bold text-4xl pt-7">SEMPAP</h2>
+                    <div class = "flex flex-col gap-2 font-semibold text-gray-300 text-base">
+                        <span>Campus Pau dos Ferros</span>
+                        <span>23/09/2024 até 20/12/2027</span>
+                    </div>
+                </div>
+                <button class = "btn-default w-full"> Participar </button>
+            </div>
+        </div>
+        
+        <div class = "card-event ">
+            <!--Imagem-->
+            <div class  ="w-full h-[320px] bg-gray-300 rounded-tl-md rounded-tr-md"></div>
+
+            <!--Informações-->
+            <div class = "flex flex-col justify-between min-h-[calc(630px-320px)] p-3">
+                <div>
+
+                    <!--Tags-->
+                    <div class = "flex flex-wrap justify-between gap-2 items-center">
+                        <div class = "tag-progress"> em andamento</div>
+                        <div class = "tag-default"> tecnologia</div>
+                        <div class = "tag-default"> ciencia </div>
+                        <div class = "tag-default"> ciencia </div>
+                    </div>
+                    <h2 class = "font-bold text-4xl pt-7">SEMPAP</h2>
+                    <div class = "flex flex-col gap-2 font-semibold text-gray-300 text-base">
+                        <span>Campus Pau dos Ferros</span>
+                        <span>23/09/2024 até 20/12/2027</span>
+                    </div>
+                </div>
+                <button class = "btn-default w-full"> Participar </button>
+            </div>
+        </div>
+
+        <div class = "card-event">
+            <!--Imagem-->
+            <div class  ="w-full h-[320px] bg-gray-300 rounded-tl-md rounded-tr-md"></div>
+
+            <!--Informações-->
+            <div class = "flex flex-col justify-between min-h-[calc(630px-320px)] p-3">
+                <div>
+
+                    <!--Tags-->
+                    <div class = "flex flex-wrap justify-between gap-2 items-center">
+                        <div class = "tag-progress"> em andamento</div>
+                        <div class = "tag-default"> tecnologia</div>
+                        <div class = "tag-default"> ciencia </div>
+                        <div class = "tag-default"> ciencia </div>
+                    </div>
+                    <h2 class = "font-bold text-4xl pt-7">SEMPAP</h2>
+                    <div class = "flex flex-col gap-2 font-semibold text-gray-300 text-base">
+                        <span>Campus Pau dos Ferros</span>
+                        <span>23/09/2024 até 20/12/2027</span>
+                    </div>
+                </div>
+                <button class = "btn-default w-full"> Participar </button>
+            </div>
+        </div>
+        <div class = "card-event">
+            <!--Imagem-->
+            <div class  ="w-full h-[320px] bg-gray-200 rounded-tl-md rounded-tr-md"></div>
+
+            <!--Informações-->
+            <div class = "flex flex-col justify-between min-h-[calc(630px-320px)] p-3">
+                <div>
+
+                    <!--Tags-->
+                    <div class = "flex flex-wrap justify-between gap-2 items-center">
+                        <div class = "tag-progress"> em andamento</div>
+                        <div class = "tag-default"> tecnologia</div>
+                        <div class = "tag-default"> ciencia </div>
+                        <div class = "tag-default"> ciencia </div>
+                    </div>
+                    <h2 class = "font-bold text-4xl pt-7">SEMPAP</h2>
+                    <div class = "flex flex-col gap-2 font-semibold text-gray-300 text-base">
+                        <span>Campus Pau dos Ferros</span>
+                        <span>23/09/2024 até 20/12/2027</span>
+                    </div>
+                </div>
+                <button class = "btn-default w-full"> Participar </button>
+            </div>
+        </div>
     </section>
 </section>
 {% endblock %}
