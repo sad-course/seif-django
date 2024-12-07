@@ -14,7 +14,7 @@ import os
 from dotenv import load_dotenv
 
 from pathlib import Path
-
+from shutil import which
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -57,10 +57,8 @@ TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [ "127.0.0.1" ]
 
 #configurando Node path de acordo com o OS
-if os.name == 'nt':
-    NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_WINDOWS", default="")
-else:
-    NPM_BIN_PATH = os.getenv("NPM_BIN_PATH_LINUX", default="")
+
+NPM_BIN_PATH = which('npm')
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
