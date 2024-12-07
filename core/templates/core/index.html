@@ -59,7 +59,7 @@
 
     </div>
     <!--Cards-->
-    <section class = "w-full flex flex-wrap gap-10  justify-center  pb-10">
+    {% comment %} <section class = "w-full flex flex-wrap gap-10  justify-center  pb-10">
         <div class = "card-event">
             <!--Imagem-->
             <div class  ="w-full h-[320px] bg-gray-300 rounded-tl-md rounded-tr-md"></div>
@@ -87,79 +87,35 @@
             </div>
         </div>
         
-        <div class = "card-event ">
+    </section> {% endcomment %}
+
+    <section>
+        <div class= "relative w-full min-h-[225px] flex flex-col sm:flex-row border border-gray-300 rounded-lg">
             <!--Imagem-->
-            <div class  ="w-full h-[320px] bg-gray-300 rounded-tl-md rounded-tr-md"></div>
+        <div class = "w-full sm:w-[350px] min-h-[220px] bg-gray-200">
 
-            <!--Informações-->
-            <div class = "flex flex-col justify-between min-h-[calc(630px-320px)] p-3">
-                <div>
-
-                    <!--Tags-->
-                    <div class = "flex flex-wrap justify-between gap-2 items-center">
-                        <div class = "tag-progress"> em andamento</div>
-                        <div class = "tag-default"> tecnologia</div>
-                        <div class = "tag-default"> ciencia </div>
-                        <div class = "tag-default"> ciencia </div>
-                    </div>
-                    <h2 class = "font-bold text-4xl pt-7">SEMPAP</h2>
-                    <div class = "flex flex-col gap-2 font-semibold text-gray-300 text-base">
-                        <span>Campus Pau dos Ferros</span>
-                        <span>23/09/2024 até 20/12/2027</span>
-                    </div>
-                </div>
-                <button class = "btn-default w-full"> Participar </button>
-            </div>
         </div>
 
-        <div class = "card-event">
-            <!--Imagem-->
-            <div class  ="w-full h-[320px] bg-gray-300 rounded-tl-md rounded-tr-md"></div>
+        <div class = "w-full px-7 py-4">
+                <!--Tags-->
+            <div class = "flex items-center gap-3 overflow-x-scroll sm:scrollbar-hide">
+                <div class = "tag-default" >em breve</div>
+                <div class = "tag-default">pesquisa</div>
+                <div class = "tag-default">aberto ao público</div>
+            </div>
+            
+            <!--infoa-->
+            <div class = "flex flex-col py-5 font-semibold text-gray-300">
+                <h3 class = "font-bold text-2xl text-black">SEMAP</h3>
+                <span clas = "">Campus Pau dos ferros</span>
+                <span>00/00/0000 ate 00/00/0000</span>
+            </div>
 
-            <!--Informações-->
-            <div class = "flex flex-col justify-between min-h-[calc(630px-320px)] p-3">
-                <div>
-
-                    <!--Tags-->
-                    <div class = "flex flex-wrap justify-between gap-2 items-center">
-                        <div class = "tag-progress"> em andamento</div>
-                        <div class = "tag-default"> tecnologia</div>
-                        <div class = "tag-default"> ciencia </div>
-                        <div class = "tag-default"> ciencia </div>
-                    </div>
-                    <h2 class = "font-bold text-4xl pt-7">SEMPAP</h2>
-                    <div class = "flex flex-col gap-2 font-semibold text-gray-300 text-base">
-                        <span>Campus Pau dos Ferros</span>
-                        <span>23/09/2024 até 20/12/2027</span>
-                    </div>
-                </div>
-                <button class = "btn-default w-full"> Participar </button>
+            <div class = "flex justify-end">
+                <button class = "btn-default w-full sm:w-[200px]">Participar</button>
             </div>
         </div>
-        <div class = "card-event">
-            <!--Imagem-->
-            <div class  ="w-full h-[320px] bg-gray-200 rounded-tl-md rounded-tr-md"></div>
-
-            <!--Informações-->
-            <div class = "flex flex-col justify-between min-h-[calc(630px-320px)] p-3">
-                <div>
-
-                    <!--Tags-->
-                    <div class = "flex flex-wrap justify-between gap-2 items-center">
-                        <div class = "tag-progress"> em andamento</div>
-                        <div class = "tag-default"> tecnologia</div>
-                        <div class = "tag-default"> ciencia </div>
-                        <div class = "tag-default"> ciencia </div>
-                    </div>
-                    <h2 class = "font-bold text-4xl pt-7">SEMPAP</h2>
-                    <div class = "flex flex-col gap-2 font-semibold text-gray-300 text-base">
-                        <span>Campus Pau dos Ferros</span>
-                        <span>23/09/2024 até 20/12/2027</span>
-                    </div>
-                </div>
-                <button class = "btn-default w-full"> Participar </button>
-            </div>
-        </div>
+  
     </section>
 </section>
 {% endblock %}

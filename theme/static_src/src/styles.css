@@ -25,3 +25,15 @@
         @apply border-b-2 border-transparent hover:border-green-400
     }
 }
+
+
+@layer utilities {
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Esconde a barra de rolagem */
+    }
+    
+    .scrollbar-hide {
+        -ms-overflow-style: none;  /* Para o IE e Edge */
+        scrollbar-width: none;  /* Para Firefox */
+    }
+}
