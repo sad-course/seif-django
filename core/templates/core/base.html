@@ -112,6 +112,8 @@
         <div/>
     </footer>
 
-    <script src = {% static 'js/script.js'%}/>
+    <script src = "{% static 'js/script.js' %}"></script>
+    {% block script %}
+    {% endblock %}
 </body>
 </html>
