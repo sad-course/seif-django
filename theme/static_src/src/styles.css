@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .circle{
+        @apply w-5 h-5 rounded-full bg-green-200 cursor-pointer
+    }
+    .tag-default{
+        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-green-200 text-green-400;
+    }
+    .tag-progress{
+        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-yellow-200 text-yellow-400;
+    }
+    .tag-finished{
+        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-red-200 text-red-400;
+    }
+    .btn-default{
+        @apply w-[190px] min-h-14 bg-green-400 text-center rounded-md text-base font-semibold text-gray-100 hover:bg-green-600;
+    }
+    .card-event {
+        @apply w-full min-h-[225px] flex flex-col sm:flex-row border border-gray-300 rounded-lg
+    }
+    .card-filter-activity{
+        @apply w-52 rounded-lg py-6 px-4 bg-gray-200 text-base cursor-pointer hover:bg-gray-250
+    }
+    .card-activity{
+        @apply w-[380px] min-h-[250px] flex flex-col justify-between px-3 py-7 rounded-lg bg-gray-200 border border-gray-300
+    }
+    .list-border-bottom{
+        @apply border-b-2 border-transparent hover:border-green-400
+    }
+}
+
+
+@layer utilities {
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none; /* Esconde a barra de rolagem */
+    }
+    
+    .scrollbar-hide {
+        -ms-overflow-style: none;  /* Para o IE e Edge */
+        scrollbar-width: none;  /* Para Firefox */
+    }
+}
