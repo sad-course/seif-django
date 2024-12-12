@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'dj_svg',
 
     'core',
+    'management',
 ]
 
 TAILWIND_APP_NAME = 'theme'
