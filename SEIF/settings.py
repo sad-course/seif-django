@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     #local apps
     'core',
     'accounts',
+    'management',
 ]
 
 TAILWIND_APP_NAME = 'theme'
