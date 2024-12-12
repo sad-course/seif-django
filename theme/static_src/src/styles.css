@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+    .aside-items {
+        @apply cursor-pointer px-2;
+    }
+    .aside-select-item {
+        @apply bg-green-400 py-4 px-2 rounded-lg text-gray-100;
+    }
+}
