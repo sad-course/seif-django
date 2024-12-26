@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+{% load svg %}
+
+{% block content %}
+<div class="flex gap-10 w-full p-10">
+    <div class="flex flex-col gap-5 w-1/2 p-2 rounded-lg shadow-sm shadow-gray-800/25">
+        {% svg 'user-image-default' %}
+        <span>Nome do fulano de Tal</span>
+        <span><b>Participei de:</b> 10 Eventos</span>
+        <span><b>Tenho:</b> 3 Certificados </span>
+
+        <button type="submit" class="self-center btn-default w-full h-[58px]">Modificar Dados</button>
+        <button type="submit" class="self-center btn-default w-full h-[58px]">Modificar Senha</button>
+
+    </div>
+    <div class="flex flex-col gap-10 w-1/2 rounded-lg shadow-sm shadow-gray-800/25">
+        Aa
+    </div>
+
+</div>
+{% endblock %}
