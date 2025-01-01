@@ -2,7 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 768px){
+    html{
+        font-size: 80.5%;
+    }
+}
 @layer components {
+    .aside-full-left-width {
+        @apply content-[""] absolute top-0 left-0 w-[900px] h-full bg-gray-50 z-0
+    }
+    .aside-items {
+        @apply cursor-pointer px-2 ;
+    }
+    .aside-select-item {
+        @apply bg-green-400 py-4 px-2 rounded-lg text-gray-100;
+    }
+
+    .aside-full-left-width {
+        @apply content-[""] absolute top-0 left-0 w-[900px] h-full bg-gray-50 z-0
+    }
+    .aside-items {
+        @apply cursor-pointer px-2 ;
+    }
+    .aside-select-item {
+        @apply bg-green-400 py-4 px-2 rounded-lg text-gray-100;
+    }
+
     .circle{
         @apply w-5 h-5 rounded-full bg-green-200 cursor-pointer
     }

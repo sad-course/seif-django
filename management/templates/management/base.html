@@ -1,6 +1,6 @@
 {% load static tailwind_tags %}
 {% load static %}
-{% load svg %}
+
 <html lang="pt-br">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,13 +13,34 @@
     {% tailwind_css %}
     <title>SEIF</title>
 </head>
-<body>
-    <header>
-    </header>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
-    <script src = {% static 'js/script.js'%}/>
+<body class = "bg-gray-200 flex w-full">
+
+        <aside class = "bg-gray-50 h-screen w-[300px] z-10"> 
+            <img src="" alt="">
+    
+            <div class = "px-7 py-9 font-medium text-xl text-green-900 ">
+                <ul class = "flex flex-col gap-11 prose-li:aside-items">
+    
+                    <li class = "aside-select-item">
+                       <a href="#"> <span>Eventos</span></a>
+                    </li>
+                    <li><a href="#"> <span>Organizadores</span></a></li>
+    
+                    <!--Esse só tem para o organizador-->
+                    <li><a href="#"> <span>Panorma analítico</span></a></li> 
+                    <li><a href="#"> <span>Criar evento</span></a></li>
+                    <li><a href="#"> <span>Pariticpantes</span></a></li>
+    
+                    <!--Esse só tem para o administrador-->
+                    <li><a href="#"> <span>Solicitações</span></a></li>
+                </ul>
+            </div>
+        </aside>
+  
+        <main class = "max-w-[1440px] mx-11 w-full flex flex-col ">
+            {% block content %}
+            {% endblock %}
+        </main>
+    <script src = {% static 'js/management_script.js'%}/>
 </body>
 </html>
