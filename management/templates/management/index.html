@@ -2,8 +2,33 @@
 {% load svg %}
 {% block content %}
 
-<div>
-    <h1> seif management page em andamento </h1>
+<div class = "p-12">
+    
+    <table class = "w-full table-auto shadow-md">
+        <thead class = "bg-green-400" >
+            <tr class = "text-left  prose-th:p-3">
+                <th class = "rounded-tl-md" >Evento</th>
+                <th>Status</th>
+                <th>Participantes</th>
+                <th>Horas</th>
+                <th>Atividades</th>
+                <th class = "rounded-tr-md">Responsável</th>
+            </tr>
+        </thead>
+
+        
+        <tbody>
+            <tr class = "prose-td:p-3">
+                <td class ="rounded-bl-md">Expotec</td>
+                <td> <div class = "default-tag">andamento</div> </td>
+                <td>120</td>
+                <td>48h</td>
+                <td>12</td>
+                <td class = "rounded-br-md">fulano@gmail.com</td>
+            </tr>
+        </tbody>
+
+    </table>
 </div>
   
 {% endblock %}
