@@ -4,7 +4,7 @@
 
 <!-- Search input -->
 <div class = "w-full flex justify-end py-12">
-    <div class = "min-w-[450px] flex items-center gap-3 bg-gray-200 rounded-lg px-5">
+    <div class = " w-[450px] flex items-center gap-3 bg-gray-200 rounded-lg px-5">
         {% svg 'search' %}
         <input 
             type="text" 
@@ -59,7 +59,7 @@
 
     </div>
     <!--Cards-->
-    <section class = "w-full flex flex-col gap-9">
+    <section class = "w-full flex flex-col gap-9 pb-12">
         <div class= "card-event">
             <!--Imagem-->
             <div class = "w-full sm:w-[350px] min-h-[220px] bg-gray-200 rounded-tl-lg rounded-bl-lg"></div>
@@ -80,7 +80,7 @@
                 </div>
 
                 <div class = "flex justify-end">
-                    <button class = "btn-default w-full sm:w-[200px]">Participar</button>
+                    <button class = "btn-default w-full sm:w-[200px]"> <a href="{% url 'eventdetails' %}">Participar</a></button>
                 </div>
             </div>
         </div>

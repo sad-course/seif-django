@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     #local apps
     'core',
     'accounts',
+    'management',
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -141,8 +142,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
-
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'core/static'),
+    os.path.join(BASE_DIR, 'management/static'),
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

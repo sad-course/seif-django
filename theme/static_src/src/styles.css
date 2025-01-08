@@ -2,7 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 768px){
+    html{
+        font-size: 80.5%;
+    }
+}
 @layer components {
+    .aside-full-left-width {
+        @apply content-[""] absolute top-0 left-0 w-[900px] h-full bg-gray-50 z-0
+    }
+    .aside-items {
+        @apply cursor-pointer px-2 ;
+    }
+    .aside-select-item {
+        @apply bg-green-400 py-4 px-2 rounded-lg text-gray-100;
+    }
+
+    .aside-full-left-width {
+        @apply content-[""] absolute top-0 left-0 w-[900px] h-full bg-gray-50 z-0
+    }
+    .aside-items {
+        @apply cursor-pointer px-2 ;
+    }
+    .aside-select-item {
+        @apply bg-green-400 py-4 px-2 rounded-lg text-gray-100;
+    }
+
     .circle{
         @apply w-5 h-5 rounded-full bg-green-200 cursor-pointer
     }
@@ -25,7 +50,7 @@
         @apply w-52 rounded-lg py-6 px-4 bg-gray-200 text-base cursor-pointer hover:bg-gray-250
     }
     .card-activity{
-        @apply w-[380px] min-h-[250px] flex flex-col justify-between px-3 py-7 rounded-lg bg-gray-200 border border-gray-300
+        @apply w-[300px] min-h-[250px] flex flex-col justify-between px-3 py-7 rounded-lg bg-gray-200 border border-gray-300
     }
     .list-border-bottom{
         @apply border-b-2 border-transparent hover:border-green-400
