@@ -15,16 +15,17 @@
     <title>SEIF</title>
 </head>
 <body class = "w-full h-screen font-inter flex flex-col items-center">
-    <header class = "max-w-[1024px] w-full min-h-40 flex flex-col px-8">
+    <header class = "max-w-[1440px] w-full min-h-40 flex flex-col px-8">
         <div class = "flex justify-between items-center mt-8 mb-4 text-lg">
             <div class = "flex items-center gap-2">
-                <a><img src = "static/img/logoifrn.png" alt="" /></a>
-                <a class = "font-extrabold text-gray-600 text-4xl"> SEIF </a>
+                <a href = "{% url 'home' %}"><img src = "static/img/logoifrn.png" alt="" /></a>
+                <a href = "{% url 'home' %}" class = "font-extrabold text-gray-600 text-4xl"> SEIF </a>
             </div>
     
-            <nav class = "flex justify-between items-center gap-32">
+            <!--NavBar para telas acima de 900px-->
+            <nav class = " justify-between items-center gap-32 hidden md-screen:flex">
                 <ul class = "flex items-center gap-8 cursor-pointer">
-                    <li><a>Home</a></li>
+                    <li><a href = "{% url 'home' %}">Home</a></li>
                     <li><a>Publique um evento</a></li>
                 </ul>
     
@@ -67,21 +68,67 @@
                     <!---->
                 </div>
             </nav>
+
+            <!--Menu hamburguer para telas menores que 900px-->
+            <div class = 'relative md-screen:hidden'>
+                <div id = "hamburger-menu" class = 'cursor-pointer'> 
+                    {% svg 'hamburguer-menu' %}
+                </div>
+
+                <div id = "menu-responsive" class = "hidden absolute w-[300px] z-50 top-0 mt-12 right-0 bg-gray-200 rounded-lg py-6 px-3">
+                    <div class = "flex flex-col gap-5">
+                        <ul class = "flex flex-col items-start gap-8">
+                            <li><a href="" class = "flex items-center gap-1"> 
+                                {% svg 'calendar' %} Meus eventos
+                            </a></li>
+                            <li><a href="" class = "flex items-center gap-1"> 
+                                {% svg 'Award'  %} Meus certificados 
+                            </a></li>
+                            <li><a href="" class = "flex items-center gap-1"> 
+                                {% svg 'fi-ss-user' %} Meu perfil 
+                            </a></li>
+                        </ul>
+
+                        <div class = "w-[90%] bg-gray-400 h-px "></div>
+
+                        <ul class = "flex flex-col items-start gap-4">
+                            <li> 
+                                {% svg 'notifications_unread' %}
+
+                            </li>
+                            <li>
+                                <div class = "flex items-center gap-2 ml-2 cursor-pointer">
+                                    {% svg 'logout'%}
+                                    <span>Sair</span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <!-- Botão so aparece quando o usuário NÃO está logado-->
+                        <button class = "hidden min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
+                            Entrar
+                        </button>
+                        <!---->
+                    </div>
+                </div>
+            </div>
         </div>
         <div class = "w-full bg-gray-400 h-px"></div>
     </header>
 
-    <main class="w-full max-w-[1024px] flex flex-col items-center px-8">
+    <main class="w-full max-w-[1440px] flex flex-col items-center px-8">
         {% block content %}
         {% endblock %}
     </main>
 
-    <footer class = "w-full h-96 bg-green-900 flex justify-center text-gray-100">
-        <div class = "max-w-[1024px] w-full px-8 py-10 flex flex-col">
-            <div class = "flex justify-between items-center gap-[400px] pb-10">
-                <div class = "flex flex-col gap-8">
+    <footer class = "w-full  bg-green-900 flex justify-center text-gray-100">
+        <div class = "max-w-[1440px] w-full px-8 py-10 flex flex-col">
+            <div class = "flex justify-between items-center gap-[200px] pb-10 lg:gap-[400px] flex-col lg:flex-row">
+                <div class = "w-full flex justify-between items-center flex-wrap lg:flex-col gap-8">
                     <img src = "static/img/logowhiteif.png" alt = ""/>
-        
+                
+                <div>
+
                     <h3> SEIF </h3>
                     <ul class = "flex items-center gap-8">
                         <li><a href=""> {% svg 'instagram' %} </a></li>
@@ -90,17 +137,22 @@
                         <li><a href=""> {% svg 'twitter 1' %} </a></li>
                     </ul>
                 </div>
+                </div>
 
-                <div class = "flex flex-col gap-10">
-                    <h3 class = "font-bold text-2xl gap-8" >
+                <div class = "flex flex-col gap-7">
+                    <h3 class = "font-bold text-xl lg:text-2xl  gap-8" >
                         Instituto Federal de Educação, Ciência e 
                         Tecnologia do Rio Grande do Norte - Campus Pau dos Ferros
                     </h3>
-                    <p class = "w-[500px] text-gray-200 text-base" >
-                        Endereço: BR 405, Km 154, s/n, Bairro Chico Cajá <br/>
-                        E-mail: comunicacao.pf@ifrn.edu.br - Pau dos Ferros-RN <br/>
-                        CEP:59900-000 Telefone:(84) 4005 4109 <br/>
-                    </p>
+                    <div>
+
+                    </div>
+                    <div class = " text-gray-200 text-xs  lg:text-base" >
+                        <p> Endereço: BR 405, Km 154, s/n, Bairro Chico Cajá <p/>
+                        <p>  E-mail: comunicacao.pf@ifrn.edu.br - Pau dos Ferros-RN </>
+                        <p>  CEP:59900-000 Telefone:(84) 4005 4109 <p/>
+                    </div>
+                    
                 </div>
             </div>
 
