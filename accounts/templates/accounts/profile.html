@@ -1,21 +1,89 @@
 {% extends 'core/base.html' %}
+{% load static %}
 {% load svg %}
 
 {% block content %}
-<div class="flex gap-10 w-full p-10">
-    <div class="flex flex-col gap-5 w-1/2 p-2 rounded-lg shadow-sm shadow-gray-800/25">
+<div class="flex gap-10 w-full p-10 sm:flex-wrap lg:flex-nowrap">
+    <div class="flex flex-col gap-5 sm:w-full lg:w-1/2 p-10 rounded-lg shadow-sm shadow-gray-800/25">
         {% svg 'user-image-default' %}
         <span>Nome do fulano de Tal</span>
         <span><b>Participei de:</b> 10 Eventos</span>
         <span><b>Tenho:</b> 3 Certificados </span>
 
-        <button type="submit" class="self-center btn-default w-full h-[58px]">Modificar Dados</button>
-        <button type="submit" class="self-center btn-default w-full h-[58px]">Modificar Senha</button>
+        <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnAlterPersonalData">Modificar Dados</button>
+        <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnAlterPassword">Modificar Senha</button>
 
+        <div class="flex gap-2">
+            <button type="submit" class="self-center text-red-200 w-full h-[58px]">Excluir Conta</button>
+            <div class="group w-full">
+                <button type="submit" class="self-center btn-warning-unfilled w-full h-[58px] group-hover:hidden">Sair</button>
+                <button type="submit" class="hidden self-center btn-warning w-full h-[58px] group-hover:block">Sair</button>
+            </div>
+        </div>
+
+        
     </div>
-    <div class="flex flex-col gap-10 w-1/2 rounded-lg shadow-sm shadow-gray-800/25">
-        Aa
+
+
+    <div class="sm:w-full lg:w-1/2">
+        <div class="flex flex-col gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 hidden">
+            <div class="flex flex-col sm gap-5">    
+                <div class="flex flex-col sm gap-2.5">
+                    <label class="text-sm font-normal" for="fullname">Nome Completo:</label>
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="text" id="fullname" placeholder="Fulano de Tal da Silva">
+                </div>
+                
+                <div class="flex flex-col sm gap-2.5">
+                    <label class="text-sm font-normal" for="email">E-mail:</label>
+                    <input class="w-full rounded-lg bg-gray-200"
+               type="email" name="email" id="email" placeholder="nome@example.com" readonly disabled>
+                </div>
+                
+                <div class="flex flex-col sm gap-2.5">
+                    <label class="text-sm font-normal" for="cpf">CPF:</label>
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="cpf" id="cpf" placeholder="XXX.XXX.XXX-XX">
+                </div>
+        
+                <div class="flex flex-col sm gap-2.5">
+                    <label class="text-sm font-normal" for="telefone">Telefone:</label>
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="phone" id="phone" placeholder="(XX)XXXXX-XXXX">
+                </div>
+        
+                <div class="flex justify-end">
+                    <button type="submit" class="self-center btn-default w-1/2 h-[58px]">Confirmar</button>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 hidden">
+            <div class="flex flex-col sm gap-5">    
+                <div class="flex flex-col sm gap-2.5">
+                    <label class="text-sm font-normal" for="password">Senha:</label>
+                    <input class="w-full rounded-lg bg-gray-200" type="password" name="old_password" id="old_password" placeholder="********">
+                </div>
+                
+                <div class="flex flex-col sm gap-2.5">
+                    <label class="text-sm font-normal" for="password">Nova Senha:</label>
+                    <input class="w-full rounded-lg bg-gray-200" type="password" name="new_password" id="new_password" placeholder="********">
+                </div>
+        
+                <div class="flex flex-col sm gap-2.5">
+                    <label class="text-sm font-normal" for="password">Confirme nova senha:</label>
+                    <input class="w-full rounded-lg bg-gray-200" type="password" name="check_new_password" id="check_new_password" placeholder="********">
+                </div>
+        
+                <div class="flex flex-col sm gap-2.5">
+                    <label class="text-sm font-normal" for="telefone">Telefone:</label>
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="phone" id="phone" placeholder="(XX)XXXXX-XXXX">
+                </div>
+        
+                <div class="flex justify-end content-end">
+                    <button type="submit" class="self-center btn-default w-1/2 h-[58px]">Confirmar</button>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    
 
 </div>
 {% endblock %}
