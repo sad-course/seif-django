@@ -1,8 +1,11 @@
-const cpfInputField = document.querySelector("#cpf")
-const phoneInputField = document.querySelector("#phone")
+let cpfInputField = document.querySelector("#cpf")
+let phoneInputField = document.querySelector("#phone")
 
-cpfInputField.addEventListener("keypress", (event) => {
-    let cpfInputValue = event.target.value; 
+cpfInputField.addEventListener("keyup", (event) => {
+    let cpfInputValue = event.target.value;
+    if (cpfInputValue.match(/[a-zA-Z]/gm)){
+        cpfInputValue = cpfInputValue.replace(/[a-zA-z]/gm, '')
+    }
 
     if (cpfInputValue.length == 3 || cpfInputValue.length == 7){
         cpfInputValue += ".";
@@ -14,7 +17,7 @@ cpfInputField.addEventListener("keypress", (event) => {
     cpfInputField.value = cpfInputValue;
 })
 
-phoneInputField.addEventListener("keypress", (event) => {
+phoneInputField.addEventListener("keydown", (event) => {
     let phoneInputValue = event.target.value;
 
     if (phoneInputValue.length == 0){
