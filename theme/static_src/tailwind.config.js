@@ -68,7 +68,7 @@ module.exports = {
             screens: {
                 'md-screen': '900px'
             }
-            
+
         },
     },
     plugins: [

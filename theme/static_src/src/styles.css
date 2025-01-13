@@ -68,7 +68,7 @@
     .scrollbar-hide::-webkit-scrollbar {
         display: none; /* Esconde a barra de rolagem */
     }
-    
+
     .scrollbar-hide {
         -ms-overflow-style: none;  /* Para o IE e Edge */
         scrollbar-width: none;  /* Para Firefox */
