@@ -16,7 +16,7 @@ assignees: Mirlaaa
 
 ## Subtasks
 <!-- If there are subtasks please add in this section -->
-<!-- Tem subtarefas? adicione aqui, lembre de colocar 
+<!-- Tem subtarefas? adicione aqui, lembre de colocar
 - [ ] uma subtarefa
 - [ ] segunda subtarefa -->
 

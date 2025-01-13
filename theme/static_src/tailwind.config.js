@@ -67,7 +67,7 @@ module.exports = {
                 'md-screen': '900px',
                 'lg-screen': '1250px'
             }
-            
+
         },
     },
     plugins: [
