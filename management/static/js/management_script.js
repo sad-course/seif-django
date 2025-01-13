@@ -1,21 +1,16 @@
 const ul = document.querySelectorAll('li');
-console.log(ul)
 
-//função temporária
-const url_atual = window.location.pathname;
+const path = window.location.pathname;
 ul.forEach((item) => {
     const selectedLink = item.querySelector('a');
 
-    if (selectedLink.getAttribute('href') === url_atual) {
+    if (selectedLink.getAttribute('href') === path) {
         item.classList.add('aside-select-item')
     }else{
         item.classList.remove('aside-select-item')
     }
-
  
 })
-
-//menu hamburguer
 
 const hamburger = document.getElementById("hamburger-menu")
 const aside = document.querySelector('aside')
