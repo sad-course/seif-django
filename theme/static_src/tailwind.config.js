@@ -62,7 +62,11 @@ module.exports = {
             },
             fontFamily: {
                 'inter': ['Inter', 'sans-serif'],
-              }
+            },
+            screens: {
+                'md-screen': '900px'
+            }
+            
         },
     },
     plugins: [
