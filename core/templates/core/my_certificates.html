@@ -1,5 +1,86 @@
 {% extends "core/base.html" %}
 
 {% block content %}
+<div class="container px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4">Olá, Fulano!</h1>
+    <p class="text-gray-400 mb-6">
+        Veja aqui os seus certificados, baixe-os ou faça uma postagem comemorando sua conquista!
+    </p>
+
+    <div>
+        <h2 class="text-xl font-semibold text-green-600 mb-2">Nome do Evento</h2>
+        <div class="flex items-center mb-4">
+            <button class="text-green-600 hover:underline flex items-center">Baixe todos</button>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div class="bg-gray-200 text-sm border-dashed border-2 border-gray-300 rounded-lg p-4 flex flex-col justify-center items-center">
+                <div class="space-x-1 items-end">
+                    {% load static %}
+                    <a href=''><img src='{% static 'svg/download-icon.svg' %}' alt='icone de download'></a>
+                </div>
+                <div class="w-full h-32 flex justify-center items-center">
+                    <!--<img src="" alt="" class="w-full h-full object-cover rounded">-->
+                    <h2 class='flex text-gray-700'>IMAGEM DO CERTIFICADO CORRESPONDENTE</h2>
+                </div>
+    
+            </div>
+            <div class="bg-gray-200 text-sm border-dashed border-2 border-gray-300 rounded-lg p-4 flex flex-col justify-center items-center">
+                <div class="space-x-1 items-end">
+                    {% load static %}
+                    <a href=''><img src='{% static 'svg/download-icon.svg' %}' alt='icone de download'></a>
+                </div>
+                <div class="w-full h-32 flex justify-center items-center">
+                    <!--<img src="" alt="" class="w-full h-full object-cover rounded">-->
+                    <h2 class='flex text-gray-700'>IMAGEM DO CERTIFICADO CORRESPONDENTE</h2>
+                </div>
+    
+            </div>
+            <div class="bg-gray-200 text-sm border-dashed border-2 border-gray-300 rounded-lg p-4 flex flex-col justify-center items-center">
+                <div class="space-x-1 items-end">
+                    {% load static %}
+                    <a href=''><img src='{% static 'svg/download-icon.svg' %}' alt='icone de download'></a>
+                </div>
+                <div class="w-full h-32 flex justify-center items-center">
+                    <!--<img src="" alt="" class="w-full h-full object-cover rounded">-->
+                    <h2 class='flex text-gray-700'>IMAGEM DO CERTIFICADO CORRESPONDENTE</h2>
+                </div>
+    
+            </div>
+            <div class="bg-gray-200 text-sm border-dashed border-2 border-gray-300 rounded-lg p-4 flex flex-col justify-center items-center">
+                <div class="space-x-1 items-end">
+                    {% load static %}
+                    <a href=''><img src='{% static 'svg/download-icon.svg' %}' alt='icone de download'></a>
+                </div>
+                <div class="w-full h-32 flex justify-center items-center">
+                    <!--<img src="" alt="" class="w-full h-full object-cover rounded">-->
+                    <h2 class='flex text-gray-700'>IMAGEM DO CERTIFICADO CORRESPONDENTE</h2>
+                </div>
+    
+            </div>
+            <div class="bg-gray-200 text-sm border-dashed border-2 border-gray-300 rounded-lg p-4 flex flex-col justify-center items-center">
+                <div class="space-x-1 items-end">
+                    {% load static %}
+                    <a href=''><img src='{% static 'svg/download-icon.svg' %}' alt='icone de download'></a>
+                </div>
+                <div class="w-full h-32 flex justify-center items-center">
+                    <!--<img src="" alt="" class="w-full h-full object-cover rounded">-->
+                    <h2 class='flex text-gray-700'>IMAGEM DO CERTIFICADO CORRESPONDENTE</h2>
+                </div>
+            </div>
+            <div class="bg-gray-200 text-sm border-dashed border-2 border-gray-300 rounded-lg p-4 flex flex-col justify-center items-center">
+                <div class="flex justify-between items-start w-full"> 
+                    <div class="flex items-end"> 
+                        <a href=""><img src="{% static 'svg/download-icon.svg' %}" alt="icone de download" class="w-5 h-5"></a> 
+                    </div>
+                    <div class="text-center">
+                        <h2 class='text-gray-700'>IMAGEM DO CERTIFICADO CORRESPONDENTE</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
 
 {% endblock %}
