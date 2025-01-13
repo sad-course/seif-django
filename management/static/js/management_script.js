@@ -13,5 +13,5 @@ ul.forEach((item) => {
             console.log(selectedLink)
         }
     })
- 
+
 })

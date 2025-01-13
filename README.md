@@ -36,6 +36,11 @@ source venv/bin/activate
 pip install -r requirements.py
 ```
 
+**Install all the precommit hooks:**
+```bash
+pre-commit install
+```
+
 **Apply all the initial migrations**
 ```bash
 python manage.py migrate
