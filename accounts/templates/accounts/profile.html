@@ -30,7 +30,11 @@
 
 
     <div class="popup-group w-full lg:w-1/2">
-        <div class="flex flex-col justify-end gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 hidden" id="popupPersonalData">
+        <div class="flex flex-col justify-end gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 block" id="popupPersonalData">
+            <div class="badge-message hidden">
+                {% include 'partials/components/badge_message.html' with status='warning' message='CPF informado é inválido!' %}
+            </div>
+
             <div class="flex flex-col sm gap-5">
                 <div class="flex flex-col sm gap-2.5">
                     <label class="text-sm font-normal" for="fullname">Nome Completo:</label>
@@ -54,11 +58,15 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <button type="submit" class="self-center btn-default w-1/2 h-[58px]">Confirmar</button>
+                    <button type="submit" class="self-center btn-default w-1/2 h-[58px]" id="btnConfirmDataChanges">Confirmar</button>
                 </div>
             </div>
         </div>
         <div class="flex flex-col justify-center gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 hidden" id="popupPasswordReset">
+            <div class="badge-message hidden">
+                {% include 'partials/components/badge_message.html' with status='success' message='Senha alterada com sucesso' %}
+            </div>
+
             <div class="flex flex-col sm gap-5">
                 <div class="flex flex-col sm gap-2.5">
                     <label class="text-sm font-normal" for="password">Senha:</label>
@@ -76,7 +84,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                    <button type="submit" class="self-center btn-default w-1/2 h-[58px]">Confirmar</button>
+                    <button type="submit" class="self-center btn-default w-1/2 h-[58px]" id="btnConfirmPasswordChange">Confirmar</button>
                 </div>
             </div>
         </div>
