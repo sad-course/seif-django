@@ -11,9 +11,9 @@ repos:
     -   id: black
 - repo: local
   hooks:
-  - id: pylint
+  - id: venv\Scripts\pylint
     name: pylint
-    entry: ./venv/bin/pylint
+    entry: python -m pylint
     language: system
     types: [python]
     args: [--ignore-patterns=venv]
