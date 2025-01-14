@@ -42,13 +42,13 @@
                     <!-- Dropdown menu -->
                     <div id = "menu-dropdown" class = "hidden absolute z-50 top-0 mt-12 right-32 bg-gray-200 rounded-lg w-64 min-h-48 py-6 px-3">
                         <ul class = "flex flex-col items-start gap-8">
-                            <li><a href="{% url 'my_events' %}" class = "flex items-center gap-1"> 
+                            <li><a href="{% url 'my_events' %}" class = "flex items-center gap-1">
                                 {% svg 'calendar' %} Meus eventos
                             </a></li>
-                            <li><a href="{% url 'my_certificates' %}" class = "flex items-center gap-1"> 
-                                {% svg 'Award'  %} Meus certificados 
+                            <li><a href="{% url 'my_certificates' %}" class = "flex items-center gap-1">
+                                {% svg 'Award'  %} Meus certificados
                             </a></li>
-                            <li><a href="" class = "flex items-center gap-1">
+                            <li><a href="{% url 'profile' %}" class = "flex items-center gap-1">
                                 {% svg 'fi-ss-user' %} Meu perfil
                             </a></li>
                         </ul>
@@ -56,7 +56,9 @@
 
                     <!---->
                     <div class = "flex items-center gap-2 cursor-pointer">
-                        <span>Sair</span>
+                        <a href="{% url 'home' %}">
+                            <span>Sair</span>
+                        </a>
                         {% svg 'logout'%}
                     </div>
                     <!---->
@@ -84,7 +86,7 @@
                             <li><a href="" class = "flex items-center gap-1">
                                 {% svg 'Award'  %} Meus certificados
                             </a></li>
-                            <li><a href="" class = "flex items-center gap-1">
+                            <li><a href="{% url 'profile' %}" class = "flex items-center gap-1">
                                 {% svg 'fi-ss-user' %} Meu perfil
                             </a></li>
                         </ul>
@@ -99,7 +101,9 @@
                             <li>
                                 <div class = "flex items-center gap-2 ml-2 cursor-pointer">
                                     {% svg 'logout'%}
-                                    <span>Sair</span>
+                                    <a href="{% url 'home' %}">
+                                        <span>Sair</span>
+                                    </a>
                                 </div>
                             </li>
                         </ul>
@@ -121,7 +125,7 @@
         {% endblock %}
     </main>
 
-    <footer class = "w-full  bg-green-900 flex justify-center text-gray-100">
+    <footer class = "w-full h-100 bg-green-900 mt-[100px] flex justify-center text-gray-100">
         <div class = "max-w-[1440px] w-full px-8 py-10 flex flex-col">
             <div class = "flex justify-between items-center gap-[200px] pb-10 lg:gap-[400px] flex-col lg:flex-row">
                 <div class = "w-full flex justify-between items-center flex-wrap lg:flex-col gap-8">
@@ -133,7 +137,7 @@
                     <ul class = "flex items-center gap-8">
                         <li><a href=""> {% svg 'instagram' %} </a></li>
                         <li><a href=""> {% svg 'facebook 1' %} </a></li>
-                        <li><a href=""> {% svg 'github 1' %} </a></li>
+                        <li><a href="https://github.com/sad-course/SEIF" target="_blank"> {% svg 'github 1' %} </a></li>
                         <li><a href=""> {% svg 'twitter 1' %} </a></li>
                     </ul>
                 </div>
@@ -164,6 +168,8 @@
         <div/>
     </footer>
 
-    <script src = {% static 'js/script.js'%}/>
+    <script src = "{% static 'js/script.js' %}"></script>
+    {% block script %}
+    {% endblock %}
 </body>
 </html>

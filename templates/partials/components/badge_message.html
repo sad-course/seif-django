@@ -1,0 +1,9 @@
+{% load svg %}
+<div class="{% if status == 'success' %} badge-success {% elif status == 'warning'%} badge-warning {% else %} badge-default {% endif %}">
+    {% if status == 'warning'%}
+        {% svg 'warning-icon' class='' %}
+    {% else %}
+        {% svg 'check-circle' class='' %}
+    {% endif %}
+    <span class="">{{ message }}</span>
+</div>
