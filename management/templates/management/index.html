@@ -2,8 +2,78 @@
 {% load svg %}
 {% block content %}
 
-<div>
-    <h1> seif management page em andamento </h1>
+<div class = "pt-12">
+    
+    <div>
+        <h1 class = "font-medium text-3xl text-green-900 pb-8" >Fulano Dital</h1>
+
+        <!-- Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="p-9 rounded-lg bg-gray-50 shadow-md">
+                <h3 class="text-green-900 font-semibold text-3xl lg-screen:text-4xl ">Eventos</h3>
+                <h2 class="text-green-400 font-semibold text-5xl">9</h2>
+                <div class="pt-5">
+                    {% svg 'calendar-management' %}
+                </div>
+            </div>
+
+            <div class="p-9 rounded-lg bg-gray-50 shadow-md">
+                <h3 class="text-green-900 font-semibold text-3xl lg-screen:text-4xl">Organizadores</h3>
+                <h2 class="text-green-400 font-semibold text-5xl">9</h2>
+                <div class="pt-5">
+                    {% svg 'organizer' %}
+                </div>
+            </div>
+
+            <div class="p-9 rounded-lg bg-gray-50 shadow-md">
+                <h3 class="text-green-900 font-semibold text-3xl lg-screen:text-4xl">Atividades</h3>
+                <h2 class="text-green-400 font-semibold text-5xl">20</h2>
+                <div class="pt-5">
+                    {% svg 'activities' %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <h3 class = "font-semibold text-2xl text-green-900 pt-10 pb-6" >Seus Eventos</h3>
+    <div class = "overflow-x-auto shadow-md">
+        <table class = "w-full table-auto ">
+            <thead class = "bg-green-400" >
+                <tr class = "text-left  prose-th:p-3 ">
+                    <th class = "rounded-tl-md" >Evento</th>
+                    <th>Status</th>
+                    <th>Participantes</th>
+                    <th>Horas</th>
+                    <th>Atividades</th>
+                    <th class = "rounded-tr-md">Responsável</th>
+                </tr>
+            </thead>
+    
+            
+            <tbody>
+                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                    <td class ="rounded-bl-md">Expotec</td>
+                    <td class = "w-40"> <div class = "tag-progress">andamento</div> </td>
+                    <td>120</td>
+                    <td>48h</td>
+                    <td>12</td>
+                    <td class = "rounded-br-md">fulano@gmail.com</td>
+                </tr>
+
+                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                    <td class ="rounded-bl-md">Expotec</td>
+                    <td > <div class = "tag-default">em breve</div> </td>
+                    <td>120</td>
+                    <td>48h</td>
+                    <td>12</td>
+                    <td class = "rounded-br-md">fulano@gmail.com</td>
+                </tr>
+            </tbody>
+    
+        </table>
+    </div>
 </div>
 
 {% endblock %}

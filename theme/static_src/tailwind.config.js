@@ -69,7 +69,8 @@ module.exports = {
                 'inter': ['Inter', 'sans-serif'],
             },
             screens: {
-                'md-screen': '900px'
+                'md-screen': '900px',
+                'lg-screen': '1250px'
             }
 
         },
