@@ -41,6 +41,8 @@
             {% block content %}
             {% endblock %}
         </main>
-    <script src = {% static 'js/management_script.js'%}/>
+    <script src = "{% static 'js/management_script.js' %}"></script>
+    {% block script %}
+    {% endblock %}
 </body>
 </html>
