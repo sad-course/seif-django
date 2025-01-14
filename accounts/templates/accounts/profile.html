@@ -7,7 +7,7 @@
     <div class="flex flex-col gap-8 sm:w-full lg:w-1/2 p-10 rounded-lg shadow-sm shadow-gray-800/25">
         <div class="flex items-center gap-2">
             {% svg 'edit-profile-pic' class='' %}
-            <span class="text-xl font-bold">Nome do fulano de Tal da Silva</span>
+            <span class="text-xl font-medium">Nome do fulano de Tal da Silva</span>
         </div>
 
         <div class="flex flex-col gap-5">
@@ -82,8 +82,92 @@
         </div>
     </div>
 
+</div>
+<div class="flex flex-col gap-10 w-full p-10 justify-start">
+    <h1 class="font-semibold text-2xl">Publicações:</h1>
+    <div class="flex flex-col gap-8">
+        <section class = "w-full flex flex-col gap-9 pb-12">
+            <div class= "card-event">
+                <!--Imagem-->
+                <div class = "w-full sm:w-[350px] min-h-[220px] bg-gray-200 rounded-tl-lg rounded-bl-lg"></div>
+
+                <div class = "w-full px-7 py-4">
+                        <!--Tags-->
+                    <div class = "flex items-center gap-3 overflow-x-scroll sm:scrollbar-hide">
+                        <div class = "tag-not-started">em breve</div>
+                        <div class = "tag-default">pesquisa</div>
+                        <div class = "tag-default">aberto ao público</div>
+                    </div>
+
+                    <!--infoa-->
+                    <div class = "flex flex-col py-5 font-semibold text-gray-300">
+                        <h3 class = "font-bold text-2xl text-black">SEMAP</h3>
+                        <span clas = "">Campus Pau dos ferros</span>
+                        <span>00/00/0000 ate 00/00/0000</span>
+                    </div>
+
+                    <div class = "flex justify-end">
+                        <button class = "btn-default w-full sm:w-[200px]"> <a href="{% url 'eventdetails' %}">Participar</a></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class= "card-event">
+                <!--Imagem-->
+                <div class = "w-full sm:w-[350px] min-h-[220px] bg-gray-200 rounded-tl-lg rounded-bl-lg"></div>
+
+                <div class = "w-full px-7 py-4">
+                        <!--Tags-->
+                    <div class = "flex items-center gap-3 overflow-x-scroll sm:scrollbar-hide">
+                        <div class = "tag-finished">encerrada</div>
+                        <div class = "tag-default">pesquisa</div>
+                        <div class = "tag-default">aberto ao público</div>
+                    </div>
+
+                    <!--infoa-->
+                    <div class = "flex flex-col py-5 font-semibold text-gray-300">
+                        <h3 class = "font-bold text-2xl text-black">SEMAP</h3>
+                        <span clas = "">Campus Pau dos ferros</span>
+                        <span>00/00/0000 ate 00/00/0000</span>
+                    </div>
+
+                    <div class = "flex justify-end">
+                        <button class = "btn-default w-full sm:w-[200px]">Participar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class= "card-event">
+                <!--Imagem-->
+                <div class = "w-full sm:w-[350px] min-h-[220px] bg-gray-200 rounded-tl-lg rounded-bl-lg"></div>
+
+                <div class = "w-full px-7 py-4">
+                        <!--Tags-->
+                    <div class = "flex items-center gap-3 overflow-x-scroll sm:scrollbar-hide">
+                        <div class = "tag-progress">em andamento...</div>
+                        <div class = "tag-default">pesquisa</div>
+                        <div class = "tag-default">aberto ao público</div>
+                    </div>
+
+                    <!--infoa-->
+                    <div class = "flex flex-col py-5 font-semibold text-gray-300">
+                        <h3 class = "font-bold text-2xl text-black">SEMAP</h3>
+                        <span clas = "">Campus Pau dos ferros</span>
+                        <span>00/00/0000 ate 00/00/0000</span>
+                    </div>
+
+                    <div class = "flex justify-end">
+                        <button class = "btn-default w-full sm:w-[200px]">Participar</button>
+                    </div>
+                </div>
+            </div>
 
 
+
+
+
+        </section>
+    </div>
 </div>
 {% endblock %}
 {% block script %}

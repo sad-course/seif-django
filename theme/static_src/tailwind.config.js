@@ -49,6 +49,7 @@ module.exports = {
                 "green-700": "#638E5A",
                 "green-400": "#67B263",
                 "green-200": "#8FDD8B",
+                "green-200-opacity-50": "rgba(143, 221, 139, 0.5)",
                 "gray-600": "#2E2D2D",
                 "gray-400": "#656565",
                 "gray-300": "#8C8C8C",
@@ -58,8 +59,10 @@ module.exports = {
                 "red-500": "#D92020",
                 "red-400": "#AA1B1B",
                 "red-200": "#E75F5F",
+                "red-200-opacity-50": "rgba(231, 95, 95, 0.5)",
                 "yellow-400": "#D0B623",
-                "yellow-200": "#FFEE8B"
+                "yellow-200": "#FFEE8B",
+                "yellow-200-opacity-50": "rgba(255, 238, 139, 0.5)"
 
             },
             fontFamily: {
