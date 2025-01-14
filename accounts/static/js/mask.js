@@ -4,7 +4,7 @@ let phoneInputField = document.querySelector("#phone")
 cpfInputField.addEventListener("keyup", (event) => {
     let cpfInputValue = event.target.value;
     if (cpfInputValue.match(/[a-zA-Z]/gm)){
-        cpfInputValue = cpfInputValue.replace(/[a-zA-z]/gm, '')
+        cpfInputValue = cpfInputValue.replace(/[a-zA-Z]/gm, '')
     }
 
     if (cpfInputValue.length == 3 || cpfInputValue.length == 7){
