@@ -1,0 +1,52 @@
+{% extends "management/base.html" %}
+{% load svg %}
+{% block content %}
+
+<div class = "pt-12">
+    
+    <div>
+        <h1 class = "font-medium text-3xl text-green-900 pb-8" >Fulano Dital</h1>
+
+        <!-- Cards -->
+            <div class=" w-[350px] p-9 rounded-lg bg-gray-50 shadow-md">
+                <h3 class="text-green-900 font-semibold text-4xl">Organizadores</h3>
+                <h2 class="text-green-400 font-semibold text-5xl">30</h2>
+                <div class="pt-5">
+                    {% svg 'organizer' %}
+                </div>
+            </div>
+    </div>
+
+    <h3 class = "font-semibold text-2xl text-green-900 pt-10 pb-6" >Organizadores</h3>
+    <div class = "overflow-x-auto shadow-md">
+        <table class = "w-full table-auto">
+            <thead class = "bg-green-400" >
+                <tr class = "text-left  prose-th:p-3">
+                    <th class = "rounded-tl-md"> </th>
+                    <th>Nome</th>
+                    <th>Criado em</th>
+                    <th>Email</th>
+                    <th class = "rounded-tr-md">Função</th>
+                </tr>
+            </thead>
+    
+            
+            <tbody>
+                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                    <td class ="rounded-bl-md">
+                        <div class = "w-10 h-10 rounded-full bg-gray-300">
+
+                        </div>
+                    </td>
+                    <td> <div class = "default-tag">Fulano</div> </td>
+                    <td>12/09/2023</td>
+                    <td>fulano@gmail.com</td>
+                    <td class = "rounded-br-md">Organizador</td>
+                </tr>
+            </tbody>
+    
+        </table>
+    </div>
+</div>
+  
+{% endblock %}
