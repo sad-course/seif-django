@@ -2,11 +2,68 @@
 {% load static %}
 
 {% block content %}
-<div class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
-    <div class="pt-6 px-2 pb-0">
-      <div id="line-chart"></div>
+<div class="pt-12 pb-8">
+    <h1 class="text-2xl">Visão Geral da Análise</h1>
+</div>
+
+<div class="flex flex-col gap-10">
+    <div class="relative flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+        <div class="pt-6 px-2 pb-0">
+          <div id="line-chart"></div>
+        </div>
     </div>
-  </div>
+
+    <div class = "overflow-x-auto shadow-md">
+        <table class = "w-full table-auto ">
+            <thead class = "bg-green-400" >
+                <tr class = "prose-th:p-3 ">
+                    <th class = "rounded-tl-md" >Evento</th>
+                    <th>Status</th>
+                    <th>Participantes</th>
+                    <th>Horas</th>
+                    <th>Atividades</th>
+                    <th class="rounded-tr-md">Responsável</th>
+                </tr>
+            </thead>
+
+
+            <tbody class="text-center">
+                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                    <td class ="rounded-bl-md">Expotec</td>
+                    <td class = "w-40"> <div class = "tag-progress">andamento</div> </td>
+                    <td>120</td>
+                    <td>48h</td>
+                    <td>12</td>
+                    <td class = "rounded-br-md">
+
+                        <a href="{% url 'analytics_event_detail' %}">
+                            <button class="btn-default">
+                                Detalhar
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+
+                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                    <td class ="rounded-bl-md">Expotec</td>
+                    <td > <div class = "tag-default">em breve</div> </td>
+                    <td>120</td>
+                    <td>48h</td>
+                    <td>12</td>
+                    <td class = "rounded-br-md">
+                        <a href="{% url 'analytics_event_detail' %}">
+                            <button class="btn-default">
+                                Detalhar
+                            </button>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
 
 {% endblock %}
 
@@ -23,7 +80,7 @@ const chartConfig = {
   ],
   chart: {
     type: "area",
-    height: 240,
+    height: 360,
     toolbar: {
       show: false,
     },
