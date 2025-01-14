@@ -6,5 +6,13 @@ def index(request):
     return render(request, "management/index.html")
 
 
+def organizers(request):
+    return render(request, "management/organizers.html")
+
+
+def participants(request):
+    return render(request, "management/participants.html")
+
+
 def analytics_home(request):
     return render(request, "management/analytics_home.html")
