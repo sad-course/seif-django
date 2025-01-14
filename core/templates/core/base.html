@@ -48,7 +48,7 @@
                             <li><a href="" class = "flex items-center gap-1">
                                 {% svg 'Award'  %} Meus certificados
                             </a></li>
-                            <li><a href="" class = "flex items-center gap-1">
+                            <li><a href="{% url 'profile' %}" class = "flex items-center gap-1">
                                 {% svg 'fi-ss-user' %} Meu perfil
                             </a></li>
                         </ul>
@@ -56,7 +56,9 @@
 
                     <!---->
                     <div class = "flex items-center gap-2 cursor-pointer">
-                        <span>Sair</span>
+                        <a href="{% url 'home' %}">
+                            <span>Sair</span>
+                        </a>
                         {% svg 'logout'%}
                     </div>
                     <!---->
@@ -84,7 +86,7 @@
                             <li><a href="" class = "flex items-center gap-1">
                                 {% svg 'Award'  %} Meus certificados
                             </a></li>
-                            <li><a href="" class = "flex items-center gap-1">
+                            <li><a href="{% url 'profile' %}" class = "flex items-center gap-1">
                                 {% svg 'fi-ss-user' %} Meu perfil
                             </a></li>
                         </ul>
@@ -99,7 +101,9 @@
                             <li>
                                 <div class = "flex items-center gap-2 ml-2 cursor-pointer">
                                     {% svg 'logout'%}
-                                    <span>Sair</span>
+                                    <a href="{% url 'home' %}">
+                                        <span>Sair</span>
+                                    </a>
                                 </div>
                             </li>
                         </ul>
