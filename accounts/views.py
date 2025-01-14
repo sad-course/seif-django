@@ -22,3 +22,11 @@ def request_reset_password(request):
 
 def reset_password(request):
     return render(request, "accounts/reset_password.html")
+
+
+def my_certificates(request):
+    return render(request, "accounts/my_certificates.html")
+
+
+def my_events(request):
+    return render(request, "accounts/my_events.html")
