@@ -9,7 +9,7 @@ ul.forEach((item) => {
     }else{
         item.classList.remove('aside-select-item')
     }
- 
+
 })
 
 const hamburger = document.getElementById("hamburger-menu")
@@ -18,4 +18,13 @@ const aside = document.querySelector('aside')
 
 hamburger.addEventListener( 'click', () => {
     aside.classList.toggle("hidden");
+})
+
+const createActivityButton = document.getElementById('add-activity-btn')
+const activityModal = document.getElementById('activity-modal')
+
+createActivityButton.addEventListener( 'click', () => {
+    activityModal.classList.toggle('hidden')
+    aside.classList.toggle('hidden')
+
 })

@@ -11,7 +11,7 @@ repos:
     -   id: black
 - repo: local
   hooks:
-  - id: pylint
+  - id: venv\Scripts\pylint
     name: pylint
     entry: python -m pylint
     language: system
