@@ -7,7 +7,7 @@
         font-size: 80.5%;
 
     }
-    
+
 }
 @layer components {
     .aside-full-left-width {
@@ -33,17 +33,35 @@
     .circle{
         @apply w-5 h-5 rounded-full bg-green-200 cursor-pointer
     }
+    .tag-not-started{
+        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-gray-200 text-gray-300 font-medium;
+    }
     .tag-default{
-        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-green-200 text-green-400;
+        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-green-200-opacity-50 text-green-700 font-medium;
     }
     .tag-progress{
-        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-yellow-200 text-yellow-400;
+        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-yellow-200-opacity-50 text-yellow-400 font-medium;
     }
     .tag-finished{
-        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-red-200 text-red-400;
+        @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-red-200-opacity-50 text-red-400 font-medium;
+    }
+    .badge-default{
+        @apply p-4 flex justify-center gap-3 border rounded-3xl bg-blue-600 text-gray-100;;
+    }
+    .badge-success{
+        @apply p-4 flex justify-center gap-3 border rounded-3xl bg-green-800 text-gray-100;
+    }
+    .badge-warning{
+        @apply p-4 flex justify-center gap-3 border rounded-3xl bg-red-500 text-gray-100;
     }
     .btn-default{
         @apply w-[190px] min-h-14 bg-green-400 text-center rounded-md text-base font-semibold text-gray-100 hover:bg-green-600;
+    }
+    .btn-warning{
+        @apply w-[190px] min-h-14 bg-red-200 text-center rounded-md text-base font-semibold text-gray-100 hover:bg-red-200;
+    }
+    .btn-warning-unfilled{
+        @apply w-[190px] min-h-14 border-2 border-dashed  border-red-200 text-center rounded-md text-base font-semibold text-red-200;
     }
     .card-event {
         @apply w-full min-h-[225px] flex flex-col sm:flex-row border border-gray-300 rounded-lg
