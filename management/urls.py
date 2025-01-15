@@ -10,4 +10,9 @@ urlpatterns = [
         "analytics/event/", views.analytics_event_detail, name="analytics_event_detail"
     ),
     path("event/request/", views.event_publish_request, name="event_publish_request"),
+    path(
+        "event/request/detail",
+        views.event_publish_request_detail,
+        name="event_request_detail",
+    ),
 ]

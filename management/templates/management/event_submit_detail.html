@@ -1,0 +1,52 @@
+{% extends 'management/base.html' %} {% load static %} {% load svg %} {% block content %}
+<div class="pt-12 pb-8">
+	<h1 class="text-2xl">Solicitações de Submissão</h1>
+</div>
+
+<div class = "flex gap-1 items-center">
+    {% svg 'arrow-left' %}
+    <a href="{% url 'event_publish_request' %}" class = "text-green-900 font-semibold text-xl mb-1" >Voltar</a>
+</div>
+<div class = "rounded-lg bg-gray-50 px-6 py-10 border border-green-700">
+    <h2 class = "text-green-700 text-3xl font-semibold mb-7" >Solicitação N°48</h2>
+
+    <div class = "flex gap-5">
+        <div class = "bg-gray-200 rounded-md px-6 py-8">
+            <h2 class = "text-gray-600 text-3xl font-bold">Solicitante</h2>
+
+            <div class = "flex flex-col mt-11">
+                <span> <strong>Requisitada por:</strong>  Fulane</span>
+                <span><strong>Cargo:</strong>  Professor</span>
+                <span><strong>Campus:</strong>  IFRN-Pau dos Ferros</span>
+                <span><strong>Email:</strong>  fulano@gmail.com</span>
+
+            </div>
+        </div>
+
+        <div class = "bg-gray-200 rounded-md px-6 py-8">
+            <h2 class = "text-gray-600 text-3xl font-bold">Evento</h2>
+            <div class = "flex flex-col mt-11">
+                <span><strong>Nome</strong>  Evento tech</span>
+                <span><strong>Descrição breve:</strong>  Evento sobre tecnologia, afins e etc</span>
+                <span><strong>Tipo:</strong>  Academico</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class = "mt-24">
+        <h2 class = "text-2xl font-semibold text-gray-600 mb-6">Observações</h2>
+
+        <div class = "bg-gray-200 p-7 rounded-md">
+            <p>A submissão do evento [Nome do Evento] foi aceita pela organização [Nome do Organizador]. Este reconhecimento confirma que o evento atende aos critérios de relevância, qualidade e alinhamento com os objetivos da [Nome do Organizador], destacando-se como uma contribuição valiosa para o público-alvo. A aceitação reforça o compromisso com a promoção de conteúdo de impacto e com a construção de um espaço para troca de conhecimento e networking entre os participantes.</p>
+        </div>
+    </div>
+
+    <div class = "mt-4 flex justify-end">
+        <button class = "btn-default">Criar evento</button>
+    </div>
+</div>
+
+
+
+{% endblock%}
