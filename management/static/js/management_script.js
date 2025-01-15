@@ -20,23 +20,11 @@ hamburger.addEventListener( 'click', () => {
     aside.classList.toggle("hidden");
 })
 
-//botão não está funcionando corretamente
-/*
-const modal = document.getElementById('activity-modal');
-    const openModalBtn = document.getElementById('add-activity-btn');
-    const closeModalBtn = document.getElementById('close-modal-btn');
+const createActivityButton = document.getElementById('add-activity-btn')
+const activityModal = document.getElementById('activity-modal')
 
-    openModalBtn.addEventListener('click', () => {
-        modal.classList.remove('hidden');
-    });
+createActivityButton.addEventListener( 'click', () => {
+    activityModal.classList.toggle('hidden')
+    aside.classList.toggle('hidden')
 
-    closeModalBtn.addEventListener('click', () => {
-        modal.classList.add('hidden');
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            modal.classList.add('hidden');
-        }
-    });
-*/
+})

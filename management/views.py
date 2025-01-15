@@ -20,7 +20,3 @@ def create_event(request):
 
 def request_create_event(request):
     return render(request, "management/request_create_event.html")
-
-
-def modal_activity(request):
-    return render(request, "management/modal_activity.html")
