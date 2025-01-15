@@ -6,7 +6,7 @@
 <div class = "py-7">
         <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
         <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" class="max-w-[800px]">
             {% csrf_token %}
             <div class="flex gap-8 w-full">
                 <!-- Metade Esquerda - Local da Imagem -->
@@ -33,7 +33,7 @@
                     </div>
 
                     <!-- Datas e Status -->
-                    <div class="flex flex-wrap gap-3">
+                    <div class="flex flex-wrap gap-1">
                         <div class="flex-1">
                             <label for="inicio" class="text-sm font-medium text-gray-600">Início</label>
                             <input type="date" id="inicio" name="inicio"
