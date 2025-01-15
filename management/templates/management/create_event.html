@@ -1,15 +1,17 @@
 {% extends "management/base.html" %}
 {% load svg %}
+
 {% block content %}
 
 <body class="bg-gray-200 min-h-screen flex items-center justify-center">
-    <div class="max-w-6xl w-full">
+    <div class="max-w-6xl w-full ml-14">
         <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
         <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
         <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Metade Esquerda - Local da Imagem -->
-                <div class="flex justify-center items-center border-2 border-dashed border-gray-600 rounded-lg h-96 bg-gray-250">
+                <div class="flex justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250 h-full">
                     <input type="file" id="imagem" name="imagem" class="hidden" />
                     <label for="imagem" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
                         <span>Arraste ou clique para adicionar uma imagem</span>
@@ -28,30 +30,30 @@
                     <div>
                         <label for="descricao" class="block text-sm font-medium text-gray-600">Descrição</label>
                         <textarea id="descricao" name="descricao" rows="4" placeholder="Descrição do evento"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300"></textarea>
+                            class="h-44 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300"></textarea>
                     </div>
 
                     <!-- Datas e Status -->
-                    <div class="grid grid-cols-2 gap-6">
-                        <div>
+                    <div class="flex flex-wrap gap-6">
+                        <div class="flex-1">
                             <label for="inicio" class="text-sm font-medium text-gray-600">Início</label>
                             <input type="date" id="inicio" name="inicio"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
+                                class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
                         </div>
-                        <div>
+                        <div class="flex-1">
                             <label for="fim" class="text-sm font-medium text-gray-600">Fim</label>
                             <input type="date" id="fim" name="fim"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
+                                class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
                         </div>
-                        <div>
+                        <div class="flex-1">
                             <label for="horario_inicio" class="text-sm font-medium text-gray-600">Horário de Início</label>
                             <input type="time" id="horario_inicio" name="horario_inicio"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
+                                class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
                         </div>
-                        <div>
+                        <div class="flex-1">
                             <label for="status_inicial" class="text-sm font-medium text-gray-600">Status Inicial</label>
                             <select id="status_inicial" name="status_inicial"
-                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300">
+                                class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300">
                                 <option value="ativo">Ativo</option>
                                 <option value="inativo">Inativo</option>
                             </select>
@@ -84,11 +86,13 @@
             </div>
 
             <!-- Adicionar Atividades -->
+            <!--botão não está funcionando como o esperado, possivel falha com javaScript-->
             <div class="mt-6">
-                <button type="button"
-                    class="btn-default">
+                <a href="{% url 'modal_activity' %}">
+                <button id="add-activity-btn" type="button" class="btn-default">
                     Adicionar Atividades +
                 </button>
+                </a>
             </div>
 
             <!-- Cards -->
@@ -120,7 +124,7 @@
 
             <!-- Botão Finalizar -->
             <div class="mt-6 flex justify-end">
-                <button class="btn-default">
+                <button type="button" class="btn-default">
                     Finalizar
                 </button>
             </div>
