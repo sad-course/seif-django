@@ -9,4 +9,5 @@ urlpatterns = [
     path(
         "request_create_event/", views.request_create_event, name="request_create_event"
     ),
+    path("modal_activity/", views.modal_activity, name="modal_activity"),
 ]
