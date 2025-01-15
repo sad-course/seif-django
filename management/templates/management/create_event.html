@@ -3,7 +3,7 @@
 {% block content %}
 
 <body class="bg-gray-200 min-h-screen flex items-center justify-center">
-    <div class="max-w-4xl w-full">
+    <div class="max-w-6xl w-full">
         <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
         <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
         <form method="post" enctype="multipart/form-data">
@@ -83,15 +83,47 @@
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
             </div>
 
-            <!-- Botão Adicionar Atividades -->
-            <div class="mt-6 flex items-center justify-between">
+            <!-- Adicionar Atividades -->
+            <div class="mt-6">
                 <button type="button"
-                    class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-800 hover:bg-green-900">
+                    class="btn-default">
                     Adicionar Atividades +
                 </button>
             </div>
 
-            <span class="text-gray-600">Sem atividades no momento</span>
+            <!-- Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <!-- Card 1 -->
+                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
+                    <h3 class="font-semibold text-lg text-gray-900">Palestra de Abertura</h3>
+                    <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
+                    <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
+                    <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
+                    <h3 class="font-semibold text-lg text-gray-900">Minicurso Django</h3>
+                    <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
+                    <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
+                    <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
+                    <h3 class="font-semibold text-lg text-gray-900">Minicurso Django</h3>
+                    <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
+                    <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
+                    <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
+                </div>
+            </div>
+
+            <!-- Botão Finalizar -->
+            <div class="mt-6 flex justify-end">
+                <button class="btn-default">
+                    Finalizar
+                </button>
+            </div>
         </form>
     </div>
 </body>
