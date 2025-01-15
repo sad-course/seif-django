@@ -35,15 +35,19 @@
 
 
     <div class = "mt-24">
-        <h2 class = "text-2xl font-semibold text-gray-600 mb-6">Observações</h2>
+        <h2 class = "text-2xl font-semibold text-gray-600 mb-6">Enviar observação:</h2>
 
-        <div class = "bg-gray-200 p-7 rounded-md">
-            <p>A submissão do evento [Nome do Evento] foi aceita pela organização [Nome do Organizador]. Este reconhecimento confirma que o evento atende aos critérios de relevância, qualidade e alinhamento com os objetivos da [Nome do Organizador], destacando-se como uma contribuição valiosa para o público-alvo. A aceitação reforça o compromisso com a promoção de conteúdo de impacto e com a construção de um espaço para troca de conhecimento e networking entre os participantes.</p>
+        <div class="flex align-bottom gap-5">
+            <div class = "w-3/4 rounded-md">
+                <textarea class="border-0 block w-full h-[400px] px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                placeholder="Adicione sua observação..."></textarea>
+            </div>
+
+            <div class="flex items-end gap-2">
+                <button class="h-8 btn-warning">Recusar</button>
+                <button class="h-8 btn-default">Aceitar</button>
+            </div>
         </div>
-    </div>
-
-    <div class = "mt-4 flex justify-end">
-        <button class = "btn-default">Criar evento</button>
     </div>
 </div>
 
