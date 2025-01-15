@@ -21,7 +21,8 @@
     <div class="p-8 max-w-3xl w-full ml-8">
         <h1 class="text-2xl font-semibold text-green-900 mb-6">Quer publicar um evento?</h1>
 
-        <form action="#" method="post">
+        <form method="post">
+            {% csrf_token %}
             <!-- Local da Evento -->
             <div class="mb-4">
                 <label for="local" class="block text-gray-600 font-medium mb-2">Local da Evento:</label>
@@ -61,6 +62,7 @@
                 <button type="submit" class="btn-default">
                     Submeter
                 </button>
+                <a href=""></a>
             </div>
         </form>
     </div>

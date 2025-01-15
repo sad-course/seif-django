@@ -9,4 +9,8 @@ urlpatterns = [
     path(
         "request_create_event/", views.request_create_event, name="request_create_event"
     ),
+    path("analytics/home/", views.analytics_home, name="analytics_home"),
+    path(
+        "analytics/event/", views.analytics_event_detail, name="analytics_event_detail"
+    ),
 ]

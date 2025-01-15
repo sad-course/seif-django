@@ -1,0 +1,69 @@
+{% extends 'management/base.html' %}
+{% load static %}
+{% load svg %}
+
+{% block content %}
+<div class="pt-12 pb-8">
+    <h1 class="text-2xl pb-8">Análise de Evento: Expotec</h1>
+    <a href="{% url 'analytics_home' %}">
+        {% svg  'back' %}
+    </a>
+    <span class="text-sm">Porcentagens em relação a edições de eventos passados</span>
+</div>
+
+
+<div class="relative w-100 lg:w-1/2 flex flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+    <div class="p-10">
+        <div class="flex gap-14 flex-wrap lg:flex-nowrap mb-4">
+            <h1 class="text-3xl font-bold">Expotec</h1>
+            <span class="tag-progress">em andamento</span>
+        </div>
+
+        <div class="flex gap-8">
+            <div class="flex flex-col gap-2">
+                <span>Participantes: <b>154</b></span>
+                <span>Atividades: <b>12</b></span>
+                <span>Horas: <b>37h</b></span>
+
+            </div>
+            <div class="flex flex-col gap-2">
+                <span>Inscrições canceladas: <b>4</b></span>
+                <span>Participantes ausentes: <b>23</b></span>
+            </div>
+
+        </div>
+    </div>
+    <div class="flex flex-col gap-8 p-10 border-t-2 border-gray-400">
+        <div class="flex gap-10">
+            <div class="flex flex-col gap-2">
+                <b class="text-gray-400">Palestra abertura</b>
+                <span>Participantes: <b>12</b></span>
+                <span>Participantes ausentes: <b>23</b></span>
+                <span class="tag-default">+ 16% participantes </span>
+            </div>
+            <div class="flex flex-col gap-2">
+                <b class="text-gray-400">Palestra abertura</b>
+                <span>Participantes: <b>12</b></span>
+                <span>Participantes ausentes: <b>23</b></span>
+                <span class="tag-default">+ 16% participantes </span>
+            </div>
+        </div>
+        <div class="flex gap-10">
+            <div class="flex flex-col gap-2">
+                <b class="text-gray-400">Palestra abertura</b>
+                <span>Participantes: <b>12</b></span>
+                <span>Participantes ausentes: <b>23</b></span>
+                <span class="tag-default">+ 16% participantes </span>
+            </div>
+            <div class="flex flex-col gap-2">
+                <b class="text-gray-400">Palestra abertura</b>
+                <span>Participantes: <b>12</b></span>
+                <span>Participantes ausentes: <b>23</b></span>
+                <span class="tag-default">+ 16% participantes </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
