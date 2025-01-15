@@ -14,6 +14,14 @@ def participants(request):
     return render(request, "management/participants.html")
 
 
+def analytics_home(request):
+    return render(request, "management/analytics_home.html")
+
+
+def analytics_event_detail(request):
+    return render(request, "management/analytics_event_detail.html")
+
+
 def create_event(request):
     return render(request, "management/create_event.html")
 
