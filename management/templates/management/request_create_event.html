@@ -2,6 +2,68 @@
 {% load svg %}
 {% block content %}
 
-<h1>screen request create event</h1>
+<!--tela não possui eventos-->
+<div class="bg-gray-200 min-h-screen flex-col items-center justify-center hidden">
+    <!-- Nome do Usuário -->
+    <div class="w-full text-left px-6">
+        <p class="text-green-900 text-2xl font-semibold">Fulano DiTal</p>
+    </div>
+
+    <!-- Mensagem Central -->
+    <div class="flex items-center justify-center flex-1">
+        <p class="text-green-500 text-center text-3xl font-medium">
+            Opa, parece que você não tem eventos<br>para organizar
+        </p>
+    </div>
+</div>
+
+<body class="bg-gray-200 flex items-center justify-center min-h-screen">
+    <div class="p-8 max-w-3xl w-full">
+        <h1 class="text-2xl font-semibold text-green-900 mb-6">Quer publicar um evento?</h1>
+
+        <form action="#" method="post">
+            <!-- Local da Evento -->
+            <div class="mb-4">
+                <label for="local" class="block text-gray-600 font-medium mb-2">Local da Evento:</label>
+                <input type="text" id="local" name="local" placeholder="IFRN - Pau dos Ferros" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800">
+            </div>
+
+            <!-- Seu cargo -->
+            <div class="mb-4">
+                <label for="cargo" class="block text-gray-600 font-medium mb-2">Seu cargo:</label>
+                <input type="text" id="cargo" name="cargo" placeholder="ex: Professor, Aluno" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800">
+            </div>
+
+            <!-- Nome do evento -->
+            <div class="mb-4">
+                <label for="nome" class="block text-gray-600 font-medium mb-2">Nome do evento:</label>
+                <input type="text" id="nome" name="nome" placeholder="Expotec" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800">
+            </div>
+
+            <!-- Tipo do evento -->
+            <div class="mb-4">
+                <label for="tipo" class="block text-gray-600 font-medium mb-2">Tipo do evento:</label>
+                <input type="text" id="tipo" name="tipo" placeholder="ex: Comemorativo, Acadêmico, Tecnológico" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800">
+            </div>
+
+            <!-- Breve descrição do evento -->
+            <div class="mb-6">
+                <label for="descricao" class="block text-gray-600 font-medium mb-2">Breve descrição do evento:</label>
+                <textarea id="descricao" name="descricao" rows="4" placeholder="" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800"></textarea>
+            </div>
+
+            <!-- Botões -->
+            <div class="flex space-x-2 justify-end mt-11">
+                <!--cor do botão de cancelar não está sendo aplicada corretamente-->
+                <button type="button" class="w-[190px] min-h-14 bg-red-700 text-center rounded-md text-base font-semibold text-gray-100 hover:bg-red-600">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-default">
+                    Submeter
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
 
 {% endblock %}
