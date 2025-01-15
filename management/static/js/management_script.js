@@ -28,3 +28,13 @@ createActivityButton.addEventListener( 'click', () => {
     aside.classList.toggle('hidden')
 
 })
+
+const eventRequestForm = document.getElementById('request_event_form')
+
+eventRequestForm.onsubmit((event) => {
+    event.preventDefault()
+})
+const createEventForm = document.getElementById('create-event-form')
+createEventForm.onsubmit((event) => {
+    event.preventDefault()
+})
