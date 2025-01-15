@@ -16,3 +16,7 @@ def participants(request):
 
 def create_event(request):
     return render(request, "management/create_event.html")
+
+
+def request_create_event(request):
+    return render(request, "management/request_create_event.html")
