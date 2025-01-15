@@ -34,14 +34,14 @@
                 <ul class = "flex flex-col gap-11 prose-li:aside-items">
 
                     <li class = "aside-select-item">
-                       <a href={% url 'management'%}> <span>Eventos</span></a>
+                       <a href="{% url 'management'%}"> <span>Eventos</span></a>
                     </li>
                     <li><a href="{% url 'organizers' %}"> <span>Organizadores</span></a></li>
 
                     <!--Esse só tem para o organizador-->
-                    <li><a href="#"> <span>Panorma analítico</span></a></li>
+                    <li><a href="{% url 'analytics_home'%}"> <span>Panorama analítico</span></a></li>
                     <li><a href="#"> <span>Criar evento</span></a></li>
-                    <li><a href="{% url 'participants' %}"> <span>Particpantes</span></a></li>
+                    <li><a href="{% url 'participants' %}"> <span>Participantes</span></a></li>
 
                     <!--Esse só tem para o administrador-->
                     <li><a href="#"> <span>Solicitações</span></a></li>
@@ -53,6 +53,8 @@
             {% block content %}
             {% endblock %}
         </main>
-    <script src = {% static 'js/management_script.js'%}/>
+    <script src = "{% static 'js/management_script.js' %}"></script>
+    {% block script %}
+    {% endblock %}
 </body>
 </html>
