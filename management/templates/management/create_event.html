@@ -6,7 +6,7 @@
 <div class = "py-7">
         <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
         <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
-        <form method="post" enctype="multipart/form-data" class="max-w-[800px]">
+        <form id = "create-event-form" action = "{% url 'management' %}" method="post" enctype="multipart/form-data" class="max-w-[800px]">
             {% csrf_token %}
             <div class="flex gap-8 w-full">
                 <!-- Metade Esquerda - Local da Imagem -->
@@ -121,9 +121,11 @@
 
             <!-- Botão Finalizar -->
             <div class="mt-6 flex justify-end">
+                <a href="{% url 'management' %}">
                 <button type="button" class="btn-default">
                     Finalizar
                 </button>
+            </a>
             </div>
         </form>
 </div>
