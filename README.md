@@ -41,6 +41,15 @@ pip install -r requirements.py
 pre-commit install
 ```
 
+</br>
+
+**Check database configuration and create if not already**
+```bash
+python manage.py checkdb
+```
+
+</br>
+
 **Apply all the initial migrations**
 ```bash
 python manage.py migrate
