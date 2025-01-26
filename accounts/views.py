@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponse
+from .forms import CreateUser
+from .models import Participant
 
 # Create your views here.
 
@@ -13,7 +16,23 @@ def login(request):
 
 
 def signup(request):
-    return render(request, "accounts/signup.html")
+    if request.method == "POST":
+        form = CreateUser(request.POST)
+        new_participant = Participant()
+        if form.is_valid():
+            data = form.cleaned_data
+
+            new_participant.name = data["name"]
+            new_participant.email = data["email"]
+            new_participant.password = data["password"]
+            new_participant.phone = data["phone"]
+            new_participant.cpf = data["cpf"]
+
+            new_participant.save()
+            return HttpResponse("deu cecrto")
+
+    form = CreateUser()
+    return render(request, "accounts/signup.html", {"form": form})
 
 
 def request_reset_password(request):
