@@ -39,10 +39,9 @@ class SignupForm(forms.Form):
         widget=forms.TextInput(attrs={"placeholder": "Email"}),
     )
     password = forms.CharField(
-        min_length=6, widget=forms.PasswordInput(attrs={"placeholder": "Senha"})
+        widget=forms.PasswordInput(attrs={"placeholder": "Senha"}),
     )
     checkPassword = forms.CharField(
-        min_length=6,
         widget=forms.PasswordInput(attrs={"placeholder": "Confirmar senha"}),
     )
     phone = forms.CharField(
