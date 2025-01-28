@@ -21,8 +21,10 @@ class LoginForm(forms.Form):
             {"class": "w-full rounded-lg bg-gray-200"}
         )
 
-    def clean_email(self):
+    def clean(self):
         email = self.cleaned_data["email"]  # pylint: disable=unused-variable
+        if email == "karen@gmail.com":
+            raise forms.ValidationError("Email já existe")
         # verificar se o email ja existe.
 
 
@@ -77,11 +79,11 @@ class SignupForm(forms.Form):
             {"class": "w-full rounded-lg bg-gray-200"}
         )
 
-    def clean_email(self):
-        email = self.cleaned_data["email"]  # pylint: disable=unused-variable
-        # verificar se o email ja existe.
-
     def clean(self):
         data = self.cleaned_data
         if data["password"] != data["checkPassword"]:
             raise forms.ValidationError("As senhas não concidem")
+
+        if data["email"] == "karen@gmail.com":
+            raise forms.ValidationError("Email já existe")
+        # verificar se o email ja existe.
