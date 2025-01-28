@@ -30,13 +30,12 @@ def signup(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
         if form.is_valid():
-            data = form.cleaned_data
-            name = data["name"]
-            email = data["email"]
-            password = data["password"]
-            phone = data["phone"]
-            cpf = data["cpf"]
-            user = {name, email, password, phone, cpf, user}
+            # data = form.cleaned_data
+            # name = data["name"]
+            # email = data["email"]
+            # password = data["password"]
+            # phone = data["phone"]
+            # cpf = data["cpf"]
             # aqui cria o usuario
             return HttpResponseRedirect(reverse_lazy("login"))
     else:
