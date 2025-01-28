@@ -6,7 +6,9 @@ class LoginForm(forms.Form):
         label="email", widget=forms.TextInput(attrs={"placeholder": "Email"})
     )
     password = forms.CharField(
-        label="email", widget=forms.PasswordInput(attrs={"placeholder": "Senha"})
+        min_length=6,
+        label="email",
+        widget=forms.PasswordInput(attrs={"placeholder": "Senha"}),
     )
 
     def __init__(self, *args, **kwargs):
@@ -19,11 +21,16 @@ class LoginForm(forms.Form):
             {"class": "w-full rounded-lg bg-gray-200"}
         )
 
+    def clean_email(self):
+        email = self.cleaned_data["email"]  # pylint: disable=unused-variable
+        # verificar se o email ja existe.
+
 
 class SignupForm(forms.Form):
     name = forms.CharField(
         label="name",
         max_length=70,
+        min_length=10,
         widget=forms.TextInput(attrs={"placeholder": "Nome"}),
     )
     email = forms.EmailField(
@@ -32,19 +39,20 @@ class SignupForm(forms.Form):
         widget=forms.TextInput(attrs={"placeholder": "Email"}),
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": "Senha"})
+        min_length=6, widget=forms.PasswordInput(attrs={"placeholder": "Senha"})
     )
     checkPassword = forms.CharField(
-        widget=forms.PasswordInput(attrs={"placeholder": "Confirmar senha"})
+        min_length=6,
+        widget=forms.PasswordInput(attrs={"placeholder": "Confirmar senha"}),
     )
     phone = forms.CharField(
         label="phone",
-        max_length=14,
+        max_length=20,
         widget=forms.TextInput(attrs={"placeholder": "(XX)XXXX-XXXX"}),
     )
     cpf = forms.CharField(
         label="cpf",
-        max_length=16,
+        max_length=20,
         widget=forms.TextInput(attrs={"placeholder": "XXX.XXX.XXX-XX"}),
     )
 
@@ -70,8 +78,11 @@ class SignupForm(forms.Form):
             {"class": "w-full rounded-lg bg-gray-200"}
         )
 
+    def clean_email(self):
+        email = self.cleaned_data["email"]  # pylint: disable=unused-variable
+        # verificar se o email ja existe.
+
     def clean(self):
-        data = super().clean()
-        if "mirla" not in data["name"]:
-            print("deu rrooo")
-            raise forms.ValidationError("Nome precisa conter o nome 'Mirla'")
+        data = self.cleaned_data
+        if data["password"] != data["checkPassword"]:
+            raise forms.ValidationError("As senhas não concidem")
