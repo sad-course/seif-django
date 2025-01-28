@@ -69,3 +69,9 @@ class SignupForm(forms.Form):
         self.fields["cpf"].widget.attrs.update(
             {"class": "w-full rounded-lg bg-gray-200"}
         )
+
+    def clean(self):
+        data = super().clean()
+        if "mirla" not in data["name"]:
+            print("deu rrooo")
+            raise forms.ValidationError("Nome precisa conter o nome 'Mirla'")

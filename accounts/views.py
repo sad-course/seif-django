@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy
 from .forms import LoginForm, SignupForm
 
 # Create your views here.
@@ -26,20 +27,20 @@ def login(request):
 
 
 def signup(request):
-    if request.method == "GET":
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            name = data["name"]
+            email = data["email"]
+            password = data["password"]
+            phone = data["phone"]
+            cpf = data["cpf"]
+            user = {name, email, password, phone, cpf, user}
+            # aqui cria o usuario
+            return HttpResponseRedirect(reverse_lazy("login"))
+    else:
         form = SignupForm()
-        return render(request, "accounts/signup.html", {"form": form})
-    form = SignupForm(request.POST)
-    if form.is_valid():
-        data = form.cleaned_data
-        name = data["name"]
-        email = data["email"]
-        password = data["password"]
-        phone = data["phone"]
-        cpf = data["cpf"]
-        user = {name, email, password, phone, cpf, user}
-        return HttpResponse(user)
-
     return render(request, "accounts/signup.html", {"form": form})
 
 
