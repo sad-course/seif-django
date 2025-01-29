@@ -16,4 +16,4 @@ repos:
     entry: python -m pylint
     language: system
     types: [python]
-    args: [--ignore-patterns=venv]
+    args: [--ignore-patterns=venv, --load-plugins pylint_django]
