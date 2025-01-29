@@ -5,9 +5,7 @@
 @media (max-width: 768px){
     html{
         font-size: 80.5%;
-
     }
-
 }
 @layer components {
     .aside-full-left-width {
