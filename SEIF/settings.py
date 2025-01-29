@@ -13,18 +13,32 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 from shutil import which
-from dotenv import load_dotenv
+import dotenv
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# configurando env
-load_dotenv()
+SEIF_ENV_OPTIONS = {"development": ".env.dev", "production": ".env.prod"}
 
+# Configuring environment variables
+SEIF_ENV = os.getenv("SEIF_ENV", "default")
+ENV_VARS_FILE = SEIF_ENV_OPTIONS.get(SEIF_ENV)
+
+env_path = dotenv.find_dotenv(ENV_VARS_FILE)
+
+if env_path is None:
+    raise FileNotFoundError(
+        f"Could not find .env file. Please make sure you have a {ENV_VARS_FILE} \
+        file in your project root."
+    )
+
+dotenv.load_dotenv(env_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+
+NPM_BIN_PATH = which("npm")
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-q203iv@f+*r=hd-^s4m5g1$2i%o+jr8r0_s3!o5@68j$8%-*7^"
@@ -33,7 +47,6 @@ SECRET_KEY = "django-insecure-q203iv@f+*r=hd-^s4m5g1$2i%o+jr8r0_s3!o5@68j$8%-*7^
 DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -59,9 +72,6 @@ INSTALLED_APPS = [
 TAILWIND_APP_NAME = "theme"
 INTERNAL_IPS = ["127.0.0.1"]
 
-# configurando Node path de acordo com o OS
-
-NPM_BIN_PATH = which("npm")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -106,6 +116,8 @@ DATABASES = {
         "PORT": os.getenv("DB_PORT"),
     }
 }
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
