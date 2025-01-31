@@ -18,7 +18,12 @@ class Command(BaseCommand):
         if env_value is not None and env_value in VALID_ENV_VARS:
             env_file = f".env.{env_value}"
 
-            password = input("Enter the database password: ")
+            self.stdout.write(
+                f"(\033[0;31mPay attention, it's your password to access \
+                YOUR postgresql database\033[0m) \n \
+                You can change it if necessary in {env_file}."
+            )
+            password = input(" Enter the database password: ")
 
             with open(env_file, "w", encoding="UTF-8") as env_file:
                 env_file.writelines("DEBUG=True\n")
