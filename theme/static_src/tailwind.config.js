@@ -45,24 +45,34 @@ module.exports = {
         extend: {
             colors: {
                 "green-900": "#052E16",
+                "green-800": "#2F9E41",
                 "green-700": "#638E5A",
                 "green-400": "#67B263",
                 "green-200": "#8FDD8B",
+                "green-200-opacity-50": "rgba(143, 221, 139, 0.5)",
                 "gray-600": "#2E2D2D",
                 "gray-400": "#656565",
                 "gray-300": "#8C8C8C",
                 "gray-200": "#EEEEEE",
                 "gray-250": "#CCCCCC",
                 "gray-100": "#FFFFFF",
+                "red-500": "#D92020",
                 "red-400": "#AA1B1B",
                 "red-200": "#E75F5F",
+                "red-200-opacity-50": "rgba(231, 95, 95, 0.5)",
                 "yellow-400": "#D0B623",
-                "yellow-200": "#FFEE8B"
+                "yellow-200": "#FFEE8B",
+                "yellow-200-opacity-50": "rgba(255, 238, 139, 0.5)"
 
             },
             fontFamily: {
                 'inter': ['Inter', 'sans-serif'],
-              }
+            },
+            screens: {
+                'md-screen': '900px',
+                'lg-screen': '1250px'
+            }
+
         },
     },
     plugins: [

@@ -1,0 +1,60 @@
+{% load static tailwind_tags %}
+{% load svg  %}
+{% load static %}
+
+<html lang="pt-br">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    {% tailwind_css %}
+    <title>SEIF</title>
+</head>
+<body class = "bg-gray-200 flex w-full relative">
+
+        <!--Menu hamburger-->
+        <div id = "hamburger-menu" class = "px-11 pt-9 absolute cursor-pointer md-screen:hidden z-50">
+            {% svg 'hamburguer-menu' %}
+        </div>
+
+        <aside class = "bg-gray-50 absolute hidden h-full w-[300px] z-40 pt-14 pl-4 md-screen:pt-0 md-screen:pl-0 md-screen:block md-screen:relative">
+
+
+
+            <div class = "px-7 py-9 font-medium text-xl text-green-900 ">
+
+                <div class = "pb-12">
+                    {% svg 'icon-calendar'%}
+                </div>
+
+                <ul class = "flex flex-col gap-11 prose-li:aside-items">
+
+                    <li class = "aside-select-item">
+                       <a href="{% url 'management'%}"> <span>Eventos</span></a>
+                    </li>
+                    <li><a href="{% url 'organizers' %}"> <span>Organizadores</span></a></li>
+
+                    <!--Esse só tem para o organizador-->
+                    <li><a href="{% url 'analytics_home'%}"> <span>Panorama analítico</span></a></li>
+                    <li><a href="{% url 'create_event' %}"> <span>Criar evento</span></a></li>
+                    <li><a href="{% url 'participants' %}"> <span>Participantes</span></a></li>
+
+                    <!--Esse só tem para o administrador-->
+                    <li><a href="{% url 'event_publish_request' %}"> <span>Solicitações</span></a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class = "max-w-[1440px] mx-11 mt-5 w-full flex flex-col ">
+            {% block content %}
+            {% endblock %}
+        </main>
+    <script src = "{% static 'js/management_script.js' %}"></script>
+    {% block script %}
+    {% endblock %}
+</body>
+</html>

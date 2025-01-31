@@ -5,29 +5,27 @@ title: "[DATE]: [FEATURE NAME]"
 labels: bug, needs triage
 assignees: Mirlaaa
 ---
-<!--- Title format in Teamwork: Action-verb driven description of problem or feature. -->
+
 # Type of Issue: Bug
-<!---
-  - Epic: More than 24 potential hours of expected work OR more than three subtasks.
-  - Enhancement: Less than 24 hours AND less than four subtasks.
-  - Task: Small changes with minimal work. Typically less than 2 hours. See short-task.md instead.
-  - Bug: Something is broken. Either current functionality does not meet Client/Taoti/Adobe XD requirements or there is an actual 'bug' causing issues. See bug-report.md instead.
--->
 
 ## Expected Behavior and Background
-
+<!-- Explique qual comportamento deveria acontecer -->
 <!--- While describing a bug(s), tell us what should happen. -->
-<!--- If you're suggesting a change/improvement, tell us how it should work. -->
+
 
 ## Current Behavior
+<!-- Explique o comportamento atual -->
 <!--- While describing the bug(s), tell us what happens instead of the expected behavior. -->
-<!--- If suggesting a change/improvement, explain the difference from current behavior. -->
+
 
 ## Possible Solution
+<!-- Não obrigatório, mas se possível sugira uma forma de corrigir o bug. Ideias para implementar/alterar a funcionalidade existente. -->
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->
 <!--- or ideas how to implement the addition or change. -->
 
+
 ## Steps to Reproduce
+<!-- Explique os passos realizados para se chegar ao bug. Como o bug ocorre, descreva as etapas sequencialmente. -->
 <!--- Provide a link to a live example, or an unambiguous set of steps to -->
 <!--- reproduce this bug. Include code to reproduce, if relevant. -->
 1.
@@ -36,10 +34,13 @@ assignees: Mirlaaa
 4.
 
 ## Context
+<!-- Explique em contexto ocorreu esse bug. O sistema, navegador, qual o tamanho do dispositivo, etc. -->
 <!--- Please note the context in which the bug was found. -->
 * Browser:
 * Device/screen width:
 * Operating System:
 
 ## Screenshot
+<!-- Forneça screenshoots se possível -->
+
 <!--- Screenshots of both before AND after should be provided, if available. -->
