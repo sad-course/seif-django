@@ -1,4 +1,4 @@
-# This guied will help you to configure the environment to develop
+# This guide will help you to configure the environment to develop
 
 ## Getting started
 
