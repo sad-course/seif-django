@@ -27,14 +27,13 @@ SEIF_ENV = os.getenv("SEIF_ENV", "default")
 ENV_VARS_FILE = SEIF_ENV_OPTIONS.get(SEIF_ENV, ".env")
 
 env_path = dotenv.find_dotenv(ENV_VARS_FILE)
-
 if env_path is None:
     raise FileNotFoundError(
         f"Could not find {ENV_VARS_FILE} file. Please make sure you have a \
         {ENV_VARS_FILE} file in your project root."
     )
 
-# dotenv.load_dotenv(env_path)
+dotenv.load_dotenv(env_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
