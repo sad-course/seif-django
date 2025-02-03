@@ -49,6 +49,11 @@ python manage.py makenv dev
 </br>
 </br>
 
+**Switch environent to the desired env file**
+```bash
+python manage.py env dev
+```
+
 **Check database configuration and create if not already**
 ```bash
 python manage.py checkdb
