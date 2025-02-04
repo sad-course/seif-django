@@ -7,7 +7,7 @@ customColorPalette = [
     {"color": "hsl(207, 90%, 54%)", "label": "Blue"},
 ]
 
-# CKEDITOR_5_CUSTOM_CSS = 'path_to.css'
+CKEDITOR_5_CUSTOM_CSS = "django_ckeditor_5/ckeditor_custom.css"
 # CKEDITOR_5_FILE_STORAGE = "path_to_storage.CustomStorage"
 
 CKEDITOR_5_CONFIGS = {

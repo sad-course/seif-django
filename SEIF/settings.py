@@ -16,8 +16,6 @@ from shutil import which
 import dotenv
 from . import ckeditor_config
 
-CKEDITOR_5_CONFIGS = ckeditor_config.CKEDITOR_5_CONFIGS
-CKEDITOR_5_FILE_UPLOAD_PERMISSION = ckeditor_config.CKEDITOR_5_FILE_UPLOAD_PERMISSION
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -165,6 +163,11 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "core/static"),
     os.path.join(BASE_DIR, "management/static"),
 ]
+
+CKEDITOR_5_CONFIGS = ckeditor_config.CKEDITOR_5_CONFIGS
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = ckeditor_config.CKEDITOR_5_FILE_UPLOAD_PERMISSION
+CKEDITOR_5_CUSTOM_CSS = ckeditor_config.CKEDITOR_5_CUSTOM_CSS
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
