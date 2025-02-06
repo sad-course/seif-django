@@ -26,7 +26,7 @@ class Event(models.Model):
     init_date = models.DateTimeField("Início da atividade")
     end_date = models.DateTimeField("Fim da atividade")
     status = models.CharField(max_length=50, choices=EVENT_STATUS, default="pending")
-    banner = models.ImageField(upload_to="events/banners/")
+    # banner = models.ImageField(upload_to="events/banners/")
     tags = models.ManyToManyField(Tag)
 
 
