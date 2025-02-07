@@ -31,10 +31,6 @@
 
                 <div class = "flex items-center gap-12 relative">
                     <!-- Esses elementos so irão aparecer quando o usuário estiver logado-->
-                    <div class = "cursor-pointer">
-                        {% svg 'notifications_unread' %}
-                    </div>
-
                     <div id = "user-icon" class = "cursor-pointer">
                         {% svg 'account-icon' %}
                     </div>
@@ -97,10 +93,6 @@
 
                         <ul class = "flex flex-col items-start gap-4">
                             <li>
-                                {% svg 'notifications_unread' %}
-
-                            </li>
-                            <li>
                                 <div class = "flex items-center gap-2 ml-2 cursor-pointer">
                                     {% svg 'logout'%}
                                     <a href="{% url 'home' %}">
@@ -129,7 +121,7 @@
 
     <footer class = "w-full h-100 bg-green-900 mt-[100px] flex justify-center text-gray-100">
         <div class = "max-w-[1440px] w-full px-8 py-10 flex flex-col">
-            <div class = "flex justify-between items-center gap-[150px] pb-10 lg:gap-[300px] flex-col lg:flex-row">
+            <div class = "flex justify-between items-center gap-[50px] pb-10 lg:gap-[300px] flex-col lg:flex-row">
                 <div class = "w-full flex items-start lg:justify-between flex-wrap flex-col gap-8">
                     <img class = "pt-5" src = "static/img/logowhiteif.png" alt = "Logotipo do IFRN na cor branca"/>
 
