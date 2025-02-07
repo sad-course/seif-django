@@ -2,10 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+body, html, main{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 @media (max-width: 768px){
     html{
         font-size: 80.5%;
-
     }
 
 }
