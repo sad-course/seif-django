@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
+from .forms import EventForm, EventPublishRequestForm
 
 
 # Create your views here.
@@ -20,16 +23,43 @@ def analytics_home(request):
 
 def analytics_event_detail(request):
     return render(request, "management/analytics_event_detail.html")
-  
+
 
 def create_event(request):
-    return render(request, "management/create_event.html")
+    if request.method == "POST":
+        form = EventForm(request.POST, request.FILES)
+        if form.is_valid():
+            # titulo = form.cleaned_data["titulo"]
+            # descricao = form.cleaned_data["descricao"]
+            # imagem = form.cleaned_data["imagem"]
+            # inicio = form.cleaned_data["inicio"]
+            # fim = form.cleaned_data["fim"]
+            # horario_inicio = form.cleaned_data["horario_inicio"]
+            # status_inicial = form.cleaned_data["status_inicial"]
+            # tags = form.cleaned_data["tags"]
+            # campus = form.cleaned_data["campus"]
+            # organizadores = form.cleaned_data["organizadores"]
+            print(form.cleaned_data)
+            return HttpResponseRedirect(reverse_lazy("management"))
+    else:
+        form = EventForm()
 
-  
+    return render(request, "management/create_event.html", {"form": form})
+
+
 def request_create_event(request):
-    return render(request, "management/request_create_event.html")
-  
-  
+    if request.method == "POST":
+        form = EventPublishRequestForm(request.POST, request.FILES)
+        if form.is_valid():
+            # dados
+            print(form.cleaned_data)
+            return redirect(reverse_lazy("management"))
+    else:
+        form = EventPublishRequestForm()
+
+    return render(request, "management/request_create_event.html", {"form": form})
+
+
 def event_publish_requests(request):
     return render(request, "management/organizer_event_submit_requests.html")
 

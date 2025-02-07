@@ -3,198 +3,154 @@
 
 {% block content %}
 
-<div class = "py-7">
-        <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
-        <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
-        <form id = "create-event-form" action = "{% url 'management' %}" method="post" enctype="multipart/form-data" class="max-w-[800px]">
-            {% csrf_token %}
-            <div class="flex gap-8 w-full">
-                <!-- Metade Esquerda - Local da Imagem -->
-                <div class="flex w-[270px] h-[340px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
-                    <input type="file" id="imagem" name="imagem" class="hidden" />
-                    <label for="imagem" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
-                        <span>Arraste ou clique para adicionar uma imagem</span>
-                    </label>
-                </div>
+<div class="py-7">
+    <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
+    <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
+    <form id="create-event-form" action="{% url 'management' %}" method="post" enctype="multipart/form-data" class="max-w-[850px]">
+        {% csrf_token %}
 
-                <div class="space-y-6">
-                    <!-- Título -->
-                    <div>
-                        <label for="titulo" class="block text-sm font-medium text-gray-600">Título</label>
-                        <input type="text" id="titulo" name="titulo" placeholder="Título do evento"
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
-                    </div>
-
-                    <!-- Descrição -->
-                    <div>
-                        <label for="descricao" class="block text-sm font-medium text-gray-600">Descrição</label>
-                        <textarea id="descricao" name="descricao" rows="4" placeholder="Descrição do evento"
-                            class="h-44 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300"></textarea>
-                    </div>
-
-                    <!-- Datas e Status -->
-                    <div class="flex flex-wrap gap-1">
-                        <div class="flex-1">
-                            <label for="inicio" class="text-sm font-medium text-gray-600">Início</label>
-                            <input type="date" id="inicio" name="inicio"
-                                class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
-                        </div>
-                        <div class="flex-1">
-                            <label for="fim" class="text-sm font-medium text-gray-600">Fim</label>
-                            <input type="date" id="fim" name="fim"
-                                class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
-                        </div>
-                        <div class="flex-1">
-                            <label for="horario_inicio" class="text-sm font-medium text-gray-600">Horário de Início</label>
-                            <input type="time" id="horario_inicio" name="horario_inicio"
-                                class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
-                        </div>
-                        <div class="flex-1">
-                            <label for="status_inicial" class="text-sm font-medium text-gray-600">Status Inicial</label>
-                            <select id="status_inicial" name="status_inicial"
-                                class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300">
-                                <option value="ativo">Ativo</option>
-                                <option value="inativo">Inativo</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+        <div class="flex gap-8 w-full">
+            <!-- Metade Esquerda - Local da Imagem -->
+            <div class="flex w-[360px] h-[340px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
+                {# Renderiza o campo de imagem – o widget definido em forms.py já tem a classe "hidden" #}
+                {{ form.imagem }}
+                <label for="{{ form.imagem.id_for_label }}" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
+                    <span>Arraste ou clique para adicionar uma imagem</span>
+                </label>
             </div>
 
-            <!-- Tags e Campus -->
-            <div class="flex gap-5">
-                <div class="flex flex-col space-y-2">
-                    <label for="tags" class="text-sm font-medium text-gray-600">Tags</label>
-                    <input type="text" id="tags" name="tags" placeholder="ex: tecnologia"
-                        class="mt-1 rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
-                </div>
-                <div class="flex flex-1 flex-col space-y-2">
-                    <label for="campus" class="text-sm font-medium text-gray-600">Campus</label>
-                    <select id="campus" name="campus"
-                        class="mt-1 rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300">
-                        <option value="IFRN - campus pau dos ferros">IFRN - campus pau dos ferros</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Adicionar Organizadores -->
-            <div class="mt-6">
-                <label for="organizadores" class="block text-sm font-medium text-gray-600">Adicione Organizadores</label>
-                <input type="email" id="organizadores" name="organizadores" placeholder="fulano@gmail.com"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
-            </div>
-
-            <!-- Adicionar Atividades -->
-            <!--botão não está funcionando como o esperado, possivel falha com javaScript-->
-            <div class="mt-6">
-                <button id="add-activity-btn" type="button" class="btn-default">
-                    Adicionar Atividades +
-                </button>
-            </div>
-
-            <!-- Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                <!-- Card 1 -->
-                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
-                    <h3 class="font-semibold text-lg text-gray-900">Palestra de Abertura</h3>
-                    <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
-                    <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
-                    <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
-                    <h3 class="font-semibold text-lg text-gray-900">Minicurso Django</h3>
-                    <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
-                    <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
-                    <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
-                    <h3 class="font-semibold text-lg text-gray-900">Minicurso Django</h3>
-                    <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
-                    <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
-                    <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
-                </div>
-            </div>
-
-            <!-- Botão Finalizar -->
-            <div class="mt-6 flex justify-end">
-                <a href="{% url 'management' %}">
-                <button type="button" class="btn-default">
-                    Finalizar
-                </button>
-            </a>
-            </div>
-        </form>
-</div>
-
-<!--Modal de criar atividade-->
-
-<div id="activity-modal" class = "hidden">
-
-    <div  class="fixed flex inset-0 items-center justify-center bg-gray-300 bg-opacity-70">
-        <div class="bg-gray-200 w-11/12 max-w-2xl h-[600px] rounded-lg shadow-lg p-6">
-            <h2 class="text-lg font-bold mb-4 text-gray-600">Criando Atividade</h2>
-            <form class="h-full flex flex-col">
+            <div class="space-y-6">
                 <!-- Título -->
-                <div class="mb-4">
-                    <label for="titulo" class="block text-gray-600 font-bold mb-2">Título</label>
-                    <input type="text" id="titulo" placeholder="placeholder" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-800">
+                <div>
+                    <label for="{{ form.titulo.id_for_label }}" class="block text-sm font-medium text-gray-600">Título</label>
+                    {{ form.titulo }}
                 </div>
 
                 <!-- Descrição -->
-                <div class="mb-4">
-                    <label for="descricao" class="block text-gray-600 font-bold mb-2">Descrição</label>
-                    <textarea id="descricao" rows="4" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-800"></textarea>
+                <div>
+                    <label for="{{ form.descricao.id_for_label }}" class="block text-sm font-medium text-gray-600">Descrição</label>
+                    {{ form.descricao }}
                 </div>
 
-                <!-- Datas e horários (em linha) -->
-                <div class="flex flex-wrap gap-4">
+                <!-- Datas e Status -->
+                <div class="flex flex-wrap gap-2">
+                    <div class="flex-1 w-12">
+                        <label for="{{ form.inicio.id_for_label }}" class="text-sm font-medium text-gray-600">Início</label>
+                        {{ form.inicio }}
+                    </div>
+                    <div class="flex-1 w-12">
+                        <label for="{{ form.fim.id_for_label }}" class="text-sm font-medium text-gray-600">Fim</label>
+                        {{ form.fim }}
+                    </div>
                     <div class="flex-1">
-                    <label for="inicio" class="block text-gray-600 font-bold text-sm mb-2">Início</label>
-                    <input type="date" id="inicio" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-800 placeholder-gray-500">
-                </div>
-                <div class="flex-1">
-                    <label for="fim" class="block text-gray-600 font-bold text-sm mb-2">Fim</label>
-                    <input type="date" id="fim" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-800 placeholder-gray-500">
-                </div>
-                <div class="flex-1">
-                    <label for="horario-inicio" class="block text-gray-600 font-bold text-sm mb-2">Horário de Início</label>
-                    <input type="time" id="horario-inicio" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-800 placeholder-gray-500">
-                </div>
-                <div class="flex-1">
-                    <label for="tipo" class="block text-gray-700 font-bold text-sm mb-2">Tipo</label>
-                    <select id="tipo" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-800 placeholder-gray-500">
-                        <option value="">Selecione</option>
-                        <option value="opcao1">Opção 1</option>
-                        <option value="opcao2">Opção 2</option>
-                    </select>
+                        <label for="{{ form.horario_inicio.id_for_label }}" class="text-sm font-medium text-gray-600">Horário de Início</label>
+                        {{ form.horario_inicio }}
+                    </div>
+                    <div class="flex-1">
+                        <label for="{{ form.status_inicial.id_for_label }}" class="text-sm font-medium text-gray-600">Status Inicial</label>
+                        {{ form.status_inicial }}
+                    </div>
                 </div>
             </div>
+        </div>
 
+        <!-- Tags e Campus -->
+        <div class="flex gap-5 mt-3">
+            <div class="flex flex-col space-y-2">
+                <label for="{{ form.tags.id_for_label }}" class="text-sm font-medium text-gray-600">Tags</label>
+                {{ form.tags }}
+            </div>
+            <div class="flex flex-1 flex-col space-y-2">
+                <label for="{{ form.campus.id_for_label }}" class="text-sm font-medium text-gray-600">Campus</label>
+                {{ form.campus }}
+            </div>
+        </div>
 
-            <!-- Tipo e Responsáveis -->
-            <div class="grid grid-cols-2 gap-14 mt-4">
-                <div>
-                    <label for="responsaveis" class="block text-gray-700 font-bold mb-2">Responsável(s)</label>
-                    <select id="responsaveis" multiple class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-800 h-[42px]">
-                        <option value="1">Fulano da Silva</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="horas-previstas" class="block text-gray-600 font-bold mb-2">Horas Previstas</label>
-                    <input type="text" id="horas-previstas" placeholder="X horas" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-800">
-                </div>
+        <!-- Adicionar Organizadores -->
+        <div class="mt-6">
+            <label for="{{ form.organizadores.id_for_label }}" class="block text-sm font-medium text-gray-600">Adicione Organizadores</label>
+            {{ form.organizadores }}
+        </div>
+
+        <!-- Adicionar Atividades -->
+        <div class="mt-6">
+            <button id="add-activity-btn" type="button" class="btn-default">
+                Adicionar Atividades +
+            </button>
+        </div>
+
+        <!-- Cards (conteúdo estático para visualização) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <!-- Card 1 -->
+            <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
+                <h3 class="font-semibold text-lg text-gray-900">Palestra de Abertura</h3>
+                <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
+                <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
+                <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
             </div>
 
-            <!-- Botões -->
-            <div class="flex justify-end mt-7">
+            <!-- Card 2 -->
+            <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
+                <h3 class="font-semibold text-lg text-gray-900">Minicurso Django</h3>
+                <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
+                <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
+                <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
+                <h3 class="font-semibold text-lg text-gray-900">Minicurso Django</h3>
+                <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
+                <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
+                <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
+            </div>
+        </div>
+
+        <!-- Botão Finalizar -->
+        <div class="mt-6 flex justify-end">
+            <a class=""href="{% url 'management' %}">
+                <button type="submit button" class="btn-default">Finalizar</button>
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Modal de criar atividade (mantém a estilização original) -->
+<div id="activity-modal" class="hidden">
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div class="bg-gray-200 w-11/12 sm:w-[90%] max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg shadow-lg p-6">
+            <button type="button" id="close-modal" class="absolute top-4 right-4 text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+            <h2 class="text-lg font-bold mb-4 text-gray-600">Criando Atividade</h2>
+            <form id="activity-form" method="post">
+                {% csrf_token %}
+                {{ activity_formset.EventForm }}
+                {% for form in activity_formset %}
+                    <div class="mb-4">
+                        <label for="{{ form.titulo.id_for_label }}" class="block text-gray-600 font-bold mb-2">Título</label>
+                        {{ form.titulo }}
+                    </div>
+                    <div class="mb-4">
+                        <label for="{{ form.descricao.id_for_label }}" class="block text-gray-600 font-bold mb-2">Descrição</label>
+                        {{ form.descricao }}
+                    </div>
+                    <div class="flex gap-4">
+                        <div>{{ form.inicio }}</div>
+                        <div>{{ form.fim }}</div>
+                        <div>{{ form.horario_inicio }}</div>
+                        <div>{{ form.tipo }}</div>
+                    </div>
+                    <div>{{ form.responsaveis }}</div>
+                    <div>{{ form.horas_previstas }}</div>
+                {% endfor %}
                 <button type="submit" class="btn-default">Criar</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
-</div>
+
+
 {% endblock %}

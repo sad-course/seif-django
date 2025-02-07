@@ -17,53 +17,46 @@
     </div>
 </div>
 
-<div class="bg-gray-200 flex items-center mt-11  justify-center min-h-screen">
+<div class="bg-gray-200 flex items-center mt-11 justify-start min-h-screen">
     <div class="p-8 max-w-3xl w-full ml-8">
         <h1 class="text-2xl font-semibold text-green-900 mb-6">Quer publicar um evento?</h1>
 
-        <form action = "{% url 'event_publish_request' %}" method="post" id = "request_event_form">
+        <form action="{% url 'event_publish_request' %}" method="post" id="request_event_form">
             {% csrf_token %}
-            <!-- Local da Evento -->
+
             <div class="mb-4">
-                <label for="local" class="block text-gray-600 font-medium mb-2">Local da Evento:</label>
-                <input type="text" id="local" name="local" placeholder="IFRN - Pau dos Ferros" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800">
+                <label class="block text-gray-600 font-medium mb-2">Local da Evento:</label>
+                {{ form.local }}
             </div>
 
-            <!-- Seu cargo -->
             <div class="mb-4">
-                <label for="cargo" class="block text-gray-600 font-medium mb-2">Seu cargo:</label>
-                <input type="text" id="cargo" name="cargo" placeholder="ex: Professor, Aluno" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800">
+                <label class="block text-gray-600 font-medium mb-2">Seu cargo:</label>
+                {{ form.cargo }}
             </div>
 
-            <!-- Nome do evento -->
             <div class="mb-4">
-                <label for="nome" class="block text-gray-600 font-medium mb-2">Nome do evento:</label>
-                <input type="text" id="nome" name="nome" placeholder="Expotec" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800">
+                <label class="block text-gray-600 font-medium mb-2">Nome do evento:</label>
+                {{ form.nome }}
             </div>
 
-            <!-- Tipo do evento -->
             <div class="mb-4">
-                <label for="tipo" class="block text-gray-600 font-medium mb-2">Tipo do evento:</label>
-                <input type="text" id="tipo" name="tipo" placeholder="ex: Comemorativo, Acadêmico, Tecnológico" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800">
+                <label class="block text-gray-600 font-medium mb-2">Tipo do evento:</label>
+                {{ form.tipo }}
             </div>
 
-            <!-- Breve descrição do evento -->
             <div class="mb-6">
-                <label for="descricao" class="block text-gray-600 font-medium mb-2">Breve descrição do evento:</label>
-                <textarea id="descricao" name="descricao" rows="4" placeholder="" class="w-full border-gray-300 rounded-md shadow-sm focus:border-green-800 focus:ring-green-800"></textarea>
+                <label class="block text-gray-600 font-medium mb-2">Breve descrição do evento:</label>
+                {{ form.descricao }}
             </div>
 
             <!-- Botões -->
             <div class="flex space-x-2 justify-end mt-11">
-                <!--cor do botão de cancelar não está sendo aplicada corretamente-->
                 <button type="button" class="w-[190px] min-h-14 bg-red-700 text-center rounded-md text-base font-semibold text-gray-100 hover:bg-red-600">
                     Cancelar
                 </button>
-                <a href="{% url 'event_publish_request' %}">
-                    <button class="btn-default">
-                        Submeter
-                    </button>
-                </a>
+                <button type="submit" class="btn-default">
+                    Submeter
+                </button>
             </div>
         </form>
     </div>
