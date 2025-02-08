@@ -21,12 +21,20 @@ hamburger.addEventListener( 'click', () => {
 })
 
 const createActivityButton = document.getElementById('add-activity-btn')
+const closeActivityModal = document.getElementById('close-activity-modal')
 const activityModal = document.getElementById('activity-modal')
 
 createActivityButton.addEventListener( 'click', () => {
     activityModal.classList.toggle('hidden')
     aside.classList.toggle('hidden')
 
+})
+
+closeActivityModal.addEventListener('click', () => {
+    console.log('oi')
+    if (!activityModal.classList.contains('hidden')){
+        activityModal.classList.add('hidden')
+    }
 })
 
 const eventRequestForm = document.getElementById('request_event_form')
