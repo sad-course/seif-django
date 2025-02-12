@@ -96,7 +96,7 @@ class EventForm(forms.Form):
         )
         self.fields["descricao"].widget = forms.Textarea(
             attrs={
-                "class": "w-full h-44 rounded-lg bg-gray-100",
+                "class": "w-full h-36 rounded-lg bg-gray-100",
                 "placeholder": "Descrição do evento",
             }
         )
@@ -136,7 +136,7 @@ class EventForm(forms.Form):
                 "placeholder": "fulano@gmail.com",
             }
         )
-        self.fields["imagem"].widget = forms.FileInput(attrs={"class": "hidden"})
+        self.fields["imagem"].widget = forms.FileInput(attrs={"class": "hidden h-full"})
 
     def clean_inicio(self):
         inicio = self.cleaned_data["inicio"]
