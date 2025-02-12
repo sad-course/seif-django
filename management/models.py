@@ -23,6 +23,7 @@ class Event(models.Model):
             "Cancelado",
         )
         DRAFT = "draft", "Rascunho"
+        APPROVED = "approved", "Aprovado"
 
     event_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     title = models.CharField("Título", max_length=150, blank=False, null=False)

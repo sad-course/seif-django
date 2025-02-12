@@ -40,7 +40,7 @@ class Administrator(Participant):
 
 
 class AcademicIntern(Participant):
-    suap_itern_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    suap_intern_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     registration_number = models.CharField(verbose_name="registration_number")
     association_type = models.CharField(verbose_name="association_type")
 
