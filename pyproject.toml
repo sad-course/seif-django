@@ -1,5 +1,5 @@
 [tool.pylint]
-max-line-length = "88"
+max-line-length = "100"
 disable = [
     "C0114",  # Missing module docstring
     "C0115",  # Missing class docstring

@@ -14,8 +14,10 @@ import os
 from pathlib import Path
 from shutil import which
 import dotenv
-from . import ckeditor_config
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
+from . import ckeditor_config, logging
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +42,9 @@ dotenv.load_dotenv(env_path)
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 NPM_BIN_PATH = which("npm")
+
+# Set the Logging configuration
+LOGGING = logging.LOGGING
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-q203iv@f+*r=hd-^s4m5g1$2i%o+jr8r0_s3!o5@68j$8%-*7^"
@@ -175,3 +180,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom admin user
 AUTH_USER_MODEL = "accounts.Participant"
+
+
+sentry_sdk.init(
+    dsn="https://2d35e61739e25ec7bdf5d035f80f0d32@o4504842400628736.ingest.us.sentry.io/\
+    4508807608205312",
+    integrations=[DjangoIntegration()],
+    send_default_pii=True,  # This enables sending personally identifiable information if needed
+    traces_sample_rate=1.0,  # This captures all transactions for tracing
+    _experiments={
+        "continuous_profiling_auto_start": True,
+    },
+)
