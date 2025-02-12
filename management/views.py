@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from .forms import EventForm, EventPublishRequestForm
+from .forms import EventForm, EventPublishRequestForm, ActivityForm
 
 
 # Create your views here.
@@ -28,7 +28,8 @@ def analytics_event_detail(request):
 def create_event(request):
     if request.method == "POST":
         form = EventForm(request.POST, request.FILES)
-        if form.is_valid():
+        activity_form = ActivityForm(request.POST)
+        if form.is_valid() and activity_form.is_valid():
             # titulo = form.cleaned_data["titulo"]
             # descricao = form.cleaned_data["descricao"]
             # imagem = form.cleaned_data["imagem"]
@@ -40,11 +41,20 @@ def create_event(request):
             # campus = form.cleaned_data["campus"]
             # organizadores = form.cleaned_data["organizadores"]
             print(form.cleaned_data)
+            print(activity_form.cleaned_data)
             return HttpResponseRedirect(reverse_lazy("management"))
     else:
         form = EventForm()
+        activity_form = ActivityForm()
 
-    return render(request, "management/create_event.html", {"form": form})
+    return render(
+        request,
+        "management/create_event.html",
+        {
+            "form": form,
+            "activity_form": activity_form,
+        },
+    )
 
 
 def request_create_event(request):

@@ -119,16 +119,10 @@
 <div id="activity-modal" class="hidden">
     <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
         <div class="bg-gray-200 w-11/12 sm:w-[90%] max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg shadow-lg p-6">
-            <button type="button" id="close-modal" class="absolute top-4 right-4 text-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
             <h2 class="text-lg font-bold mb-4 text-gray-600">Criando Atividade</h2>
             <form id="activity-form" method="post">
                 {% csrf_token %}
-                {{ activity_formset.EventForm }}
-                {% for form in activity_formset %}
+                {{ activity_formset.as_p }}
                     <div class="mb-4">
                         <label for="{{ form.titulo.id_for_label }}" class="block text-gray-600 font-bold mb-2">Título</label>
                         {{ form.titulo }}
@@ -145,7 +139,6 @@
                     </div>
                     <div>{{ form.responsaveis }}</div>
                     <div>{{ form.horas_previstas }}</div>
-                {% endfor %}
                 <button type="submit" class="btn-default">Criar</button>
             </form>
         </div>
