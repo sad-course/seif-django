@@ -3,58 +3,70 @@
 {% block content %}
 
 <div class="flex flex-col gap-10 w-3/5 p-10 rounded-lg shadow-sm shadow-gray-800/25">
-    <h1 class="text-4xl font-bold text-center">Cadastro</h1>
-    <span class="text-center font-bold">Já tem conta? Faça seu
-        <a class="underline text-green-700"
-        href="{% url 'login' %}"
-        title="Clicando em login, você será redirecionado para a página de login do SEIF."
-        >
-        login
-    </a>
-    aqui!</span>
-    <div class="flex flex-col sm gap-4">
-        <div class="flex flex-col sm gap-2.5">
-            <label class="text-sm font-normal" for="nome">Nome:</label>
-            <input class="w-full rounded-lg bg-gray-200" type="text" name="name" id="name" placeholder="Fulano de Tal da Silva">
-        </div>
+    <form action="{% url 'signup' %}" method = "POST">
+        {% csrf_token %}
 
-        <div class="flex flex-col sm gap-2.5">
-            <label class="text-sm font-normal" for="email">E-mail:</label>
-            <input class="w-full rounded-lg bg-gray-200
-            disabled:bg-slate-50 disabled:text-slate-500 disabled:border-slate-200 disabled:shadow-none
-            invalid:border-red-500 invalid:text-red-600
-            focus:invalid:border-red-500 focus:invalid:ring-red-500"
-             type="text" name="email" id="email" placeholder="nome@example.com">
-        </div>
+        {% for field in form.fields %}
+            {% for error in field.errors %}
+                {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+        {% endfor %}
 
-        <div class="flex sm gap-5">
+        <h1 class="text-4xl font-bold text-center pt-4">Cadastro</h1>
+        <div class = "flex justify-center">
+            <span class="text-center font-bold">Já tem conta? Faça seu
+                <a class="underline text-green-700"
+                href="{% url 'login' %}"
+                title="Clicando em login, você será redirecionado para a página de login do SEIF."
+                >
+                    login
+                </a>
+                aqui!
+            </span>
+        </div>
+        <div class="flex flex-col sm gap-4">
             <div class="flex flex-col sm gap-2.5">
-                <label class="text-sm font-normal" for="cpf">CPF:</label>
-                <input class="w-full rounded-lg bg-gray-200" type="text" name="cpf" id="cpf" placeholder="XXX.XXX.XXX-XX">
+                <label class="text-sm font-normal" for="{{ form.name.id }}">Nome:</label>
+                {{form.name}}
             </div>
 
             <div class="flex flex-col sm gap-2.5">
-                <label class="text-sm font-normal" for="telefone">Telefone:</label>
-                <input class="w-full rounded-lg bg-gray-200" type="text" name="phone" id="phone" placeholder="(XX)XXXXX-XXXX">
+                <label class="text-sm font-normal" for="{{ form.email.id }}">E-mail:</label>
+                {{form.email}}
+            </div>
+
+            <div class="flex sm gap-5">
+                <div class="flex flex-col sm gap-2.5 w-full">
+                    <label class="text-sm font-normal" for="{{ form.cpf.id }}">CPF:</label>
+                    {{form.cpf}}
+                </div>
+
+                <div class="flex flex-col sm gap-2.5 w-full">
+                    <label class="text-sm font-normal" for="{{ form.phone.id }}">Telefone:</label>
+                    {{form.phone}}
+                </div>
+            </div>
+
+            <div class="flex sm gap-5">
+                <div class="flex flex-col sm gap-2.5 w-full">
+                    <label class="text-sm font-normal" for="{{ form.password.id }}">Senha:</label>
+                    {{form.password}}
+                </div>
+                <div class="flex flex-col sm gap-2.5 w-full">
+                    <label class="text-sm font-normal" for="{{ form.checkpassword.id }}"> Confirmar Senha:</label>
+                   {{form.checkPassword}}
             </div>
         </div>
 
-        <div class="flex sm gap-5">
-            <div class="flex flex-col sm gap-2.5">
-                <label class="text-sm font-normal" for="password">Senha:</label>
-                <input class="w-full rounded-lg bg-gray-200" type="password" name="password" id="password" placeholder="*********">
-            </div>
-            <div class="flex flex-col sm gap-2.5">
-                <label class="text-sm font-normal" for="checkPassword"> Confirmar Senha:</label>
-                <input class="w-full rounded-lg bg-gray-200" type="password" name="checkPassword" id="checkPassword" placeholder="*********">
-            </div>
+        </div>
+        <div class="flex sm justify-center pt-5">
+            <button type="submit" class="btn-default w-1/2 h-[58px]">Confirmar</button>
         </div>
 
-    </div>
-    <div class="flex sm justify-end">
-        <button type="submit" class="btn-default w-1/2 h-[58px]">Confirmar</button>
-    </div>
-
+    </form>
 </div>
 {% block script %}
     <script src="{% static 'js/mask.js' %}"></script>
