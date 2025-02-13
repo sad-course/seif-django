@@ -25,7 +25,9 @@ class Participant(AbstractUser):
 
 
 class Organizer(Participant):
-    organizer_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    organizer_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False
+    )
     events_managed = models.ManyToManyField(
         Event, related_name="organizer", verbose_name="Eventos gerenciados"
     )
@@ -35,14 +37,18 @@ class Organizer(Participant):
 
 
 class Administrator(Participant):
-    administrator_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    administrator_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False
+    )
 
     class Meta:
         verbose_name_plural = "Administradores"
 
 
 class AcademicIntern(Participant):
-    suap_intern_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    suap_intern_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False
+    )
     registration_number = models.CharField(verbose_name="registration_number")
     association_type = models.CharField(verbose_name="association_type")
 
