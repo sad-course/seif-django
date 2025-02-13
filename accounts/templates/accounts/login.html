@@ -2,42 +2,58 @@
 {% block content %}
 
 <div class="flex flex-col gap-10 w-1/2 p-10 rounded-lg shadow-sm shadow-gray-800/25">
-    <h1 class="text-4xl font-bold text-center">Login</h1>
-    <div class="flex flex-col sm gap-4">
-        <div class="flex flex-col sm gap-2.5">
-            <label class="text-sm font-normal" for="email">E-mail:</label>
-            <input class="w-full rounded-lg bg-gray-200" type="text" name="email" id="email" placeholder="nome@example.com">
-        </div>
+    <form action="{% url 'login' %}" method = "POST">
+        {% csrf_token %}
 
-        <div class="flex flex-col sm gap-2.5">
-            <label class="text-sm font-normal" for="password">Senha:</label>
-            <input class="w-full rounded-lg bg-gray-200" type="password" name="password" id="password" placeholder="*********">
-        </div>
+        {% for field in form.fields %}
+            {% for error in field.errors %}
+                {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+        {% endfor %}
 
-        <a href="{% url 'request_reset_password' %}">
-            <span class="text-sm text-green-400">Esqueceu sua senha?</span>
-        </a>
-    </div>
-    <div class="flex flex-col gap-2 ">
-        <button type="submit" class="self-center btn-default w-full h-[58px]">Confirmar</button>
-        <span class="self-center">ou</span>
-        <span class="self-center underline text-green-700">
-            <a href="https://suap.ifrn.edu.br"
-                title="Clique nesse link para logar com o SUAP"
-            >
-            Entre com o Suap
+        <h1 class="text-4xl font-bold text-center pt-4">Login</h1>
+        <div class="flex flex-col sm gap-4">
+
+            <div class="flex flex-col sm gap-2.5">
+                <label class="text-sm font-normal" for="{{ form.email.id }}">E-mail:</label>
+                {{ form.email }}
+            </div>
+
+            <div class="flex flex-col sm gap-2.5">
+                <label class="text-sm font-normal" for="{{ form.password.id }}">Senha:</label>
+                {{ form.password }}
+            </div>
+
+            <a href="{% url 'request_reset_password' %}">
+                <span class="text-sm text-green-400">Esqueceu sua senha?</span>
             </a>
-        </span>
+        </div>
+        <div class="flex flex-col gap-2 ">
+            <button type="submit" class="self-center btn-default w-full h-[58px]">Confirmar</button>
+            <span class="self-center">ou</span>
+            <span class="self-center underline text-green-700">
+                <a href="https://suap.ifrn.edu.br"
+                title="Clique nesse link para logar com o SUAP"
+                >
+                Entre com o Suap
+                </a>
+            </span>
 
-    </div>
-    <span class="text-center font-bold">Não tem conta? Faça seu
-        <a class="underline text-green-700"
-        href="{% url 'signup' %}"
-        title="Clicando em cadastro, você será redirecionado para a página de Cadastro do SEIF."
-        >
-        cadastro
-    </a>
-    aqui!</span>
+            <span class="text-center font-bold">
+                Não tem conta? Faça seu
+                <a class="underline text-green-700"
+                href="{% url 'signup' %}"
+                title="Clicando em cadastro, você será redirecionado para a página de Cadastro do SEIF."
+                >
+                cadastro
+            </a>
+                aqui!
+            </span>
+        </div>
+</form>
 </div>
 
 {% endblock %}

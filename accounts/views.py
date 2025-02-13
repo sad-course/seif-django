@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .forms import CreateUser
-from .models import Participant
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy
+from .forms import LoginForm, SignupForm
 
 # Create your views here.
 
@@ -11,27 +11,35 @@ def profile(request):
 
 
 def login(request):
-    context = {}
-    return render(request, "accounts/login.html", context=context)
+
+    if request.method == "GET":
+        form = LoginForm()
+        return render(request, "accounts/login.html", {"form": form})
+    form = LoginForm(request.POST)
+    if form.is_valid():
+        data = form.cleaned_data
+        email = data["email"]
+        password = data["password"]
+        user = {email, password}
+        return HttpResponse(user)
+
+    return render(request, "accounts/login.html", {"form": form})
 
 
 def signup(request):
     if request.method == "POST":
-        form = CreateUser(request.POST)
-        new_participant = Participant()
+        form = SignupForm(request.POST)
         if form.is_valid():
-            data = form.cleaned_data
-
-            new_participant.name = data["name"]
-            new_participant.email = data["email"]
-            new_participant.password = data["password"]
-            new_participant.phone = data["phone"]
-            new_participant.cpf = data["cpf"]
-
-            new_participant.save()
-            return HttpResponse("deu cecrto")
-
-    form = CreateUser()
+            # data = form.cleaned_data
+            # name = data["name"]
+            # email = data["email"]
+            # password = data["password"]
+            # phone = data["phone"]
+            # cpf = data["cpf"]
+            # aqui cria o usuario
+            return HttpResponseRedirect(reverse_lazy("login"))
+    else:
+        form = SignupForm()
     return render(request, "accounts/signup.html", {"form": form})
 
 
