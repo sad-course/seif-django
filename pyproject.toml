@@ -1,11 +1,12 @@
 [tool.pylint]
-max-line-length = "88"
+max-line-length = "100"
 disable = [
     "C0114",  # Missing module docstring
     "C0115",  # Missing class docstring
     "C0116",   # Missing function docstring
     "W0613",   # Unused argument 'kwargs'
 ]
+ignore-paths = [".*/migrations"]
 
 [tool.black]
 line-length = 88
