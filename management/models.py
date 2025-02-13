@@ -3,6 +3,8 @@ import uuid
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 
+from accounts.models import Participant
+
 
 # Create your models here.
 class Tag(models.Model):
@@ -25,7 +27,6 @@ class Event(models.Model):
         DRAFT = "draft", "Rascunho"
         APPROVED = "approved", "Aprovado"
 
-    event_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField("Título", max_length=150, blank=False, null=False)
     description = CKEditor5Field("Descrição", config_name="extends")
     init_date = models.DateTimeField("Início da atividade")
@@ -35,6 +36,7 @@ class Event(models.Model):
     )
     # banner = models.ImageField(upload_to="events/banners/", blank=True, null=True)
     tags = models.ManyToManyField(Tag)
+    organizers = models.ManyToManyField(Participant)
 
     class Meta:
         verbose_name_plural = "Eventos"
@@ -44,7 +46,6 @@ class Event(models.Model):
 
 
 class Activity(models.Model):
-    activity_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField("Título", max_length=150, blank=False, null=False)
     description = CKEditor5Field("Descrição", config_name="extends")
     init_date = models.DateTimeField("Início da atividade")
@@ -61,9 +62,6 @@ class Activity(models.Model):
 
 
 class Certificate(models.Model):
-    certificate_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False
-    )
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 

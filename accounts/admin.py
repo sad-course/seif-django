@@ -8,4 +8,4 @@ class ParticipantAdmin(admin.ModelAdmin):
     list_display = ["username", "email", "cpf", "phone"]
 
 
-admin.site.register(Participant)
+admin.site.register(Participant, ParticipantAdmin)

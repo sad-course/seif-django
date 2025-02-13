@@ -1,18 +1,14 @@
-import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from management.models import Event
 
 
 # Create your models here.
 class Participant(AbstractUser):
-    participant_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False
-    )
     username = models.CharField(verbose_name="username", max_length=150)
     email = models.EmailField(verbose_name="email", unique=True, max_length=170)
     cpf = models.CharField(verbose_name="cpf", max_length=11)
     phone = models.CharField(verbose_name="phone", max_length=16)
+    avatar = models.ImageField(upload_to="accounts/users/avatar")
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
@@ -24,31 +20,7 @@ class Participant(AbstractUser):
         return self.email
 
 
-class Organizer(Participant):
-    organizer_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False
-    )
-    events_managed = models.ManyToManyField(
-        Event, related_name="organizer", verbose_name="Eventos gerenciados"
-    )
-
-    class Meta:
-        verbose_name_plural = "Organizadores"
-
-
-class Administrator(Participant):
-    administrator_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False
-    )
-
-    class Meta:
-        verbose_name_plural = "Administradores"
-
-
 class AcademicIntern(Participant):
-    suap_intern_id = models.UUIDField(
-        primary_key=True, default=uuid.uuid4, editable=False
-    )
     registration_number = models.CharField(verbose_name="registration_number")
     association_type = models.CharField(verbose_name="association_type")
 
