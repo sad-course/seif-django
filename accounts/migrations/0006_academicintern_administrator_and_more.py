@@ -81,17 +81,6 @@ class Migration(migrations.Migration):
             name="participant",
             options={"verbose_name_plural": "Participantes"},
         ),
-        migrations.RemoveField(
-            model_name="participant",
-            name="id",
-        ),
-        migrations.AddField(
-            model_name="participant",
-            name="participant_id",
-            field=models.UUIDField(
-                default=uuid.uuid4, primary_key=True, serialize=False
-            ),
-        ),
         migrations.CreateModel(
             name="Organizer",
             fields=[
