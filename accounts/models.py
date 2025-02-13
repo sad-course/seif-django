@@ -6,7 +6,9 @@ from management.models import Event
 
 # Create your models here.
 class Participant(AbstractUser):
-    participant_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    participant_id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False
+    )
     username = models.CharField(verbose_name="username", max_length=150)
     email = models.EmailField(verbose_name="email", unique=True, max_length=170)
     cpf = models.CharField(verbose_name="cpf", max_length=11)
