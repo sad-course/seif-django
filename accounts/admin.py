@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Participant, Teste
-
+from .models import Participant
 
 # Register your models here.
-class TesteAdmin(admin.ModelAdmin):
-    list_display = ["username", "email", "cpf"]
 
 
-admin.site.register(Teste, TesteAdmin)
-admin.site.register(Participant)
+class ParticipantAdmin(admin.ModelAdmin):
+    list_display = ["username", "email", "cpf", "phone"]
+
+
+admin.site.register(Participant, ParticipantAdmin)
