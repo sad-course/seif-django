@@ -2,7 +2,7 @@
 {% load svg  %}
 {% load static %}
 
-<html lang="pt-br">
+<html lang="pt-br" class = "h-full">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
     {% tailwind_css %}
     <title>SEIF</title>
 </head>
-<body class = "bg-gray-200 flex w-full relative">
+<body class = "bg-gray-200 h-full m-0 p-0 flex w-full relative">
 
         <!--Menu hamburger-->
         <div id = "hamburger-menu" class = "px-11 pt-9 absolute cursor-pointer md-screen:hidden z-50">
@@ -22,8 +22,6 @@
         </div>
 
         <aside class = "bg-gray-50 absolute hidden h-full w-[300px] z-40 pt-14 pl-4 md-screen:pt-0 md-screen:pl-0 md-screen:block md-screen:relative">
-
-
 
             <div class = "px-7 py-9 font-medium text-xl text-green-900 ">
 
@@ -49,7 +47,7 @@
             </div>
         </aside>
 
-        <main class = "max-w-[1440px] mx-11 mt-5 w-full flex flex-col ">
+        <main class = "max-w-[1440px] mx-11 mt-5 w-full h-full min-h-screen flex flex-col overflow-y-auto">
             {% block content %}
             {% endblock %}
         </main>
