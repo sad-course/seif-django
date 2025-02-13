@@ -211,8 +211,8 @@ class ActivityForm(forms.Form):
         max_length=200,
         widget=forms.TextInput(
             attrs={
-                "class": "w-full border rounded px-3 py-2 \
-                    focus:outline-none focus:ring focus:border-green-800",
+                "class": "mt-1 block w-full rounded-md border-gray-300 \
+                    shadow-sm focus:border-green-500 focus:ring-green-500",
                 "placeholder": "Título da atividade",
             }
         ),
@@ -220,57 +220,60 @@ class ActivityForm(forms.Form):
     descricao = forms.CharField(
         widget=forms.Textarea(
             attrs={
-                "class": "w-full border rounded px-3 py-2 focus:outline-none \
-                    focus:ring focus:border-green-800",
+                "class": "mt-1 block w-full rounded-md border-gray-300 \
+                    shadow-sm focus:border-green-500 focus:ring-green-500",
                 "rows": 4,
                 "placeholder": "Descrição da atividade",
             }
-        )
+        ),
     )
     inicio = forms.DateField(
         widget=forms.DateInput(
             attrs={
                 "type": "date",
-                "class": "w-full border rounded px-3 py-2 focus:outline-none \
-                    focus:ring focus:border-green-800",
+                "class": "mt-1 block w-full text-gray-400 rounded-md \
+                    border-gray-300 shadow-sm focus:border-green-500 \
+                        focus:ring-green-500",
             }
-        )
+        ),
     )
     fim = forms.DateField(
         widget=forms.DateInput(
             attrs={
                 "type": "date",
-                "class": "w-full border rounded px-3 py-2 focus:outline-none \
-                    focus:ring focus:border-green-800",
+                "class": "mt-1 block w-full text-gray-400 rounded-md \
+                    border-gray-300 shadow-sm focus:border-green-500 \
+                        focus:ring-green-500",
             }
-        )
+        ),
     )
     horario_inicio = forms.TimeField(
         widget=forms.TimeInput(
             attrs={
                 "type": "time",
-                "class": "w-full border rounded px-3 py-2 focus:outline-none \
-                    focus:ring focus:border-green-800",
+                "class": "mt-1 block w-full text-gray-400 rounded-md \
+                    border-gray-300 shadow-sm focus:border-green-500 \
+                        focus:ring-green-500",
             }
-        )
+        ),
     )
     tipo = forms.ChoiceField(
         choices=[("", "Selecione"), ("opcao1", "Opção 1"), ("opcao2", "Opção 2")],
         widget=forms.Select(
             attrs={
-                "class": "w-full border rounded px-3 py-2 focus:outline-none \
-                    focus:ring focus:border-green-800"
+                "class": "mt-1 block w-full text-gray-400 rounded-md \
+                    border-gray-300 shadow-sm focus:border-green-500 \
+                        focus:ring-green-500",
             }
         ),
     )
     responsaveis = forms.MultipleChoiceField(
-        choices=[
-            ("1", "Fulano da Silva")
-        ],  # Substituir por dados dinâmicos se necessário
+        choices=[("1", "Fulano da Silva")],
         widget=forms.SelectMultiple(
             attrs={
-                "class": "w-full border rounded px-3 py-2 focus:outline-none \
-                    focus:ring focus:border-green-800 h-[42px]"
+                "class": "mt-1 block w-full h-full text-gray-400 rounded-md \
+                    border-gray-300 shadow-sm focus:border-green-500 \
+                        focus:ring-green-500 text-gray",
             }
         ),
     )
@@ -278,8 +281,8 @@ class ActivityForm(forms.Form):
         max_length=50,
         widget=forms.TextInput(
             attrs={
-                "class": "w-full border rounded px-3 py-2 focus:outline-none \
-                    focus:ring focus:border-green-800",
+                "class": "mt-1 block w-full rounded-md border-gray-300 \
+                    shadow-sm focus:border-green-500 focus:ring-green-500",
                 "placeholder": "X horas",
             }
         ),
@@ -288,14 +291,16 @@ class ActivityForm(forms.Form):
     def clean_inicio(self):
         inicio = self.cleaned_data["inicio"]
         if inicio < datetime.date.today():
-            raise ValidationError("A data de início não pode ser anterior a hoje.")
+            raise forms.ValidationError(
+                "A data de início não pode ser anterior a hoje."
+            )
         return inicio
 
     def clean_fim(self):
         fim = self.cleaned_data["fim"]
         inicio = self.cleaned_data.get("inicio")
         if inicio and fim < inicio:
-            raise ValidationError(
+            raise forms.ValidationError(
                 "A data de fim não pode ser anterior à data de início."
             )
         return fim

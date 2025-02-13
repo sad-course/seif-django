@@ -116,34 +116,63 @@
 </div>
 
 <!-- Modal de criar atividade (mantém a estilização original) -->
-<div id="activity-modal" class="hidden">
-    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-gray-200 w-11/12 sm:w-[90%] max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg shadow-lg p-6">
-            <h2 class="text-lg font-bold mb-4 text-gray-600">Criando Atividade</h2>
-            <form id="activity-form" method="post">
-                {% csrf_token %}
-                {{ activity_formset.as_p }}
-                    <div class="mb-4">
-                        <label for="{{ form.titulo.id_for_label }}" class="block text-gray-600 font-bold mb-2">Título</label>
-                        {{ form.titulo }}
-                    </div>
-                    <div class="mb-4">
-                        <label for="{{ form.descricao.id_for_label }}" class="block text-gray-600 font-bold mb-2">Descrição</label>
-                        {{ form.descricao }}
-                    </div>
-                    <div class="flex gap-4">
-                        <div>{{ form.inicio }}</div>
-                        <div>{{ form.fim }}</div>
-                        <div>{{ form.horario_inicio }}</div>
-                        <div>{{ form.tipo }}</div>
-                    </div>
-                    <div>{{ form.responsaveis }}</div>
-                    <div>{{ form.horas_previstas }}</div>
-                <button type="submit" class="btn-default">Criar</button>
-            </form>
-        </div>
+<div id="activity-modal" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
+    <div class="bg-white w-full max-w-2xl p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl font-bold mb-4 text-gray-700">Criando atividade</h2>
+        <form id="activity-form" method="post" class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label class="block text-gray-600 font-medium">Título</label>
+                {{ activity_form.titulo }}
+            </div>
+
+            <div>
+                <label class="block text-gray-600 font-medium">Descrição</label>
+                {{ activity_form.descricao }}
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block text-gray-600 font-medium">Início</label>
+                    {{ activity_form.inicio }}
+                </div>
+                <div>
+                    <label class="block text-gray-600 font-medium">Fim</label>
+                    {{ activity_form.fim }}
+                </div>
+                <div>
+                    <label class="block text-gray-600 font-medium">Horário de início</label>
+                    {{ activity_form.horario_inicio }}
+                </div>
+                <div>
+                    <label class="block text-gray-600 font-medium">Tipo</label>
+                    {{ activity_form.tipo }}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="h-10">
+                    <label class="block text-gray-600 font-medium">Responsável(s)</label>
+                    {{ activity_form.responsaveis }}
+                </div>
+
+                <div>
+                    <label class="block text-gray-600 font-medium">Horas previstas</label>
+                    {{ activity_form.horas_previstas }}
+                </div>
+            </div>
+
+            <div class="flex justify-end pt-24">
+                <button type="submit" class="btn-default">
+                    Criar
+                </button>
+            </div>
+        </form>
     </div>
 </div>
+
+
 
 
 {% endblock %}
