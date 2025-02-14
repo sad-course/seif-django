@@ -54,20 +54,22 @@
                         </ul>
                     </div>
 
-                    <!---->
-                    <div class = "flex items-center gap-2 cursor-pointer">
-                        <a href="{% url 'home' %}">
-                            <span>Sair</span>
-                        </a>
-                        {% svg 'logout'%}
-                    </div>
-                    <!---->
+                    {% if request.user.is_authenticated %}
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <div class = "flex items-center gap-2 cursor-pointer">
+                                <button type="submit">
+                                    <span>Sair</span>
+                                </button>
+                                {% svg 'logout'%}
+                            </div>
+                        </form>
 
-                    <!-- Botão do aparece quando o usuário NÃO está logado-->
-                    <button class = "hidden min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
-                        Entrar
-                    </button>
-                    <!---->
+                    {% else %}
+                        <a href="{% url 'login' %}" class = "min-w-44 h-[55px] bg-green-400 border-none items-center rounded-md text-gray-100  hover:bg-green-700">
+                            Entrar
+                        </a>
+                    {% endif %}
                 </div>
             </nav>
 
@@ -109,7 +111,7 @@
                         </ul>
 
                         <!-- Botão so aparece quando o usuário NÃO está logado-->
-                        <button class = "hidden min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
+                        <button class = "min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
                             Entrar
                         </button>
                         <!---->
