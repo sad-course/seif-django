@@ -1,6 +1,5 @@
 from django import forms
-
-# from django.core.validators import ValidationError
+from django.core.validators import ValidationError
 
 
 class LoginForm(forms.Form):
@@ -75,11 +74,8 @@ class SignupForm(forms.Form):
             {"class": "w-full rounded-lg bg-gray-200"}
         )
 
-    # def clean_password(self):
-    #     password = self.cleaned_data.get('password')
-    #     checkPassword = self.cleaned_data.get('checkPassword')
-    #     print('p', password)
-    #     print('p2', checkPassword)
-    #     if password != checkPassword:
-    #         raise ValidationError("Senhas não coincidem")
-    #     return password
+    def clean(self):
+        password = self.cleaned_data.get("password")
+        check_password = self.cleaned_data.get("checkPassword")
+        if password != check_password:
+            raise ValidationError("Senhas não coincidem")
