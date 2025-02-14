@@ -1,5 +1,7 @@
 from django import forms
 
+# from django.core.validators import ValidationError
+
 
 class LoginForm(forms.Form):
     email = forms.CharField(
@@ -72,3 +74,12 @@ class SignupForm(forms.Form):
         self.fields["cpf"].widget.attrs.update(
             {"class": "w-full rounded-lg bg-gray-200"}
         )
+
+    # def clean_password(self):
+    #     password = self.cleaned_data.get('password')
+    #     checkPassword = self.cleaned_data.get('checkPassword')
+    #     print('p', password)
+    #     print('p2', checkPassword)
+    #     if password != checkPassword:
+    #         raise ValidationError("Senhas não coincidem")
+    #     return password

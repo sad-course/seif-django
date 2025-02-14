@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import FormView
+from django.contrib.auth import login, authenticate
 from django.urls import reverse_lazy
 from .forms import LoginForm, SignupForm
+from .models import Participant
 
 # Create your views here.
 
@@ -10,37 +12,52 @@ def profile(request):
     return render(request, "accounts/profile.html")
 
 
-def login(request):
+class SignIn(FormView):
+    template_name = "accounts/login.html"
+    form_class = LoginForm
+    success_url = reverse_lazy("home")
 
-    if request.method == "GET":
-        form = LoginForm()
-        return render(request, "accounts/login.html", {"form": form})
-    form = LoginForm(request.POST)
-    if form.is_valid():
+    def form_valid(self, form):
         data = form.cleaned_data
         email = data["email"]
         password = data["password"]
-        user = {email, password}
-        return HttpResponse(user)
 
-    return render(request, "accounts/login.html", {"form": form})
+        user = authenticate(self.request, email=email, password=password)
+        if user is None:
+            form.add_error(None, "Email ou senha incorreta")
+            return self.form_invalid(form)
+
+        login(self.request, user)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
 
-def signup(request):
-    if request.method == "POST":
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            # data = form.cleaned_data
-            # name = data["name"]
-            # email = data["email"]
-            # password = data["password"]
-            # phone = data["phone"]
-            # cpf = data["cpf"]
-            # aqui cria o usuario
-            return HttpResponseRedirect(reverse_lazy("login"))
-    else:
-        form = SignupForm()
-    return render(request, "accounts/signup.html", {"form": form})
+class SignUp(FormView):
+    template_name = "accounts/signup.html"
+    form_class = SignupForm
+    success_url = reverse_lazy("login")
+
+    def form_valid(self, form):
+        user = Participant()
+        data = form.cleaned_data
+        user.username = data["name"]
+        user.email = data["email"]
+        user.phone = data["phone"]
+        user.cpf = data["cpf"]
+        user.set_password(data["password"])
+
+        already_exists_user = Participant.objects.filter(email=user.email).exists()
+        if already_exists_user:
+            form.add_error(None, "Email já cadastrado")
+            return self.form_invalid(form)
+
+        user.save()
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return self.render_to_response(self.get_context_data(form=form))
 
 
 def request_reset_password(request):

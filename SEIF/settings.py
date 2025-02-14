@@ -180,7 +180,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom admin user
 AUTH_USER_MODEL = "accounts.Participant"
+AUTHENTICATION_BACKENDS = [
+    "accounts.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
 
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
 
 sentry_sdk.init(
     dsn="https://2d35e61739e25ec7bdf5d035f80f0d32@o4504842400628736.ingest.us.sentry.io/\
