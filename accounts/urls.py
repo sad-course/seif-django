@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     SignIn,
     SignUp,
-    profile,
+    Profile,
     reset_password,
     request_reset_password,
     my_certificates,
@@ -12,7 +12,7 @@ from .views import (
 urlpatterns = [
     path("login/", SignIn.as_view(), name="login"),
     path("signup/", SignUp.as_view(), name="signup"),
-    path("profile/", profile, name="profile"),
+    path("profile/", Profile.as_view(), name="profile"),
     path(
         "request_reset_password/", request_reset_password, name="request_reset_password"
     ),

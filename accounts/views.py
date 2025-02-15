@@ -1,31 +1,36 @@
 from django.shortcuts import render, redirect
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from core.models import EventSubscritption
 from .forms import LoginForm, SignupForm
 from .models import Participant
 
+
 # Create your views here.
+@method_decorator(login_required, name="dispatch")
+class Profile(TemplateView):
+    def get(self, *args, **kwargs):
+        participant = self.request.user
+        event_subscriptions = EventSubscritption.objects.filter(
+            participant=participant
+        ).count()
 
+        user_event_subs = {
+            "event_count": event_subscriptions,
+        }
+        return render(self.request, "accounts/profile.html", context=user_event_subs)
 
-@login_required
-def profile(request):
-    participant = request.user
-    if request.method == "POST" and request.FILES.get("photo"):
-        participant.avatar = request.FILES["photo"]
-        participant.save()
-        return redirect("profile")
+    def post(self, *args, **kwargs):
+        if self.request.FILES.get("photo"):
+            participant = self.request.user
+            participant.avatar = self.request.FILES["photo"]
+            participant.save()
+            return redirect("profile")
 
-    event_subscriptions = EventSubscritption.objects.filter(
-        participant=participant
-    ).count()
-
-    user_event_subs = {
-        "event_count": event_subscriptions,
-    }
-    return render(request, "accounts/profile.html", context=user_event_subs)
+        return self.get(self.request, *args, **kwargs)
 
 
 class SignIn(FormView):
