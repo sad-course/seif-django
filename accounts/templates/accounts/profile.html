@@ -5,15 +5,33 @@
 {% block content %}
 <div class="flex gap-10 w-full p-10 flex-wrap lg:flex-nowrap ">
     <div class="flex flex-col gap-8 sm:w-full lg:w-1/2 p-10 rounded-lg shadow-lg shadow-gray-800/25">
+        {% if user.is_authenticated %}
         <div class="flex items-center gap-2">
-            {% svg 'edit-profile-pic' class='' %}
-            <span class="text-xl font-medium">Nome do fulano de Tal da Silva</span>
+            <form action="{% url 'profile' %}" method = "POST" enctype="multipart/form-data" id = "upload-form">
+                {% csrf_token %}
+                <input type="file" name="photo" accept="image/*" class="hidden" id="photo-upload">
+                <label for="photo-upload" class = "cursor-pointer">
+                    {% svg 'edit-profile-pic' class='' %}
+                </label>
+                <button type="submit" class = "hidden">Upload</button>
+            </form>
+
+            <span class="text-xl font-medium">{{user.username}}</span>
         </div>
 
         <div class="flex flex-col gap-5">
-            <span><b>Participei de:</b> 10 Eventos</span>
-            <span><b>Tenho:</b> 3 Certificados </span>
+            <span><b>Participei de:</b>
+                {% if event_count > 0 %}
+                    {{ event_count }} Eventos
+                {% else %}
+                    0 eventos
+                {% endif %}
+            </span>
+            <span><b>Tenho:</b>
+                    0 certificados
+            </span>
         </div>
+        {% endif %}
         <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPersonalData">Modificar Dados</button>
         <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPassword">Modificar Senha</button>
 

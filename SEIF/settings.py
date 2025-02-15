@@ -169,6 +169,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "management/static"),
 ]
 
+# media
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 CKEDITOR_5_CONFIGS = ckeditor_config.CKEDITOR_5_CONFIGS
 CKEDITOR_5_FILE_UPLOAD_PERMISSION = ckeditor_config.CKEDITOR_5_FILE_UPLOAD_PERMISSION
 CKEDITOR_5_CUSTOM_CSS = ckeditor_config.CKEDITOR_5_CUSTOM_CSS

@@ -1,15 +1,31 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import FormView
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
+from core.models import EventSubscritption
 from .forms import LoginForm, SignupForm
 from .models import Participant
 
 # Create your views here.
 
 
+@login_required
 def profile(request):
-    return render(request, "accounts/profile.html")
+    participant = request.user
+    if request.method == "POST" and request.FILES.get("photo"):
+        participant.avatar = request.FILES["photo"]
+        participant.save()
+        return redirect("profile")
+
+    event_subscriptions = EventSubscritption.objects.filter(
+        participant=participant
+    ).count()
+
+    user_event_subs = {
+        "event_count": event_subscriptions,
+    }
+    return render(request, "accounts/profile.html", context=user_event_subs)
 
 
 class SignIn(FormView):

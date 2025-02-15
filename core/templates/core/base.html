@@ -32,9 +32,19 @@
             {% if user.is_authenticated %}
                 <div class = "flex items-center gap-12 relative">
                     <!-- Esses elementos so irão aparecer quando o usuário estiver logado-->
+                    {% if user.avatar %}
                     <div id = "user-icon" class = "cursor-pointer">
-                        {% svg 'account-icon' %}
+                        <img
+                            src="{{ user.avatar.url }}"
+                            alt="Foto de usuario"
+                            class = "rounded-full h-10 w-10 object-cover"
+                        >
                     </div>
+                    {% else%}
+                        <div id = "user-icon" class = "cursor-pointer">
+                            {% svg 'account-icon' %}
+                        </div>
+                    {% endif %}
 
                     <!-- Dropdown menu -->
                     <div id = "menu-dropdown" class = "hidden absolute z-50 top-0 mt-12 right-32 bg-gray-200 rounded-lg w-64 min-h-48 py-6 px-3">
