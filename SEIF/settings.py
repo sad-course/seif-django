@@ -27,6 +27,14 @@ SEIF_ENV_OPTIONS = {"development": ".env.dev", "production": ".env.prod"}
 # Configuring environment variables
 dotenv.load_dotenv(".env")
 SEIF_ENV = os.getenv("SEIF_ENV", "default")
+
+# Load general variables for SOCIAL AUTH
+SOCIAL_AUTH_SUAP_KEY = os.getenv("SOCIAL_AUTH_SUAP_KEY")
+SOCIAL_AUTH_SUAP_SECRET = os.getenv("SOCIAL_AUTH_SUAP_SECRET")
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+
 ENV_VARS_FILE = SEIF_ENV_OPTIONS.get(SEIF_ENV, ".env")
 
 env_path = dotenv.find_dotenv(ENV_VARS_FILE)
@@ -207,12 +215,6 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
 )
 
-
-SOCIAL_AUTH_SUAP_KEY = os.getenv("SOCIAL_AUTH_SUAP_KEY")
-SOCIAL_AUTH_SUAP_SECRET = os.getenv("SOCIAL_AUTH_SUAP_SECRET")
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
 
 sentry_sdk.init(
     dsn="https://2d35e61739e25ec7bdf5d035f80f0d32@o4504842400628736.ingest.us.sentry.io/\
