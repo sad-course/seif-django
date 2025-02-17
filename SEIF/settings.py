@@ -183,6 +183,10 @@ STATICFILES_DIRS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# media
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 CKEDITOR_5_CONFIGS = ckeditor_config.CKEDITOR_5_CONFIGS
 CKEDITOR_5_FILE_UPLOAD_PERMISSION = ckeditor_config.CKEDITOR_5_FILE_UPLOAD_PERMISSION
 CKEDITOR_5_CUSTOM_CSS = ckeditor_config.CKEDITOR_5_CUSTOM_CSS
@@ -194,7 +198,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Custom admin user
 AUTH_USER_MODEL = "accounts.Participant"
-LOGOUT_REDIRECT_URL = "home"
 
 SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.social_details",
@@ -212,9 +215,12 @@ SOCIAL_AUTH_PIPELINE = (
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.google.GoogleOAuth2",
     "suap.backends.SuapOAuth2",
+    "accounts.backends.EmailBackend",
     "django.contrib.auth.backends.ModelBackend",
 )
 
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
 
 sentry_sdk.init(
     dsn="https://2d35e61739e25ec7bdf5d035f80f0d32@o4504842400628736.ingest.us.sentry.io/\
