@@ -30,11 +30,6 @@ class SuapOAuth2(BaseOAuth2):
         #     url=self.EXTRA_USER_DATA_URL, method=method, headers=headers
         # ).json()
 
-        # with open(
-        #     f"user_data_{response.get('identificacao')}.json", "w"
-        # ) as user_data_suap:
-        #     user_data_suap.write(json.dumps(response))
-
         return response
 
     def get_user_details(self, response):

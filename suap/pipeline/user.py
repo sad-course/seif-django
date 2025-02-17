@@ -1,3 +1,4 @@
+from social_core.pipeline.user import USER_FIELDS
 from accounts.models import AcademicIntern
 
 
@@ -7,22 +8,28 @@ def save_suap_user(strategy, details, response, backend, *args, **kwargs):
 
     if backend.name == "suap":
         suap_id = response.get("identificacao")
-        email = response.get("email")
-        first_name, last_name = (
-            response["nome"].split()[0],
-            response["nome"].split()[-1],
-        )
+        user_type = response.get("tipo_usuario")
 
-        # Save to SuapUser model
-        user, __ = AcademicIntern.objects.get_or_create(
+        fields = {
+            name: kwargs.get(name, details.get(name))
+            for name in backend.setting("USER_FIELDS", USER_FIELDS)
+        }
+        if not fields:
+            return None
+
+        if backend.setting("FORCE_EMAIL_LOWERCASE", False):
+            emailfield = fields.get("email")
+            if emailfield:
+                fields["email"] = emailfield.lower()
+
+        user, created = AcademicIntern.objects.get_or_create(
             registration_number=suap_id,
-            defaults={
-                "username": first_name,
-                "email": email,
-                "first_name": first_name,
-                "last_name": last_name,
-            },
+            association_type=user_type,
+            defaults={**fields},
         )
-        return {"suap_user": user}
+        if created:
+            return {"is_new": False}
+
+        return {"is_new": True, "user": user}
 
     return {}
