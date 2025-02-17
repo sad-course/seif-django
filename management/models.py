@@ -31,6 +31,7 @@ class Event(models.Model):
     description = CKEditor5Field("Descrição", config_name="extends")
     init_date = models.DateTimeField("Início da atividade")
     end_date = models.DateTimeField("Fim da atividade")
+    campus = models.CharField(max_length=50, blank=False, null=False)
     status = models.CharField(
         "", max_length=50, choices=EventStatus.choices, default=EventStatus.DRAFT
     )
