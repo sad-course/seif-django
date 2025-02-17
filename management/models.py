@@ -53,6 +53,7 @@ class Activity(models.Model):
     instructor = models.CharField("Monitor", max_length=150)
     estimated_duration = models.DurationField(default=timedelta(hours=0))
     event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="Evento")
+    is_active = models.BooleanField(verbose_name="Ativo", default=True)
 
     class Meta:
         verbose_name_plural = "Atividades"
