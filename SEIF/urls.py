@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path("ckeditor5/", include("django_ckeditor_5.urls")),
+    path("", include("social_django.urls"), name="social"),
     path("admin/", admin.site.urls),
     path("", include("core.urls")),
     path("accounts/", include("accounts.urls")),
