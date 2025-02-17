@@ -34,11 +34,18 @@ class Event(models.Model):
     status = models.CharField(
         "", max_length=50, choices=EventStatus.choices, default=EventStatus.DRAFT
     )
-    # banner = models.ImageField(upload_to="events/banners/", blank=True, null=True)
-    tags = models.ManyToManyField(Tag)
-    organizers = models.ManyToManyField(Participant)
+    banner = models.ImageField(
+        "Banner",
+        upload_to="events/banners/",
+        default="/static/images/event-banner-default.png",
+    )
+    tags = models.ManyToManyField(to=Tag, verbose_name="Tags")
+    organizers = models.ManyToManyField(to=Participant, verbose_name="Organizadores")
     created_by = models.ForeignKey(
-        Participant, on_delete=models.CASCADE, related_name="events_managed"
+        to=Participant,
+        on_delete=models.CASCADE,
+        related_name="events_managed",
+        verbose_name="Criado por",
     )
 
     class Meta:
