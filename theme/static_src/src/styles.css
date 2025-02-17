@@ -10,7 +10,6 @@ body, html, main{
     html{
         font-size: 80.5%;
     }
-
 }
 @layer components {
     .aside-full-left-width {
@@ -49,13 +48,13 @@ body, html, main{
         @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-red-200-opacity-50 text-red-400 font-semibold;
     }
     .badge-default{
-        @apply p-4 flex justify-center gap-3 border rounded-3xl bg-blue-600 text-gray-100;;
+        @apply p-4 flex justify-center items-center gap-3 border rounded-3xl bg-blue-600 text-gray-100;;
     }
     .badge-success{
-        @apply p-4 flex justify-center gap-3 border rounded-3xl bg-green-800 text-gray-100;
+        @apply p-4 flex justify-center items-center gap-3 border rounded-3xl bg-green-800 text-gray-100;
     }
     .badge-warning{
-        @apply p-4 flex justify-center gap-3 border rounded-3xl bg-red-500 text-gray-100;
+        @apply p-4 flex justify-center items-center gap-3 border rounded-3xl bg-red-500 text-gray-100;
     }
     .btn-default{
         @apply w-[190px] min-h-14 bg-green-400 text-center rounded-md text-base font-semibold text-gray-100 hover:bg-green-600;
