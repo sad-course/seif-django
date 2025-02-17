@@ -29,11 +29,22 @@
                     <li><a href = "{% url 'request_create_event' %}">Publique um evento</a></li>
                 </ul>
 
+            {% if user.is_authenticated %}
                 <div class = "flex items-center gap-12 relative">
                     <!-- Esses elementos so irão aparecer quando o usuário estiver logado-->
+                    {% if user.avatar %}
                     <div id = "user-icon" class = "cursor-pointer">
-                        {% svg 'account-icon' %}
+                        <img
+                            src="{{ user.avatar.url }}"
+                            alt="Foto de usuario"
+                            class = "rounded-full h-10 w-10 object-cover"
+                        >
                     </div>
+                    {% else%}
+                        <div id = "user-icon" class = "cursor-pointer">
+                            {% svg 'account-icon' %}
+                        </div>
+                    {% endif %}
 
                     <!-- Dropdown menu -->
                     <div id = "menu-dropdown" class = "hidden absolute z-50 top-0 mt-12 right-32 bg-gray-200 rounded-lg w-64 min-h-48 py-6 px-3">
@@ -51,20 +62,22 @@
                     </div>
 
                     <!---->
+
                     <div class = "flex items-center gap-2 cursor-pointer">
                         <a href="{% url 'home' %}">
                             <span>Sair</span>
                         </a>
                         {% svg 'logout'%}
                     </div>
-                    <!---->
 
+            {% else %}
                     <!-- Botão do aparece quando o usuário NÃO está logado-->
-                     <a href="{% url 'login' %}">
-                        <button class = " min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
-                            Entrar
-                        </button>
-                    </a>
+                        <a
+                            href="{% url 'login' %}"
+                            class = " min-w-44 h-[55px] flex justify-center items-center bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
+                                Entrar
+                        </a>
+                    {% endif %}
                     <!---->
                 </div>
             </nav>
@@ -101,12 +114,6 @@
                                 </div>
                             </li>
                         </ul>
-
-                        <!-- Botão so aparece quando o usuário NÃO está logado-->
-                        <button class = "hidden min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
-                            Entrar
-                        </button>
-                        <!---->
                     </div>
                 </div>
             </div>
