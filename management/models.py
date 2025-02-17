@@ -37,7 +37,9 @@ class Event(models.Model):
     # banner = models.ImageField(upload_to="events/banners/", blank=True, null=True)
     tags = models.ManyToManyField(Tag)
     organizers = models.ManyToManyField(Participant)
-    created_by = models.ForeignKey(Participant, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        Participant, on_delete=models.CASCADE, related_name="events_managed"
+    )
 
     class Meta:
         verbose_name_plural = "Eventos"
