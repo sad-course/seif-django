@@ -78,14 +78,15 @@
                                 {% for tag in event.tags.all %}
                                     <div class = "tag-default">{{ tag.name }}</div>
                                 {% endfor %}
-                                <div class = "tag-default">{{ event.get_status_display }}</div>
+                                <div class = {% if event.get_status_display == "Ativo" %}"tag-default"{%else%}"tag-finished"{%endif%}>
+                                    {{ event.get_status_display }}</div>
                             </div>
 
                             <!--infoa-->
                             <div class = "flex flex-col py-5 font-semibold text-gray-300">
                                 <h3 class = "font-bold text-2xl text-black">{{event.title}}</h3>
                                 <span clas = "">Campus Pau dos ferros</span>
-                                <span>{{event.init_date}} ate {{event.end_date}}</span>
+                                <span>{{event.init_date|date:"d/m/Y"}} ate {{event.end_date|date:"d/m/Y"}}</span>
                             </div>
 
                             <div class = "flex justify-end">
