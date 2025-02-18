@@ -13,6 +13,7 @@ class TagAdmin(admin.ModelAdmin):
 
 class EventAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "title",
         "init_date",
         "end_date",
