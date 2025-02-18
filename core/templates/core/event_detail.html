@@ -35,8 +35,8 @@
 
                 <div class = "flex flex-col gap-4 py-6  text-base text-gray-400 font-semibold">
                     <span>Campus Pau dos Ferros</span>
-                    <span>INICIO: </br> {{event.init_date}}</span>
-                    <span>FIM: </br> {{event.end_date}}</span>
+                    <span>INICIO: </br> {{event.init_date|date:"d/m/Y"}}</span>
+                    <span>FIM: </br> {{event.end_date|date:"d/m/Y"}}</span>
                 </div>
 
                 <p class = "text-base text-justify w-full">
@@ -60,7 +60,7 @@
             <div class = "card-activity">
                 <div class = "flex flex-col text-base font-semibold text-gray-400">
                     <h3 class = "font-bold text-2xl text-gray-600">{{activity.title}}</h3>
-                    <span>{{activity.init_date}}</span>
+                    <span>{{activity.init_date|date:"d/m/Y"}}</span>
                     <span>Ministrada por: {{activity.instructor}}</span>
 
                     <p class = "font-normal text-gray-600 pt-4">{{activity.description|striptags}}</p>

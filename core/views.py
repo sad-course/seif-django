@@ -3,6 +3,9 @@ from .models import Event
 from .filters import EventFilter
 
 
+filtered_choices = Event.EventStatus.choices[1], Event.EventStatus.choices[2]
+
+
 # Create your views here.
 class Index(ListView):
     model = Event
@@ -20,7 +23,7 @@ class Index(ListView):
         context = super().get_context_data(**kwargs)
 
         context["filter"] = EventFilter(self.request.GET, queryset=self.get_queryset())
-        context["status_choices"] = Event.EventStatus.choices
+        context["status_choices"] = filtered_choices
         return context
 
 

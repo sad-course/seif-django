@@ -85,7 +85,7 @@
                             <div class = "flex flex-col py-5 font-semibold text-gray-300">
                                 <h3 class = "font-bold text-2xl text-black">{{event.title}}</h3>
                                 <span clas = "">Campus Pau dos ferros</span>
-                                <span>{{event.init_date}} ate {{event.end_date}}</span>
+                                <span>{{event.init_date|date:"d/m/Y"}} ate {{event.end_date|date:"d/m/Y"}}</span>
                             </div>
 
                             <div class = "flex justify-end">
