@@ -29,15 +29,22 @@
                     <li><a href = "{% url 'request_create_event' %}">Publique um evento</a></li>
                 </ul>
 
+            {% if user.is_authenticated %}
                 <div class = "flex items-center gap-12 relative">
                     <!-- Esses elementos so irão aparecer quando o usuário estiver logado-->
-                    <div class = "cursor-pointer">
-                        {% svg 'notifications_unread' %}
-                    </div>
-
+                    {% if user.avatar %}
                     <div id = "user-icon" class = "cursor-pointer">
-                        {% svg 'account-icon' %}
+                        <img
+                            src="{{ user.avatar.url }}"
+                            alt="Foto de usuario"
+                            class = "rounded-full h-10 w-10 object-cover"
+                        >
                     </div>
+                    {% else%}
+                        <div id = "user-icon" class = "cursor-pointer">
+                            {% svg 'account-icon' %}
+                        </div>
+                    {% endif %}
 
                     <!-- Dropdown menu -->
                     <div id = "menu-dropdown" class = "hidden absolute z-50 top-0 mt-12 right-32 bg-gray-200 rounded-lg w-64 min-h-48 py-6 px-3">
@@ -55,18 +62,22 @@
                     </div>
 
                     <!---->
+
                     <div class = "flex items-center gap-2 cursor-pointer">
                         <a href="{% url 'home' %}">
                             <span>Sair</span>
                         </a>
                         {% svg 'logout'%}
                     </div>
-                    <!---->
 
+            {% else %}
                     <!-- Botão do aparece quando o usuário NÃO está logado-->
-                    <button class = "hidden min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
-                        Entrar
-                    </button>
+                        <a
+                            href="{% url 'login' %}"
+                            class = " min-w-44 h-[55px] flex justify-center items-center bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
+                                Entrar
+                        </a>
+                    {% endif %}
                     <!---->
                 </div>
             </nav>
@@ -95,10 +106,6 @@
 
                         <ul class = "flex flex-col items-start gap-4">
                             <li>
-                                {% svg 'notifications_unread' %}
-
-                            </li>
-                            <li>
                                 <div class = "flex items-center gap-2 ml-2 cursor-pointer">
                                     {% svg 'logout'%}
                                     <a href="{% url 'home' %}">
@@ -107,12 +114,6 @@
                                 </div>
                             </li>
                         </ul>
-
-                        <!-- Botão so aparece quando o usuário NÃO está logado-->
-                        <button class = "hidden min-w-44 h-[55px] bg-green-400 border-none rounded-md text-gray-100 hover:bg-green-700">
-                            Entrar
-                        </button>
-                        <!---->
                     </div>
                 </div>
             </div>
@@ -127,11 +128,9 @@
 
     <footer class = "w-full h-100 bg-green-900 mt-[100px] flex justify-center text-gray-100">
         <div class = "max-w-[1440px] w-full px-8 py-10 flex flex-col">
-            <div class = "flex justify-between items-center gap-[200px] pb-10 lg:gap-[400px] flex-col lg:flex-row">
-                <div class = "w-full flex justify-between items-center flex-wrap lg:flex-col gap-8">
-                    <img src = "static/img/logowhiteif.png" alt = ""/>
-
-                <div>
+            <div class = "flex justify-between items-center gap-[50px] pb-10 lg:gap-[300px] flex-col lg:flex-row">
+                <div class = "w-full flex items-start lg:justify-between flex-wrap flex-col gap-8">
+                    <img class = "pt-5" src = "static/img/logowhiteif.png" alt = "Logotipo do IFRN na cor branca"/>
 
                     <h3> SEIF </h3>
                     <ul class = "flex items-center gap-8">
@@ -140,7 +139,8 @@
                         <li><a href="https://github.com/sad-course/SEIF" target="_blank"> {% svg 'github 1' %} </a></li>
                         <li><a href=""> {% svg 'twitter 1' %} </a></li>
                     </ul>
-                </div>
+                <div>
+            </div>
                 </div>
 
                 <div class = "flex flex-col gap-7">

@@ -2,12 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+body, html, main{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
 @media (max-width: 768px){
     html{
         font-size: 80.5%;
-
     }
-
 }
 @layer components {
     .aside-full-left-width {
@@ -46,13 +48,13 @@
         @apply flex items-center justify-center w-auto h-auto text-nowrap rounded-md py-1 px-3 bg-red-200-opacity-50 text-red-400 font-semibold;
     }
     .badge-default{
-        @apply p-4 flex justify-center gap-3 border rounded-3xl bg-blue-600 text-gray-100;;
+        @apply p-4 flex justify-center items-center gap-3 border rounded-3xl bg-blue-600 text-gray-100;;
     }
     .badge-success{
-        @apply p-4 flex justify-center gap-3 border rounded-3xl bg-green-800 text-gray-100;
+        @apply p-4 flex justify-center items-center gap-3 border rounded-3xl bg-green-800 text-gray-100;
     }
     .badge-warning{
-        @apply p-4 flex justify-center gap-3 border rounded-3xl bg-red-500 text-gray-100;
+        @apply p-4 flex justify-center items-center gap-3 border rounded-3xl bg-red-500 text-gray-100;
     }
     .btn-default{
         @apply w-[190px] min-h-14 bg-green-400 text-center rounded-md text-base font-semibold text-gray-100 hover:bg-green-600;
@@ -70,7 +72,7 @@
         @apply w-52 rounded-lg py-6 px-4 bg-gray-200 text-base cursor-pointer hover:bg-gray-250
     }
     .card-activity{
-        @apply w-[300px] min-h-[250px] flex flex-col justify-between px-3 py-7 rounded-lg bg-gray-200 border border-gray-300
+        @apply w-full  min-h-[250px] flex flex-col justify-between px-3 py-7 rounded-lg bg-gray-200 border border-gray-300
     }
     .list-border-bottom{
         @apply border-b-2 border-transparent hover:border-green-400

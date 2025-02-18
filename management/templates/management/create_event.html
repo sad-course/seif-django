@@ -3,21 +3,21 @@
 
 {% block content %}
 
-<div class = "py-7">
+<div class = "pb-11 px-9 md-screen:pt-0 pt-20 ">
         <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
         <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
-        <form id = "create-event-form" action = "{% url 'management' %}" method="post" enctype="multipart/form-data" class="max-w-[800px]">
+        <form id = "create-event-form" action = "{% url 'management' %}" method="post" enctype="multipart/form-data" class="w-full">
             {% csrf_token %}
-            <div class="flex gap-8 w-full">
+            <div class="flex gap-8 w-full flex-col sm:flex-row">
                 <!-- Metade Esquerda - Local da Imagem -->
-                <div class="flex w-[270px] h-[340px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
+                <div class="flex w-full sm:w-[340px] h-[340px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
                     <input type="file" id="imagem" name="imagem" class="hidden" />
                     <label for="imagem" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
                         <span>Arraste ou clique para adicionar uma imagem</span>
                     </label>
                 </div>
 
-                <div class="space-y-6">
+                <div class="space-y-6 w-full">
                     <!-- Título -->
                     <div>
                         <label for="titulo" class="block text-sm font-medium text-gray-600">Título</label>
@@ -33,23 +33,23 @@
                     </div>
 
                     <!-- Datas e Status -->
-                    <div class="flex flex-wrap gap-1">
-                        <div class="flex-1">
+                    <div class="flex w-full flex-wrap justify-between">
+                        <div>
                             <label for="inicio" class="text-sm font-medium text-gray-600">Início</label>
                             <input type="date" id="inicio" name="inicio"
                                 class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
                         </div>
-                        <div class="flex-1">
+                        <div>
                             <label for="fim" class="text-sm font-medium text-gray-600">Fim</label>
                             <input type="date" id="fim" name="fim"
                                 class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
                         </div>
-                        <div class="flex-1">
+                        <div>
                             <label for="horario_inicio" class="text-sm font-medium text-gray-600">Horário de Início</label>
                             <input type="time" id="horario_inicio" name="horario_inicio"
                                 class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
                         </div>
-                        <div class="flex-1">
+                        <div >
                             <label for="status_inicial" class="text-sm font-medium text-gray-600">Status Inicial</label>
                             <select id="status_inicial" name="status_inicial"
                                 class="mt-1 block w-[120px] rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300">
@@ -62,13 +62,13 @@
             </div>
 
             <!-- Tags e Campus -->
-            <div class="flex gap-5">
-                <div class="flex flex-col space-y-2">
+            <div class="flex flex-wrap gap-5 pt-7">
+                <div class="flex w-full flex-col space-y-2">
                     <label for="tags" class="text-sm font-medium text-gray-600">Tags</label>
                     <input type="text" id="tags" name="tags" placeholder="ex: tecnologia"
                         class="mt-1 rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300" />
                 </div>
-                <div class="flex flex-1 flex-col space-y-2">
+                <div class="flex w-full flex-col space-y-2">
                     <label for="campus" class="text-sm font-medium text-gray-600">Campus</label>
                     <select id="campus" name="campus"
                         class="mt-1 rounded-md border-gray-300 shadow-sm focus:border-green-800 focus:ring-green-800 placeholder-gray-300">
@@ -85,7 +85,6 @@
             </div>
 
             <!-- Adicionar Atividades -->
-            <!--botão não está funcionando como o esperado, possivel falha com javaScript-->
             <div class="mt-6">
                 <button id="add-activity-btn" type="button" class="btn-default">
                     Adicionar Atividades +
@@ -135,7 +134,8 @@
 <div id="activity-modal" class = "hidden">
 
     <div  class="fixed flex inset-0 items-center justify-center bg-gray-300 bg-opacity-70">
-        <div class="bg-gray-200 w-11/12 max-w-2xl h-[600px] rounded-lg shadow-lg p-6">
+        <div class="bg-gray-200 w-11/12 max-w-2xl relative h-[600px] rounded-lg shadow-lg p-6 overflow-y-auto">
+            <button id = "close-activity-modal" class = "absolute right-0 top-0"> X </button>
             <h2 class="text-lg font-bold mb-4 text-gray-600">Criando Atividade</h2>
             <form class="h-full flex flex-col">
                 <!-- Título -->
@@ -151,7 +151,7 @@
                 </div>
 
                 <!-- Datas e horários (em linha) -->
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-wrap gap-4 flex-col sm:flex-row">
                     <div class="flex-1">
                     <label for="inicio" class="block text-gray-600 font-bold text-sm mb-2">Início</label>
                     <input type="date" id="inicio" class="w-full border rounded px-3 py-2 focus:outline-none focus:ring focus:border-green-800 placeholder-gray-500">
@@ -190,7 +190,7 @@
             </div>
 
             <!-- Botões -->
-            <div class="flex justify-end mt-7">
+            <div class="flex justify-end py-7">
                 <button type="submit" class="btn-default">Criar</button>
             </div>
         </form>
