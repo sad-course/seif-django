@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "django_browser_reload",
     "dj_svg",
     "django_ckeditor_5",
+    "django_filters",
     # local apps
     "core",
     "accounts",

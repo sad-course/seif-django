@@ -38,21 +38,26 @@
 
         <!--Filtros-->
         <div class = "flex flex-col items-end gap-3 text-base font-semibold py-5">
-            <span> FILTROS</span>
-            <ul class = "flex items-center gap-4 prose-li:flex prose-li:items-center prose-li:cursor-pointer">
-                <li class = "list-border-bottom">
-                    Status
-                    {% svg 'keyboard_arrow_down' %}
-                </li>
-                <li class = "list-border-bottom">
-                    Tipo
-                    {% svg 'keyboard_arrow_down' %}
-                </li>
-                <li class = "list-border-bottom">
-                    Campi
-                    {% svg 'keyboard_arrow_down' %}
-                </li>
-            </ul>
+            <form method = "GET" action="{% url 'home' %}" id="filter-form">
+                <ul class = "flex items-center gap-4 prose-li:flex prose-li:items-center prose-li:cursor-pointer">
+                    <!--Filtro de status -->
+                    <li class = "list-border-bottom">
+                        <select name="status" class="border-none outline-none" onchange="this.form.submit()">
+                            <option value="" disabled selected>Status</option>
+                            {% for value, label in status_choices %}
+                                <option value="{{value}}" {% if request.GET.status == value%}selected{%endif%}>
+                                    {{label}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                    <li class = "list-border-bottom">
+                        Campi
+                        {% svg 'keyboard_arrow_down' %}
+                    </li>
+                </ul>
+            </form>
+
         </div>
 
 
@@ -62,7 +67,7 @@
     <section class = "w-full flex flex-col gap-9 pb-12">
         {% if events %}
             {% for event in events%}
-                {% if events.status != 'draft' %}
+                {% if event.status != 'draft' %}
                     <div class= "card-event">
                         <!--Imagem-->
                         <div class = "w-full sm:w-[350px] min-h-[220px] bg-gray-200 rounded-tl-lg rounded-bl-lg"></div>
@@ -73,6 +78,7 @@
                                 {% for tag in event.tags.all %}
                                     <div class = "tag-default">{{ tag.name }}</div>
                                 {% endfor %}
+                                <div class = "tag-default">{{ event.get_status_display }}</div>
                             </div>
 
                             <!--infoa-->
