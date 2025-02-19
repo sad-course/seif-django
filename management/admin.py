@@ -27,7 +27,6 @@ class EventAdmin(admin.ModelAdmin):
         "status",
         "tags",
         "banner",
-        "campus",
         "description",
         "created_by",
     )

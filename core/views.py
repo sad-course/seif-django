@@ -24,7 +24,7 @@ class Index(ListView):
 
         context["filter"] = EventFilter(self.request.GET, queryset=self.get_queryset())
         context["status_choices"] = filtered_choices
-        context["campus_choices"] = Event.campus
+        context["campus_choices"] = Event.Campus.choices
         return context
 
 

@@ -44,6 +44,7 @@
                     <li class = "list-border-bottom">
                         <select name="status" class="border-none outline-none" onchange="this.form.submit()">
                             <option value="" disabled selected>Status</option>
+                            <option value="" {% if request.GET.status == "" %}selected{% endif %}>Todos</option>
                             {% for value, label in status_choices %}
                                 <option value="{{value}}" {% if request.GET.status == value%}selected{%endif%}>
                                     {{label}}
@@ -52,14 +53,15 @@
                         </select>
                     </li>
                     <li class = "list-border-bottom">
-                        {% comment %} <select name="campus" class="border-none outline-none" onchange="this.form.submit()">
+                        <select name="campus" class="border-none outline-none" onchange="this.form.submit()">
                             <option value="" disabled selected>Campus</option>
+                            <option value="" {% if request.GET.campus == "" %}selected{% endif %}>Todos</option>
                             {% for value, label in campus_choices %}
                                 <option value="{{value}}" {% if request.GET.campus == value%}selected{%endif%}>
                                     {{label}}
                                 </option>
                             {% endfor %}
-                        </select> {% endcomment %}
+                        </select>
                     </li>
                 </ul>
             </form>
@@ -76,13 +78,11 @@
                 {% if event.status != 'draft' %}
                     <div class= "card-event">
                         <!--Imagem-->
-                        <img
-                            src="{{event.banner.url}}"
-                            alt=""
-                            class = "w-full sm:w-[350px] min-h-[220px] rounded-tl-lg rounded-bl-lg object-cover"
-                        />
-
-
+                            <img
+                                src="{{event.banner.url}}"
+                                alt=""
+                                class = "w-full sm:w-[350px] min-h-[220px] rounded-tl-lg rounded-bl-lg object-cover"
+                            />
                         <div class = "w-full px-7 py-4">
                                 <!--Tags-->
                             <div class = "flex items-center gap-3 overflow-x-scroll sm:scrollbar-hide">
@@ -96,7 +96,7 @@
                             <!--infoa-->
                             <div class = "flex flex-col py-5 font-semibold text-gray-300">
                                 <h3 class = "font-bold text-2xl text-black">{{event.title}}</h3>
-                                <span clas = "">{{event.campus}}</span>
+                                <span clas = "">{{event.get_campus_display}}</span>
                                 <span>{{event.init_date|date:"d/m/Y"}} ate {{event.end_date|date:"d/m/Y"}}</span>
                             </div>
 
