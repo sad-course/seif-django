@@ -4,7 +4,9 @@ from management.models import Event, Activity
 
 
 # Create your models here.
-class EventSubscritption(models.Model):
+class EventSubscription(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     participant = models.ForeignKey(Participant, on_delete=models.CASCADE)
-    activities = models.ManyToManyField(Activity)
+    activity = models.ForeignKey(
+        to=Activity, on_delete=models.CASCADE, related_name="subscriptions"
+    )
