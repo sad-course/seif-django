@@ -118,32 +118,40 @@
     <div class="flex justify-center mt-8">
         <nav class="flex items-center gap-3 text-lg">
             {% if page_obj.has_previous %}
-                <a href="?page={{ page_obj.previous_page_number }}" class="text-green-500 ...">
-                    <span>Anterior</span><span class="text-2xl">&lt;</span>
+                <a href="?page={{ page_obj.previous_page_number }}" class="text-green-500 flex items-center gap-1">
+                    <span>Anterior</span>
+                    <span class="text-2xl font-bold">&lt;</span>
                 </a>
             {% else %}
-                <span class="text-gray-300 ...">
-                    <span>Anterior</span><span class="text-2xl">&lt;</span>
+                <span class="text-gray-300 flex items-center gap-1 cursor-default">
+                    <span>Anterior</span>
+                    <span class="text-2xl font-bold">&lt;</span>
                 </span>
             {% endif %}
 
             {% for page in page_range %}
                 {% if page == None %}
-                    <span>...</span>
+                    <span class="text-gray-400">...</span>
                 {% elif page == page_obj.number %}
-                    <span class="w-12 h-12 ... bg-green-900 text-white ...">{{ page }}</span>
+                    <span class="w-10 h-10 flex items-center justify-center rounded-full bg-green-900 text-white font-bold">
+                        {{ page }}
+                    </span>
                 {% else %}
-                    <a href="?page={{ page }}" class="w-12 h-12 ...">{{ page }}</a>
+                    <a href="?page={{ page }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 text-gray-700 font-bold hover:bg-gray-300">
+                        {{ page }}
+                    </a>
                 {% endif %}
             {% endfor %}
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="text-green-500 ...">
-                    <span class="text-2xl">&gt;</span><span>Próximo</span>
+                <a href="?page={{ page_obj.next_page_number }}" class="text-green-500 flex items-center gap-1">
+                    <span class="text-2xl font-bold">&gt;</span>
+                    <span>Próximo</span>
                 </a>
             {% else %}
-                <span class="text-gray-300 ...">
-                    <span class="text-2xl">&gt;</span><span>Próximo</span>
+                <span class="text-gray-300 flex items-center gap-1 cursor-default">
+                    <span class="text-2xl font-bold">&gt;</span>
+                    <span>Próximo</span>
                 </span>
             {% endif %}
         </nav>
