@@ -70,3 +70,8 @@ try {
 } catch (e) {
     console.error('Erro ao adicionar event listeners:', e);
 }
+
+//forms do avatar no profile
+document.getElementById('photo-upload').addEventListener('change', function() {
+    document.getElementById('upload-form').submit()
+})

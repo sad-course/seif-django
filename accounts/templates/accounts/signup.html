@@ -14,6 +14,12 @@
         {% for error in form.non_field_errors %}
             {% include 'partials/components/badge_message.html' with status='warning' message=error %}
         {% endfor %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+            {% endfor %}
+        {% endfor %}
+
 
         <h1 class="text-4xl font-bold text-center pt-4">Cadastro</h1>
         <div class = "flex justify-center">
@@ -56,7 +62,7 @@
                     {{form.password}}
                 </div>
                 <div class="flex flex-col sm gap-2.5 w-full">
-                    <label class="text-sm font-normal" for="{{ form.checkpassword.id }}"> Confirmar Senha:</label>
+                    <label class="text-sm font-normal" for="{{ form.checkPassword.id }}"> Confirmar Senha:</label>
                    {{form.checkPassword}}
             </div>
         </div>
