@@ -23,6 +23,7 @@ class EventAdmin(admin.ModelAdmin):
         "title",
         "init_date",
         "end_date",
+        "campus",
         "status",
         "tags",
         "banner",
