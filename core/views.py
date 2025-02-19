@@ -1,4 +1,6 @@
 from django.views.generic import ListView, DetailView
+from django.core.serializers import serialize
+from django.shortcuts import render
 from .models import Event
 from .filters import EventFilter
 
@@ -11,6 +13,7 @@ class Index(ListView):
     model = Event
     template_name = "core/index.html"
     context_object_name = "events"
+    paginate_by = 8
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -26,6 +29,13 @@ class Index(ListView):
         context["status_choices"] = filtered_choices
         context["campus_choices"] = Event.Campus.choices
         return context
+
+    def get_events(self, request):
+        events = Event.objects.all()
+        page_number = request.GET("page")
+        page_obj = serialize("python", (page_number))
+        context = {"events": events, "page_obj": page_obj}
+        return render(request, "home", context)
 
 
 class Details(DetailView):
