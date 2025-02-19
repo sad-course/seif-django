@@ -40,7 +40,7 @@ class Index(ListView):
         context["campus_choices"] = Event.Campus.choices
         context["page_obj"] = page_obj
 
-        # Lógica para exibir até 3 páginas consecutivas corretamente:
+        # exibição do número de páginas
         num_pages = paginator.num_pages
         current_page = page_obj.number
 
@@ -55,11 +55,11 @@ class Index(ListView):
             if start_page > 1:
                 page_range.insert(0, 1)
                 if start_page > 2:
-                    page_range.insert(1, None)  # Reticências
+                    page_range.insert(1, None)
 
             if end_page < num_pages:
                 if end_page < num_pages - 1:
-                    page_range.append(None)  # Reticências
+                    page_range.append(None)
                 page_range.append(num_pages)
 
         context["page_range"] = page_range
