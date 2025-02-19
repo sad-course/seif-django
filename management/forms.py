@@ -66,21 +66,19 @@ class EventPublishRequestForm(forms.Form):
 
 
 class EventForm(forms.Form):
-    titulo = forms.CharField(max_length=100)
-    descricao = forms.CharField(widget=forms.Textarea)
-    inicio = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
-    fim = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
-    horario_inicio = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
-    status_inicial = forms.ChoiceField(
-        choices=[("ativo", "Ativo"), ("inativo", "Inativo")]
-    )
+    title = forms.CharField(max_length=100)
+    description = forms.CharField(widget=forms.Textarea)
+    init_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
+    end_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
+    init_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
+    initial_status = forms.ChoiceField(choices=[("rascunho", "Rascunho")])
     tags = forms.CharField(max_length=100)
     campus = forms.ChoiceField(
         choices=[("IFRN - campus Pau dos Ferros", "IFRN - campus Pau dos Ferros")]
     )
-    organizadores = forms.EmailField()
-    imagem = forms.FileField(required=True)
-    solicitacao = forms.BooleanField(
+    organizers = forms.EmailField()
+    banner = forms.FileField(required=True)
+    solicitation = forms.BooleanField(
         initial=False, required=False, widget=forms.HiddenInput()
     )  # Campo oculto
 
@@ -88,37 +86,37 @@ class EventForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         # Aplicando classes CSS e placeholders aos campos
-        self.fields["titulo"].widget = forms.TextInput(
+        self.fields["title"].widget = forms.TextInput(
             attrs={
                 "class": "w-full rounded-lg bg-gray-100",
                 "placeholder": "Título do evento",
             }
         )
-        self.fields["descricao"].widget = forms.Textarea(
+        self.fields["description"].widget = forms.Textarea(
             attrs={
                 "class": "w-full h-36 rounded-lg bg-gray-100",
                 "placeholder": "Descrição do evento",
             }
         )
-        self.fields["inicio"].widget = forms.DateInput(
+        self.fields["init_date"].widget = forms.DateInput(
             attrs={
                 "type": "date",
                 "class": "w-full  rounded-lg bg-gray-100 text-gray-400",
             }
         )
-        self.fields["fim"].widget = forms.DateInput(
+        self.fields["end_date"].widget = forms.DateInput(
             attrs={
                 "type": "date",
                 "class": "w-full rounded-lg bg-gray-100 text-gray-400",
             }
         )
-        self.fields["horario_inicio"].widget = forms.TimeInput(
+        self.fields["init_time"].widget = forms.TimeInput(
             attrs={
                 "type": "time",
                 "class": "w-full rounded-lg bg-gray-100 text-gray-400",
             }
         )
-        self.fields["status_inicial"].widget = forms.Select(
+        self.fields["initial_status"].widget = forms.Select(
             attrs={"class": "w-full rounded-lg bg-gray-100"}
         )
         self.fields["tags"].widget = forms.TextInput(
@@ -130,32 +128,32 @@ class EventForm(forms.Form):
         self.fields["campus"].widget = forms.Select(
             attrs={"class": "w-full rounded-lg bg-gray-100"}
         )
-        self.fields["organizadores"].widget = forms.EmailInput(
+        self.fields["organizers"].widget = forms.EmailInput(
             attrs={
                 "class": "w-full rounded-lg bg-gray-100",
                 "placeholder": "fulano@gmail.com",
             }
         )
-        self.fields["imagem"].widget = forms.FileInput(attrs={"class": "hidden h-full"})
+        self.fields["banner"].widget = forms.FileInput(attrs={"class": "hidden h-full"})
 
-    def clean_inicio(self):
-        inicio = self.cleaned_data["inicio"]
-        if inicio < datetime.date.today():
+    def clean_init_date(self):
+        init_date = self.cleaned_data["init_date"]
+        if init_date < datetime.date.today():
             raise ValidationError(
                 "A data de início não pode ser anterior à data de hoje."
             )
-        return inicio
+        return init_date
 
-    def clean_fim(self):
-        fim = self.cleaned_data["fim"]
+    def clean_end_date(self):
+        end_date = self.cleaned_data["end_date"]
         inicio = self.cleaned_data.get(
             "inicio"
         )  # Usando get() para evitar erro se 'inicio' for inválido
-        if inicio and fim < inicio:
+        if inicio and end_date < inicio:
             raise ValidationError(
                 "A data de fim não pode ser anterior à data de início."
             )
-        return fim
+        return end_date
 
     def clean_tags(self):
         tags = self.cleaned_data.get("tags", "").strip()
@@ -169,33 +167,33 @@ class EventForm(forms.Form):
             raise ValidationError("Deve haver pelo menos uma tag.")
         return tags
 
-    def clean_imagem(self):
-        imagem = self.cleaned_data.get("imagem")
-        if imagem:
-            # Verificar tamanho da imagem
-            if imagem.size > 5 * 1024 * 1024:  # Limite de 5MB
+    def clean_banner(self):
+        banner = self.cleaned_data.get("banner")
+        if banner:
+            # Verificar tamanho da banner
+            if banner.size > 5 * 1024 * 1024:  # Limite de 5MB
                 raise ValidationError("A imagem não pode exceder 5MB.")
             # Verificar tipo de arquivo (imagem)
             valid_extensions = [".jpg", ".jpeg", ".png"]
-            if not any(imagem.name.endswith(ext) for ext in valid_extensions):
+            if not any(banner.name.endswith(ext) for ext in valid_extensions):
                 raise ValidationError("A imagem deve ser no formato JPG, JPEG ou PNG.")
-        return imagem
+        return banner
 
-    def clean_status_inicial(self):
-        status_inicial = self.cleaned_data["status_inicial"]
-        if status_inicial not in ["ativo", "inativo"]:
+    def clean_initial_status(self):
+        inital_status = self.cleaned_data["initial_status"]
+        if inital_status not in ["ativo", "inativo"]:
             raise ValidationError("Status inválido.")
-        return status_inicial
+        return inital_status
 
-    def clean_organizadores(self):
-        organizadores = self.cleaned_data["organizadores"]
+    def clean_organizers(self):
+        organizers = self.cleaned_data["organizers"]
         # Se houver mais de um organizador, os e-mails devem ser separados por vírgula
-        organizadores = organizadores.split(",")
-        for email in organizadores:
+        organizers = organizers.split(",")
+        for email in organizers:
             email = email.strip()
             if not forms.EmailField().clean(email):
                 raise ValidationError(f"O e-mail '{email}' é inválido.")
-        return organizadores
+        return organizers
 
     def clean_campus(self):
         campus = self.cleaned_data["campus"]
@@ -207,7 +205,7 @@ class EventForm(forms.Form):
 
 
 class ActivityForm(forms.Form):
-    titulo = forms.CharField(
+    title = forms.CharField(
         max_length=200,
         widget=forms.TextInput(
             attrs={
@@ -217,7 +215,7 @@ class ActivityForm(forms.Form):
             }
         ),
     )
-    descricao = forms.CharField(
+    description = forms.CharField(
         widget=forms.Textarea(
             attrs={
                 "class": "mt-1 block w-full rounded-md border-gray-300 \
@@ -227,7 +225,7 @@ class ActivityForm(forms.Form):
             }
         ),
     )
-    inicio = forms.DateField(
+    init_date = forms.DateField(
         widget=forms.DateInput(
             attrs={
                 "type": "date",
@@ -237,7 +235,7 @@ class ActivityForm(forms.Form):
             }
         ),
     )
-    fim = forms.DateField(
+    end_date = forms.DateField(
         widget=forms.DateInput(
             attrs={
                 "type": "date",
@@ -247,7 +245,7 @@ class ActivityForm(forms.Form):
             }
         ),
     )
-    horario_inicio = forms.TimeField(
+    init_time = forms.TimeField(
         widget=forms.TimeInput(
             attrs={
                 "type": "time",
@@ -257,7 +255,7 @@ class ActivityForm(forms.Form):
             }
         ),
     )
-    tipo = forms.ChoiceField(
+    type = forms.ChoiceField(
         choices=[("", "Selecione"), ("opcao1", "Opção 1"), ("opcao2", "Opção 2")],
         widget=forms.Select(
             attrs={
@@ -267,7 +265,7 @@ class ActivityForm(forms.Form):
             }
         ),
     )
-    responsaveis = forms.MultipleChoiceField(
+    instructor = forms.MultipleChoiceField(
         choices=[("1", "Fulano da Silva")],
         widget=forms.SelectMultiple(
             attrs={
@@ -277,7 +275,7 @@ class ActivityForm(forms.Form):
             }
         ),
     )
-    horas_previstas = forms.CharField(
+    estimated_duration = forms.CharField(
         max_length=50,
         widget=forms.TextInput(
             attrs={
@@ -288,19 +286,19 @@ class ActivityForm(forms.Form):
         ),
     )
 
-    def clean_inicio(self):
-        inicio = self.cleaned_data["inicio"]
-        if inicio < datetime.date.today():
+    def clean_init_date(self):
+        init_date = self.cleaned_data["init_date"]
+        if init_date < datetime.date.today():
             raise forms.ValidationError(
                 "A data de início não pode ser anterior a hoje."
             )
-        return inicio
+        return init_date
 
-    def clean_fim(self):
-        fim = self.cleaned_data["fim"]
+    def clean_end_date(self):
+        end_date = self.cleaned_data["end_date"]
         inicio = self.cleaned_data.get("inicio")
-        if inicio and fim < inicio:
+        if inicio and end_date < inicio:
             raise forms.ValidationError(
                 "A data de fim não pode ser anterior à data de início."
             )
-        return fim
+        return end_date

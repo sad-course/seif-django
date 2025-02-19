@@ -13,8 +13,8 @@
             <!-- Metade Esquerda - Local da Imagem -->
             <div class="flex w-[360px] h-[426px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
                 {# Renderiza o campo de imagem – o widget definido em forms.py já tem a classe "hidden" #}
-                {{ form.imagem }}
-                <label for="{{ form.imagem.id_for_label }}" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
+                {{ form.banner }}
+                <label for="{{ form.banner.id_for_label }}" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
                     <span>Arraste ou clique para adicionar uma imagem</span>
                 </label>
             </div>
@@ -22,40 +22,45 @@
             <div class="space-y-6">
                 <!-- Título -->
                 <div>
-                    <label for="{{ form.titulo.id_for_label }}" class="block text-sm font-medium text-gray-600">Título</label>
-                    {{ form.titulo }}
+                    <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-600">Título</label>
+                    {{ form.title }}
                 </div>
 
                 <!-- Descrição -->
                 <div>
-                    <label for="{{ form.descricao.id_for_label }}" class="block text-sm font-medium text-gray-600">Descrição</label>
-                    {{ form.descricao }}
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-600">Descrição</label>
+                    {{ form.description }}
                 </div>
 
                 <!-- Datas e Status -->
                 <div class="flex flex-wrap gap-2">
                     <div class="flex-1 w-12">
-                        <label for="{{ form.inicio.id_for_label }}" class="text-sm font-medium text-gray-600">Início</label>
-                        {{ form.inicio }}
+                        <label for="{{ form.init_date.id_for_label }}" class="text-sm font-medium text-gray-600">Início</label>
+                        {{ form.init_date }}
                     </div>
                     <div class="flex-1 w-12">
-                        <label for="{{ form.fim.id_for_label }}" class="text-sm font-medium text-gray-600">Fim</label>
-                        {{ form.fim }}
+                        <label for="{{ form.end_date.id_for_label }}" class="text-sm font-medium text-gray-600">Fim</label>
+                        {{ form.end_date }}
                     </div>
                     <div class="flex-1">
-                        <label for="{{ form.horario_inicio.id_for_label }}" class="text-sm font-medium text-gray-600">Horário de Início</label>
-                        {{ form.horario_inicio }}
+                        <label for="{{ form.init_time.id_for_label }}" class="text-sm font-medium text-gray-600">Horário de Início</label>
+                        {{ form.init_time }}
                     </div>
                     <div class="flex-1">
-                        <label for="{{ form.status_inicial.id_for_label }}" class="text-sm font-medium text-gray-600">Status Inicial</label>
-                        {{ form.status_inicial }}
+                        <label for="{{ form.initial_status.id_for_label }}" class="text-sm font-medium text-gray-600">Status Inicial</label>
+                        <select name="{{ form.initial_status.name }}" id="{{ form.initial_status.id_for_label }}" class="w-full rounded-lg bg-gray-100">
+                            <option value="" disabled selected>-------</option>
+                            {% for value, label in form.initial_status.field.choices %}
+                                <option value="{{ value }}" {% if form.initial_status.value == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Tags e Campus -->
-        <div class="flex gap-5 mt-3">
+        <div class="flex gap-5 mt-5">
             <div class="flex flex-col space-y-2">
                 <label for="{{ form.tags.id_for_label }}" class="text-sm font-medium text-gray-600">Tags</label>
                 {{ form.tags }}
@@ -69,8 +74,8 @@
 
         <!-- Adicionar Organizadores -->
         <div class="mt-6">
-            <label for="{{ form.organizadores.id_for_label }}" class="block text-sm font-medium text-gray-600">Adicione Organizadores</label>
-            {{ form.organizadores }}
+            <label for="{{ form.organizers.id_for_label }}" class="block text-sm font-medium text-gray-600">Adicione Organizadores</label>
+            {{ form.organizers }}
         </div>
 
         <!-- Adicionar Atividades -->
@@ -91,21 +96,6 @@
 
             </div>
 
-            <!-- Card 2 -->
-            <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
-                <h3 class="font-semibold text-lg text-gray-900">Minicurso Django</h3>
-                <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
-                <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
-                <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
-                <h3 class="font-semibold text-lg text-gray-900">Minicurso Django</h3>
-                <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
-                <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
-                <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
-            </div>
         </div>
 
         <!-- Botão Finalizar -->
@@ -128,43 +118,43 @@
                 {% csrf_token %}
 
                 <div>
-                    <label class="block text-gray-600 font-medium">Título</label>
-                    {{ activity_form.titulo }}
+                    <label for = {{activity_form.title.id}} class="block text-gray-600 font-medium">Título</label>
+                    {{ activity_form.title }}
                 </div>
 
                 <div>
-                    <label class="block text-gray-600 font-medium">Descrição</label>
-                    {{ activity_form.descricao }}
+                    <label for = {{ activity_form.description.id }} class="block text-gray-600 font-medium">Descrição</label>
+                    {{ activity_form.description }}
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-4">
                     <div>
-                        <label class="block text-gray-600 font-medium">Início</label>
-                        {{ activity_form.inicio }}
+                        <label for = {{ activity_form.init_date.id }} class="block text-gray-600 font-medium">Início</label>
+                        {{ activity_form.init_date }}
                     </div>
                     <div>
-                        <label class="block text-gray-600 font-medium">Fim</label>
-                        {{ activity_form.fim }}
+                        <label for = {{ activity_form.end_date.id }} class="block text-gray-600 font-medium">Fim</label>
+                        {{ activity_form.end_date }}
                     </div>
                     <div>
-                        <label class="block text-gray-600 font-medium">Horário de início</label>
-                        {{ activity_form.horario_inicio }}
+                        <label for = {{ activity_form.init_time.id }} class="block text-gray-600 font-medium">Horário de início</label>
+                        {{ activity_form.init_time }}
                     </div>
                     <div>
-                        <label class="block text-gray-600 font-medium">Tipo</label>
-                        {{ activity_form.tipo }}
+                        <label for = {{ activity_form.type.id}} class="block text-gray-600 font-medium">Tipo</label>
+                        {{ activity_form.type }}
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div class="h-10">
-                        <label class="block text-gray-600 font-medium">Responsável(s)</label>
-                        {{ activity_form.responsaveis }}
+                        <label for = {{ activity_form.instructor.id }} class="block text-gray-600 font-medium">Responsável(s)</label>
+                        {{ activity_form.instructor }}
                     </div>
 
                     <div>
-                        <label class="block text-gray-600 font-medium">Horas previstas</label>
-                        {{ activity_form.horas_previstas }}
+                        <label for = {{ activity_form.estimated_duration.id }} class="block text-gray-600 font-medium">Horas previstas</label>
+                        {{ activity_form.estimated_duration }}
                     </div>
                 </div>
                 <div class="flex justify-end pt-24">
