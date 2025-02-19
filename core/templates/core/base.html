@@ -67,7 +67,9 @@
                         <a href="{% url 'home' %}">
                             <span>Sair</span>
                         </a>
-                        {% svg 'logout'%}
+                        <button> <!--correção para que o svg também efetue o logoff-->
+                            {% svg 'logout'%}
+                        </button>
                     </div>
 
             {% else %}
