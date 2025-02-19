@@ -114,21 +114,41 @@
         {% endif%}
     </section>
 
-    <div class="flex justify-center mt-6">
-        <nav class="flex gap-2">
+    <!-- Paginação -->
+    <div class="flex justify-center mt-8">
+        <nav class="flex items-center gap-3 text-lg">
             {% if page_obj.has_previous %}
-                <a href="?page=1" class="px-4 py-2 bg-gray-300 rounded">Primeira</a>
-                <a href="?page={{ page_obj.previous_page_number }}" class="px-4 py-2 bg-gray-300 rounded">Anterior</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="text-green-500 ...">
+                    <span>Anterior</span><span class="text-2xl">&lt;</span>
+                </a>
+            {% else %}
+                <span class="text-gray-300 ...">
+                    <span>Anterior</span><span class="text-2xl">&lt;</span>
+                </span>
             {% endif %}
 
-            <span class="px-4 py-2 bg-gray-400 rounded">Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+            {% for page in page_range %}
+                {% if page == None %}
+                    <span>...</span>
+                {% elif page == page_obj.number %}
+                    <span class="w-12 h-12 ... bg-green-900 text-white ...">{{ page }}</span>
+                {% else %}
+                    <a href="?page={{ page }}" class="w-12 h-12 ...">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="px-4 py-2 bg-gray-300 rounded">Próxima</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-4 py-2 bg-gray-300 rounded">Última</a>
+                <a href="?page={{ page_obj.next_page_number }}" class="text-green-500 ...">
+                    <span class="text-2xl">&gt;</span><span>Próximo</span>
+                </a>
+            {% else %}
+                <span class="text-gray-300 ...">
+                    <span class="text-2xl">&gt;</span><span>Próximo</span>
+                </span>
             {% endif %}
         </nav>
     </div>
+
 
 </section>
 {% endblock %}
