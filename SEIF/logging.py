@@ -67,11 +67,11 @@ LOGGING = {
             "level": "INFO",
             "propagate": False,
         },
-        "django.db.backends": {  # Logs all SQL queries
-            "handlers": ["console"],
-            "level": "DEBUG",
-            "propagate": False,
-        },
+        # "django.db.backends": {  # Logs all SQL queries
+        #     "handlers": ["console"],
+        #     "level": "DEBUG",
+        #     "propagate": False,
+        # },
         "django.security": {  # Logs security-related messages
             "handlers": ["rotating_file"],
             "level": "WARNING",
