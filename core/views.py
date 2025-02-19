@@ -1,5 +1,6 @@
 from django.views.generic import ListView, DetailView
 from django.core.paginator import Paginator
+from django.db.models import Q
 from .models import Event
 from .filters import EventFilter
 
@@ -16,6 +17,12 @@ class Index(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        query = self.request.GET.get("q")
+
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) | Q(description__icontains=query)
+            )
 
         event_filter = EventFilter(self.request.GET, queryset=queryset)
 
