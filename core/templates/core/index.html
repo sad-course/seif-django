@@ -3,15 +3,14 @@
 {% block content %}
 
 <!-- Search input -->
-<div class = "w-full flex justify-end py-12">
-    <div class = " w-[450px] flex items-center gap-3 bg-gray-200 rounded-lg px-5">
+<div class="w-full flex justify-end py-12">
+    <form method="GET" class="w-[450px] flex items-center gap-3 bg-gray-200 rounded-lg px-5">
         {% svg 'search' %}
-        <input
-            type="text"
-            placeholder = "Pesquise aqui"
-            class = "border-none bg-transparent w-full outline-none"
+        <input type="text" name="q" placeholder="Pesquise aqui"
+            class="border-none bg-transparent w-full outline-none"
+            value="{{ request.GET.q|default:'' }}"
         />
-    </div>
+    </form>
 </div>
 <!-- Search input -->
 
