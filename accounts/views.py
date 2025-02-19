@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from core.models import EventSubscritption
+from core.models import EventSubscription
 from .forms import LoginForm, SignupForm
 from .models import Participant
 
@@ -14,7 +14,7 @@ from .models import Participant
 class Profile(TemplateView):
     def get(self, *args, **kwargs):
         participant = self.request.user
-        event_subscriptions = EventSubscritption.objects.filter(
+        event_subscriptions = EventSubscription.objects.filter(
             participant=participant
         ).count()
 

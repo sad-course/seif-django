@@ -15,6 +15,11 @@ class Tag(models.Model):
         return f"Tag: {self.name}"
 
 
+class ActivityType(models.Model):
+    name = models.CharField(max_length=50, blank=False, null=False)
+    description = CKEditor5Field("Descrição", config_name="extends")
+
+
 class Event(models.Model):
     class EventStatus(models.TextChoices):  # pylint: disable=too-many-ancestors
         PENDING = "pending", "Pendente"
@@ -27,11 +32,38 @@ class Event(models.Model):
         DRAFT = "draft", "Rascunho"
         APPROVED = "approved", "Aprovado"
 
+    class Campus(models.TextChoices):  # pylint: disable=too-many-ancestors
+        CAMPUS_NULL = "null", "Null"
+        APODI = "AP", "Apodi"
+        CAICO = "CA", "Caicó"
+        CANGUARETAMA = "CG", "Canguaretama"
+        CEARA_MIRIM = "CM", "Ceará-Mirim"
+        CURRAIS_NOVOS = "CN", "Currais Novos"
+        IPANGUACU = "IP", "Ipanguaçu"
+        JOAO_CAMARA = "JC", "João Câmara"
+        JUCURUTU = "JU", "Jucurutu"
+        LAJES = "LA", "Lajes"
+        MACAU = "MA", "Macau"
+        MOSSORO = "MO", "Mossoró"
+        NATAL_CENTRAL = "NC", "Natal - Central"
+        NATAL_CIDADE_ALTA = "NCA", "Natal - Cidade Alta"
+        NATAL_ZONA_LESTE = "NZL", "Natal - Zona Leste"
+        NATAL_ZONA_NORTE = "NZN", "Natal - Zona Norte"
+        NOVA_CRUZ = "NV", "Nova Cruz"
+        PARELHAS = "PA", "Parelhas"
+        PARNAMIRIM = "PM", "Parnamirim"
+        PAU_DOS_FERROS = "PF", "Pau dos Ferros"
+        SANTA_CRUZ = "SC", "Santa Cruz"
+        SAO_GONCALO_DO_AMARANTE = "SG", "São Gonçalo do Amarante"
+        SAO_PAULO_DO_POTENGI = "SP", "São Paulo do Potengi"
+
     title = models.CharField("Título", max_length=150, blank=False, null=False)
     description = CKEditor5Field("Descrição", config_name="extends")
     init_date = models.DateTimeField("Início da atividade")
     end_date = models.DateTimeField("Fim da atividade")
-    campus = models.CharField(max_length=50, blank=False, null=False)
+    campus = models.CharField(
+        max_length=50, blank=False, null=False, default=Campus.CAMPUS_NULL
+    )
     status = models.CharField(
         "", max_length=50, choices=EventStatus.choices, default=EventStatus.DRAFT
     )
@@ -65,6 +97,14 @@ class Activity(models.Model):
     estimated_duration = models.DurationField(default=timedelta(hours=0))
     event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name="Evento")
     is_active = models.BooleanField(verbose_name="Ativo", default=True)
+    capacity = models.IntegerField(verbose_name="Capacidade", default=0)
+    activity_type = models.ForeignKey(
+        ActivityType,
+        on_delete=models.SET_NULL,
+        verbose_name="Tipo",
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name_plural = "Atividades"
@@ -76,6 +116,7 @@ class Activity(models.Model):
 class Certificate(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    participant = models.ForeignKey(to=Participant, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Certificados"
