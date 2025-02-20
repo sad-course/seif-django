@@ -3,12 +3,8 @@ from django.views.generic import ListView
 from .models import Event
 
 
-def index(request):
-    return render(request, "management/index.html")
-
-
 # Create your views here.
-class IndexListView(ListView):
+class Index(ListView):
     model = Event
     template_name = "management/index.html"
     context_object_name = "events"
