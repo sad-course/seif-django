@@ -19,14 +19,12 @@ class Index(ListView):
 class Organizers(ListView):
     model = Participant
     template_name = "management/organizers.html"
-    context_object_name = "participants"
+    context_object_name = "organizers"
     paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["organizers_count"] = (
-            Participant.objects.all().count()
-        )  # Count only organizers
+        context["organizers_count"] = Participant.objects.all().count()
         return context
 
 
@@ -34,8 +32,27 @@ def participants(request):
     return render(request, "management/participants.html")
 
 
-def analytics_home(request):
-    return render(request, "management/analytics_home.html")
+class AnalyticsHome(ListView):
+    model = Event
+    template_name = "management/analytics_home.html"
+    context_object_name = "events"
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Event.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["total_events"] = Event.objects.count()
+        context["total_participants"] = Participant.objects.count()
+        active_events = Event.objects.filter(status="active").count()
+        context["active_events_percentage"] = (
+            (active_events / context["total_events"]) * 100
+            if context["total_events"]
+            else 0
+        )
+
+        return context
 
 
 def analytics_event_detail(request):
