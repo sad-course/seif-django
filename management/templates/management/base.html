@@ -31,18 +31,19 @@
 
                 <ul class = "flex flex-col gap-11 prose-li:aside-items">
 
+                    <!--adição da class block para todo o campo redirecionar para o link ao clicar (excluir comentario após revisão)-->
                     <li class = "aside-select-item">
-                       <a href="{% url 'management'%}"> <span>Eventos</span></a>
+                       <a href="{% url 'management'%}" class="block"> <span>Eventos</span></a>
                     </li>
-                    <li><a href="{% url 'organizers' %}"> <span>Organizadores</span></a></li>
+                    <li><a href="{% url 'organizers' %}" class="block"> <span>Organizadores</span></a></li>
 
                     <!--Esse só tem para o organizador-->
-                    <li><a href="{% url 'analytics_home'%}"> <span>Panorama analítico</span></a></li>
-                    <li><a href="{% url 'create_event' %}"> <span>Criar evento</span></a></li>
-                    <li><a href="{% url 'participants' %}"> <span>Participantes</span></a></li>
+                    <li><a href="{% url 'analytics_home'%}" class="block"> <span>Panorama analítico</span></a></li>
+                    <li><a href="{% url 'create_event' %}" class="block"> <span>Criar evento</span></a></li>
+                    <li><a href="{% url 'participants' %}" class="block"> <span>Participantes</span></a></li>
 
                     <!--Esse só tem para o administrador-->
-                    <li><a href="{% url 'event_publish_request' %}"> <span>Solicitações</span></a></li>
+                    <li><a href="{% url 'event_publish_request' %}" class="block"> <span>Solicitações</span></a></li>
                 </ul>
             </div>
         </aside>
