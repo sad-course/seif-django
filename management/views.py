@@ -1,9 +1,23 @@
 from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Event
+
+
+def index(request):
+    return render(request, "management/index.html")
 
 
 # Create your views here.
-def index(request):
-    return render(request, "management/index.html")
+class IndexListView(ListView):
+    model = Event
+    template_name = "management/index.html"
+    context_object_name = "events"
+    paginate_by = 10  # Número de eventos por página
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["events_count"] = Event.objects.count()
+        return context
 
 
 def organizers(request):
@@ -20,16 +34,16 @@ def analytics_home(request):
 
 def analytics_event_detail(request):
     return render(request, "management/analytics_event_detail.html")
-  
+
 
 def create_event(request):
     return render(request, "management/create_event.html")
 
-  
+
 def request_create_event(request):
     return render(request, "management/request_create_event.html")
-  
-  
+
+
 def event_publish_requests(request):
     return render(request, "management/organizer_event_submit_requests.html")
 

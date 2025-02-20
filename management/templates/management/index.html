@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class = "pt-12">
-    
+
     <div>
         <h1 class = "font-medium text-3xl text-green-900 pb-8" >Fulano Dital</h1>
 
@@ -50,8 +50,8 @@
                     <th class = "rounded-tr-md">Responsável</th>
                 </tr>
             </thead>
-    
-            
+
+
             <tbody>
                 <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
                     <td class ="rounded-bl-md">Expotec</td>
@@ -71,8 +71,23 @@
                     <td class = "rounded-br-md">fulano@gmail.com</td>
                 </tr>
             </tbody>
-    
+
         </table>
+    </div>
+    <div class="py-5 w-full flex flex-col justify-center items-center">
+        <div class="text-green-900 text-xl">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Voltar</a>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </div>
+
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
     </div>
 </div>
 
