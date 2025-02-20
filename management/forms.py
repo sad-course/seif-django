@@ -1,6 +1,7 @@
 import datetime
 from django import forms
 from django.core.exceptions import ValidationError
+from .models import Event
 
 
 class EventPublishRequestForm(forms.Form):
@@ -73,9 +74,7 @@ class EventForm(forms.Form):
     init_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
     initial_status = forms.ChoiceField(choices=[("rascunho", "Rascunho")])
     tags = forms.CharField(max_length=100)
-    campus = forms.ChoiceField(
-        choices=[("IFRN - campus Pau dos Ferros", "IFRN - campus Pau dos Ferros")]
-    )
+    campus = forms.ChoiceField(choices=Event.Campus.choices)
     organizers = forms.EmailField()
     banner = forms.FileField(required=True)
     solicitation = forms.BooleanField(
@@ -123,6 +122,7 @@ class EventForm(forms.Form):
             attrs={
                 "class": "w-full rounded-lg bg-gray-100",
                 "placeholder": "ex: tecnologia, inovação",
+                "data-role": "tagsinput",
             }
         )
         self.fields["campus"].widget = forms.Select(
@@ -146,9 +146,7 @@ class EventForm(forms.Form):
 
     def clean_end_date(self):
         end_date = self.cleaned_data["end_date"]
-        inicio = self.cleaned_data.get(
-            "inicio"
-        )  # Usando get() para evitar erro se 'inicio' for inválido
+        inicio = self.cleaned_data.get("inicio")
         if inicio and end_date < inicio:
             raise ValidationError(
                 "A data de fim não pode ser anterior à data de início."
@@ -181,7 +179,7 @@ class EventForm(forms.Form):
 
     def clean_initial_status(self):
         inital_status = self.cleaned_data["initial_status"]
-        if inital_status not in ["ativo", "inativo"]:
+        if inital_status not in ["rascunho", "rascunho"]:
             raise ValidationError("Status inválido.")
         return inital_status
 
@@ -194,14 +192,6 @@ class EventForm(forms.Form):
             if not forms.EmailField().clean(email):
                 raise ValidationError(f"O e-mail '{email}' é inválido.")
         return organizers
-
-    def clean_campus(self):
-        campus = self.cleaned_data["campus"]
-        # Verificar se o campus é válido
-        valid_campus = ["IFRN - campus Pau dos Ferros"]
-        if campus not in valid_campus:
-            raise ValidationError("Campus inválido.")
-        return campus
 
 
 class ActivityForm(forms.Form):

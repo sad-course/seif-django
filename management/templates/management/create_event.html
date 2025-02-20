@@ -6,8 +6,23 @@
 <div class="py-7">
     <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
     <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
-    <form id="create-event-form" action="{% url 'management' %}" method="post" enctype="multipart/form-data" class="max-w-[850px]">
+    {% if messages %}
+        <div class="alert-messages">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form id="create-event-form" action="{% url 'create_event' %}" method="POST" enctype="multipart/form-data" class="max-w-[850px]">
         {% csrf_token %}
+
+        {% for field in form %}
+            {% for error in field.errors %}
+                {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+            {% endfor %}
+        {% endfor %}
 
         <div class="flex gap-8 w-full">
             <!-- Metade Esquerda - Local da Imagem -->
@@ -67,7 +82,12 @@
             </div>
             <div class="flex flex-1 flex-col space-y-2">
                 <label for="{{ form.campus.id_for_label }}" class="text-sm font-medium text-gray-600">Campus</label>
-                {{ form.campus }}
+                <select name="{{ form.campus.name }}" id="{{ form.campus.id_for_label }}" class="w-full rounded-lg bg-gray-100">
+                    <option value="" disabled selected>-------</option>
+                    {% for value, label in form.campus.field.choices %}
+                        <option value="{{ value }}" {% if form.campus.value == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
         </div>
@@ -100,9 +120,7 @@
 
         <!-- Botão Finalizar -->
         <div class="mt-6 flex justify-end">
-            <a class=""href="{% url 'management' %}">
-                <button type="submit button" class="btn-default">Finalizar</button>
-            </a>
+            <button type="submit" class="btn-default">Finalizar</button>
         </div>
     </form>
 </div>
@@ -114,8 +132,11 @@
         <div class="bg-gray-200 w-11/12 max-w-2xl relative h-[600px] rounded-lg shadow-lg p-6 overflow-y-auto">
             <button id = "close-activity-modal" class = "absolute right-0 top-0"> X </button>
             <h2 class="text-xl font-bold mb-4 text-gray-700">Criando atividade</h2>
-            <form id="activity-form" method="post" class="space-y-4">
+            <form id="activity-form" method="POST" class="space-y-4">
                 {% csrf_token %}
+
+                <!-- Campo oculto para passar o evento_id -->
+                <input type="hidden" name="event_id" value="{{ event.id }}">
 
                 <div>
                     <label for = {{activity_form.title.id}} class="block text-gray-600 font-medium">Título</label>
@@ -157,17 +178,15 @@
                         {{ activity_form.estimated_duration }}
                     </div>
                 </div>
-                <div class="flex justify-end pt-24">
-                    <button type="submit" class="btn-default">
-                        Criar
-                    </button>
-                </div>
+
             </form>
         </div>
     </div>
 </div>
 
 
-
+{% block script %}
+    <script src="../../assets/vendor/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js"></script>
+{% endblock %}
 
 {% endblock %}
