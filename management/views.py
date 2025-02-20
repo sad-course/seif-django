@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import ListView
+from django.db.models import Count
 from .models import Event, Participant
+
+
+events = Event.objects.annotate(total_activities=Count("activity"))
 
 
 # Create your views here.
