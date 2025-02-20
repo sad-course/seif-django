@@ -1,3 +1,4 @@
+import re
 from social_core.backends.oauth import BaseOAuth2
 
 
@@ -26,10 +27,11 @@ class SuapOAuth2(BaseOAuth2):
             url=self.USER_DATA_URL, method=method, data=data, headers=headers
         ).json()
 
-        # extra_response = self.request(
-        #     url=self.EXTRA_USER_DATA_URL, method=method, headers=headers
-        # ).json()
+        extra_data = self.request(
+            url=self.EXTRA_USER_DATA_URL, method=method, data=data, headers=headers
+        ).json()
 
+        response.update({"cpf": extra_data.get("cpf", "")})
         return response
 
     def get_user_details(self, response):
@@ -42,12 +44,17 @@ class SuapOAuth2(BaseOAuth2):
         if len(splitted_name) > 1:
             last_name = splitted_name[-1]
 
-        username = f"{first_name}_{response[self.ID_KEY]}"
+        cpf_cleaned = re.sub(r"\D", "", response["cpf"])
+
+        username = f"{first_name.lower()}_{response[self.ID_KEY]}"
+
         return {
             "username": username,
             "first_name": first_name.strip(),
             "last_name": last_name.strip(),
+            "cpf": cpf_cleaned,
             "email": response["email"],
+            "image": response["foto"],
         }
 
     def auth_html(self):
