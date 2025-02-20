@@ -62,6 +62,22 @@
 
         </table>
     </div>
+    <!--paginação-->
+    <div class="py-5 w-full flex flex-col justify-center items-center">
+        <div class="text-green-900 text-xl">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Voltar</a>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </div>
+
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
+    </div>
 </div>
 
 
