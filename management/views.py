@@ -27,7 +27,8 @@ def analytics_event_detail(request):
     return render(request, "management/analytics_event_detail.html")
 
 
-def create_event(request):
+def create_event(request, event_id):
+    event = Event.objects.get(id=event_id)
     if request.method == "POST":
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
@@ -56,13 +57,24 @@ def create_event(request):
             messages.success(request, "Evento criado!")
             return HttpResponseRedirect(reverse_lazy("create_event"))
     else:
-        form = EventForm()
+        form = EventForm(
+            initial={
+                "title": event.title,
+                "description": event.description,
+                "init_date": event.init_date,
+                "end_date": event.end_date,
+                "initial_status": event.status,
+                "campus": event.campus,
+            }
+        )
 
     return render(
         request,
         "management/create_event.html",
         {
             "form": form,
+            "event_id": event_id,
+            "event": event,
         },
     )
 
@@ -97,11 +109,20 @@ def create_activity(request, event_id):
 
 def request_create_event(request):
     if request.method == "POST":
-        form = EventPublishRequestForm(request.POST, request.FILES)
+        form = EventPublishRequestForm(request.POST)
         if form.is_valid():
-            # dados
-            print(form.cleaned_data)
-            return redirect(reverse_lazy("management"))
+            data = form.cleaned_data
+            new_event = Event.objects.create(
+                title=data["event_title"],
+                description=data["description"],
+                campus=data["campus"],
+                init_date=data["init_date"],
+                end_date=data["end_date"],
+                created_by=request.user,
+            )
+            return render(
+                request, "management/create_event.html", {"event": new_event.id}
+            )
     else:
         form = EventPublishRequestForm()
 

@@ -5,15 +5,10 @@ from .models import Event
 
 
 class EventPublishRequestForm(forms.Form):
-    local = forms.CharField(
-        max_length=100,
-        widget=forms.TextInput(
-            attrs={
-                "class": "w-full rounded-lg bg-gray-100",
-                "placeholder": "IFRN - Pau dos Ferros",
-            }
-        ),
+    campus = forms.ChoiceField(
+        choices=Event.Campus.choices,
     )
+
     cargo = forms.CharField(
         max_length=100,
         widget=forms.TextInput(
@@ -23,7 +18,7 @@ class EventPublishRequestForm(forms.Form):
             }
         ),
     )
-    nome = forms.CharField(
+    event_title = forms.CharField(
         max_length=200,
         widget=forms.TextInput(
             attrs={
@@ -32,7 +27,7 @@ class EventPublishRequestForm(forms.Form):
             }
         ),
     )
-    tipo = forms.CharField(
+    event_type = forms.CharField(
         max_length=100,
         widget=forms.TextInput(
             attrs={
@@ -41,7 +36,7 @@ class EventPublishRequestForm(forms.Form):
             }
         ),
     )
-    descricao = forms.CharField(
+    description = forms.CharField(
         widget=forms.Textarea(
             attrs={
                 "class": "w-full h-24 rounded-lg bg-gray-100",
@@ -53,20 +48,26 @@ class EventPublishRequestForm(forms.Form):
         initial=False, required=False, widget=forms.HiddenInput()
     )
 
-    def clean_nome(self):
-        nome = self.cleaned_data.get("nome", "").strip()
-        if not nome:
-            raise ValidationError("O nome do evento não pode estar vazio.")
-        return nome
-
-    def clean_descricao(self):
-        descricao = self.cleaned_data.get("descricao", "").strip()
-        if not descricao:
-            raise ValidationError("A descrição do evento não pode estar vazia.")
-        return descricao
+    init_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                "type": "date",
+                "class": "w-full h-24 rounded-lg bg-gray-100",
+            }
+        )
+    )
+    end_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                "type": "date",
+                "class": "w-full h-24 rounded-lg bg-gray-100",
+            }
+        )
+    )
 
 
 class EventForm(forms.Form):
+
     title = forms.CharField(max_length=100)
     description = forms.CharField(widget=forms.Textarea)
     init_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))

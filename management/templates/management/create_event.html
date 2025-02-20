@@ -15,7 +15,7 @@
             {% endfor %}
         </div>
     {% endif %}
-    <form id="create-event-form" action="{% url 'create_event' %}" method="POST" enctype="multipart/form-data" class="max-w-[850px]">
+    <form id="create-event-form" action="{% url 'create_event' event_id %}" method="POST" enctype="multipart/form-data" class="max-w-[850px]">
         {% csrf_token %}
 
         {% for field in form %}
@@ -113,8 +113,9 @@
                 <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
                 <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
                 <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
-
             </div>
+
+            {{event.description}}
 
         </div>
 

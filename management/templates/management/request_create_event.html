@@ -17,16 +17,21 @@
     </div>
 </div>
 
-<div class="bg-gray-200 flex items-center mt-11 justify-start min-h-screen">
+<div class="bg-gray-200 flex items-center mt-28 justify-start ">
     <div class="p-8 max-w-3xl w-full ml-8">
         <h1 class="text-2xl font-semibold text-green-900 mb-6">Quer publicar um evento?</h1>
 
-        <form action="{% url 'event_publish_request' %}" method="post" id="request_event_form">
+        <form action="{% url 'request_create_event' %}" method="post" id="request_event_form">
             {% csrf_token %}
 
             <div class="mb-4">
-                <label class="block text-gray-600 font-medium mb-2">Local da Evento:</label>
-                {{ form.local }}
+                <label class="block text-gray-600 font-medium mb-2">Campus:</label>
+                <select name="{{ form.campus.name }}" id="{{ form.campus.id_for_label }}" class="w-full rounded-lg bg-gray-100">
+                    <option value="" disabled selected>-------</option>
+                    {% for value, label in form.campus.field.choices %}
+                        <option value="{{ value }}" {% if form.campus.value == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="mb-4">
@@ -36,17 +41,27 @@
 
             <div class="mb-4">
                 <label class="block text-gray-600 font-medium mb-2">Nome do evento:</label>
-                {{ form.nome }}
+                {{ form.event_title }}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-600 font-medium mb-2">Data de inicio:</label>
+                {{ form.init_date }}
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-600 font-medium mb-2">Data de fim:</label>
+                {{ form.end_date }}
             </div>
 
             <div class="mb-4">
                 <label class="block text-gray-600 font-medium mb-2">Tipo do evento:</label>
-                {{ form.tipo }}
+                {{ form.event_type }}
             </div>
 
             <div class="mb-6">
                 <label class="block text-gray-600 font-medium mb-2">Breve descrição do evento:</label>
-                {{ form.descricao }}
+                {{ form.description }}
             </div>
 
             <!-- Botões -->

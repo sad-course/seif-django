@@ -5,7 +5,7 @@ urlpatterns = [
     path("", views.index, name="management"),
     path("organizers/", views.organizers, name="organizers"),
     path("participants/", views.participants, name="participants"),
-    path("create_event/", views.create_event, name="create_event"),
+    path("create_event/<int:event_id>/", views.create_event, name="create_event"),
     path(
         "create_event/<int:event_id>/create_activity/",
         views.create_activity,
