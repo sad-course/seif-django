@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView
-from .models import Event
+from .models import Event, Participant
 
 
 # Create your views here.
@@ -16,8 +16,18 @@ class Index(ListView):
         return context
 
 
-def organizers(request):
-    return render(request, "management/organizers.html")
+class Organizers(ListView):
+    model = Participant
+    template_name = "management/organizers.html"
+    context_object_name = "participants"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["organizers_count"] = (
+            Participant.objects.all().count()
+        )  # Count only organizers
+        return context
 
 
 def participants(request):
