@@ -29,6 +29,7 @@ def analytics_event_detail(request):
 
 def edit_event(request, event_id):
     event = Event.objects.get(id=event_id)
+    # Requisição para atualizar evento
     if request.method == "POST" and "event_form" in request.POST:
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
@@ -68,8 +69,9 @@ def edit_event(request, event_id):
             }
         )
 
+    # Requisição para criar a atividade
     if request.POST and "activity_form" in request.POST:
-        print("Request POST:", request.POST)
+
         activity_form = ActivityForm(request.POST)
         if activity_form.is_valid():
             data = activity_form.cleaned_data
@@ -93,6 +95,16 @@ def edit_event(request, event_id):
             return redirect(reverse_lazy("edit_event", kwargs={"event_id": event.id}))
     else:
         activity_form = ActivityForm()
+
+    # Requisição para deletar uma atividade
+    if request.POST and "activity_id" in request.POST:
+        activity_id = request.POST.get("activity_id")
+
+        activity = Activity.objects.get(id=activity_id, event=event)
+        activity.delete()
+        messages.success(request, "Atividade deletada com sucesso!")
+
+        return redirect(reverse_lazy("edit_event", kwargs={"event_id": event.id}))
 
     return render(
         request,

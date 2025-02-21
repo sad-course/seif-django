@@ -7,11 +7,9 @@
     <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
     <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
     {% if messages %}
-        <div class="alert-messages">
+        <div>
             {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
+                {% include 'partials/components/badge_message.html' with status='success' message=message %}
             {% endfor %}
         </div>
     {% endif %}
@@ -27,7 +25,7 @@
         <div class="flex gap-8 w-full">
             <!-- Metade Esquerda - Local da Imagem -->
 
-            <div class="flex flex-col w-full max-w-[300px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
+            <div class="flex flex-col w-[350px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
                 {% if event.banner %}
                     <span id="file-name" class="text-gray-500">{{ event.banner }}</span>
                 {% else %}
@@ -113,11 +111,17 @@
             <!-- Card 1 -->
             {% if event.activity_set.all %}
                 {% for activity in event.activity_set.all  %}
-                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
-                    <h3 class="font-semibold text-lg text-gray-900">{{activity.title}}</h3>
-                    <p class="text-sm text-gray-500 mt-2">{{activity.init_date|date:'d/m/Y'}}</p>
-                    <p class="text-sm text-gray-700 mt-1">Ministrada por: {{activity.instructor}}</p>
-                    <p class="text-sm text-gray-600 mt-4">{{activity.description}}</p>
+                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250 flex justify-between items-start">
+                    <div class = "w-full">
+                        <h3 class="font-semibold text-lg text-gray-900">{{activity.title}}</h3>
+                        <p class="text-sm text-gray-500 mt-2">{{activity.init_date|date:'d/m/Y'}}</p>
+                        <p class="text-sm text-gray-700 mt-1">Ministrada por: {{activity.instructor}}</p>
+                        <p class="text-sm text-gray-600 mt-4">{{activity.description}}</p>
+                    </div>
+
+                    <button onclick = "deleteActivity({{ activity.id }})">
+                        {% svg 'delete' %}
+                    </button>
                 </div>
                 {% endfor %}
             {% else %}
@@ -132,7 +136,14 @@
             <button type="submit" class="btn-default">Finalizar</button>
         </div>
     </form>
+
 </div>
+
+<!--Esse form é responsável por deletar a atividade selecionada -->
+<form id = "delete-activity-form" method="POST" action="{% url 'edit_event' event.id %}" class="hidden mt-4">
+    {% csrf_token %}
+    <input type="hidden" name="activity_id" id = "activity-id">
+</form>
 
 <!-- Modal de criar atividade (mantém a estilização original) -->
 <div id="activity-modal" class="hidden">
