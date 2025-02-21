@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     "dj_svg",
     "django_ckeditor_5",
     "social_django",
+    "django_filters",
     # local apps
     "core",
     "accounts",
