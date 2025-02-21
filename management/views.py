@@ -17,6 +17,12 @@ class Index(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["events_count"] = Event.objects.count()
+        context["organizers_count"] = (
+            Participant.objects.filter(event__status__in=["active", "approved"])
+            .distinct()
+            .count()
+        )
+        context["total_activities"] = Activity.objects.count()
         return context
 
 

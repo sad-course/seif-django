@@ -22,7 +22,7 @@
             <div class="p-9 rounded-lg bg-gray-50 shadow-md">
                 <h3 class="text-green-900 font-semibold text-3xl lg-screen:text-4xl">Organizadores</h3>
                 <h2 class="text-green-400 font-semibold text-5xl">
-                    {% if organizers %} {{ organizers_count }} {% else %} 0 {% endif %}
+                    {{ organizers_count }}
                 </h2>
                 <div class="pt-5">
                     {% svg 'organizer' %}
@@ -32,7 +32,7 @@
             <div class="p-9 rounded-lg bg-gray-50 shadow-md">
                 <h3 class="text-green-900 font-semibold text-3xl lg-screen:text-4xl">Atividades</h3>
                 <h2 class="text-green-400 font-semibold text-5xl">
-                    {% if total_activities %} {{ total_activities }} {% else %} 0 {% endif %}
+                    {{ total_activities }}
                 </h2>
                 <div class="pt-5">
                     {% svg 'activities' %}
@@ -44,21 +44,21 @@
     </div>
 
     <h3 class = "font-semibold text-2xl text-green-900 pt-10 pb-6" >Seus Eventos</h3>
-    <div class = "overflow-x-auto shadow-md">
-        <table class = "w-full table-auto ">
-            <thead class = "bg-green-400" >
-                <tr class = "text-left  prose-th:p-3 ">
-                    <th class = "rounded-tl-md" >Evento</th>
+    <div class="overflow-x-auto shadow-md">
+        <table class="w-full table-auto">
+            <thead class="bg-green-400">
+                <tr class="text-center prose-th:p-3">
+                    <th class="rounded-tl-md">Evento</th>
                     <th>Status</th>
                     <th>Participantes</th>
                     <th>Horas</th>
                     <th>Atividades</th>
-                    <th class = "rounded-tr-md">Responsável</th>
+                    <th>Responsável</th>
+                    <th class="rounded-tr-md">Editar</th>
                 </tr>
             </thead>
 
-
-            <tbody>
+            <tbody class="text-center">
                 {% if events %}
                     {% for event in events %}
                         <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
@@ -80,21 +80,26 @@
                                     {{ total_hours|default:"0h" }}
                                 {% endwith %}
                             </td>
-                            <td>
-                                {{ event.total_activities|default:"0" }}
+                            <td>{{ event.total_activities|default:"0" }}</td>
+                            <td>{{ event.created_by.email }}</td>
+                            <td class="rounded-br-md">
+                                <a href="{% url 'create_event' %}">
+                                    <button class="btn-default">
+                                        Editar evento
+                                    </button>
+                                </a>
                             </td>
-                            <td class="rounded-br-md">{{ event.created_by.email }}</td>
                         </tr>
                     {% endfor %}
                 {% else %}
                     <tr>
-                        <td colspan="6"><span>Sem eventos</span></td>
+                        <td colspan="7"><span>Sem eventos</span></td>
                     </tr>
                 {% endif %}
             </tbody>
-
         </table>
     </div>
+
 
     <!--paginação-->
     <div class="py-5 w-full flex flex-col justify-center items-center">

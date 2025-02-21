@@ -11,7 +11,7 @@
             <div class=" w-[350px] p-9 rounded-lg bg-gray-50 shadow-md">
                 <h3 class="text-green-900 font-semibold text-4xl">Organizadores</h3>
                 <h2 class="text-green-400 font-semibold text-5xl">
-                    {%if organizers %} {{organizers_count}} {% else %} 0 {% endif %}
+                    {{ organizers_count }}
                 </h2>
                 <div class="pt-5">
                     {% svg 'organizer' %}
@@ -33,7 +33,7 @@
             </thead>
 
 
-            <tbody>
+            <tbody class="text-center">
                 {% for organizer in organizers %}
                     <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
                         <td class="rounded-bl-md">
