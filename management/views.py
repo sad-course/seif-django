@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views.generic import FormView
 from django.contrib import messages
 from .forms import EventForm, EventPublishRequestForm, ActivityForm
 from .models import Event, Tag, Activity, ActivityType
@@ -26,7 +27,7 @@ def analytics_event_detail(request):
     return render(request, "management/analytics_event_detail.html")
 
 
-def create_event(request, event_id):
+def edit_event(request, event_id):
     event = Event.objects.get(id=event_id)
     if request.method == "POST" and "event_form" in request.POST:
         form = EventForm(request.POST, request.FILES)
@@ -79,7 +80,7 @@ def create_event(request, event_id):
                 end_date=data["end_date"],
                 instructor=data["instructor"],
                 estimated_duration=data["estimated_duration"],
-                capacity=3,
+                capacity=data["capacity"],
                 event=event,
             )
             # pylint: disable=W0612
@@ -89,13 +90,13 @@ def create_event(request, event_id):
 
             messages.success(request, "Atividade criada com sucesso!")
 
-            return redirect(reverse_lazy("create_event", kwargs={"event_id": event.id}))
+            return redirect(reverse_lazy("edit_event", kwargs={"event_id": event.id}))
     else:
         activity_form = ActivityForm()
 
     return render(
         request,
-        "management/create_event.html",
+        "management/edit_event.html",
         {
             "form": form,
             "event": event,
@@ -104,26 +105,30 @@ def create_event(request, event_id):
     )
 
 
-def request_create_event(request):
-    if request.method == "POST":
-        form = EventPublishRequestForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            new_event = Event.objects.create(
-                title=data["event_title"],
-                description=data["description"],
-                campus=data["campus"],
-                init_date=data["init_date"],
-                end_date=data["end_date"],
-                created_by=request.user,
-            )
-            return redirect(
-                reverse_lazy("create_event", kwargs={"event_id": new_event.id})
-            )
-    else:
-        form = EventPublishRequestForm()
+class CreateEventRequestView(FormView):
+    template_name = "management/request_create_event.html"
+    form_class = EventPublishRequestForm
 
-    return render(request, "management/request_create_event.html", {"form": form})
+    def form_valid(self, form):
+        data = form.cleaned_data
+
+        new_event = Event.objects.create(
+            title=data["event_title"],
+            description=data["description"],
+            campus=data["campus"],
+            init_date=data["init_date"],
+            end_date=data["end_date"],
+            created_by=self.request.user,
+        )
+
+        messages.success(self.request, "Evento solicitado com sucesso!")
+        return redirect(reverse_lazy("edit_event", kwargs={"event_id": new_event.id}))
+
+    def form_invalid(self, form):
+        messages.error(
+            self.request, "Há erros no formulário. Por favor, verifique os campos."
+        )
+        return super().form_invalid(form)
 
 
 def event_publish_requests(request):

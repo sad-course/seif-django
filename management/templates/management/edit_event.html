@@ -15,7 +15,7 @@
             {% endfor %}
         </div>
     {% endif %}
-    <form id="create-event-form" action="{% url 'create_event' event.id %}" method="POST" enctype="multipart/form-data" class="max-w-[850px]">
+    <form id="create-event-form" action="{% url 'edit_event' event.id %}" method="POST" enctype="multipart/form-data" class="max-w-[850px]">
         {% csrf_token %}
         <input type="hidden" name="event_form" value="1">
         {% for field in form %}
@@ -115,9 +115,9 @@
                 {% for activity in event.activity_set.all  %}
                 <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
                     <h3 class="font-semibold text-lg text-gray-900">{{activity.title}}</h3>
-                    <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
+                    <p class="text-sm text-gray-500 mt-2">{{activity.init_date|date:'d/m/Y'}}</p>
                     <p class="text-sm text-gray-700 mt-1">Ministrada por: {{activity.instructor}}</p>
-                    <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
+                    <p class="text-sm text-gray-600 mt-4">{{activity.description}}</p>
                 </div>
                 {% endfor %}
             {% else %}
@@ -142,7 +142,7 @@
             <button id = "close-activity-modal" class = "absolute right-0 top-0"> X </button>
             <h2 class="text-xl font-bold mb-4 text-gray-700">Criando atividade</h2>
 
-            <form id="activity-form" action = "{% url 'create_event' event.id %}" method="POST" class="space-y-4">
+            <form id="activity-form" action = "{% url 'edit_event' event.id %}" method="POST" class="space-y-4">
                 {% csrf_token %}
                 <input type="hidden" name="activity_form" value="1">
 
