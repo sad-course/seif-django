@@ -6,6 +6,8 @@ from .models import Participant
 
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = ["username", "email", "cpf", "phone"]
+    fields = ("username", "email")
+    search_fields = ("username", "email")
 
 
 admin.site.register(Participant, ParticipantAdmin)
