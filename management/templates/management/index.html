@@ -58,42 +58,45 @@
             </thead>
 
 
-            <tbody>{% if events %}
-                {% for event in events %}
-                    <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
-                        <td class="rounded-bl-md">{{ event.title }}</td>
-                        <td>
-                            {% if event.status == "pending" %}
-                                <div class="tag-default">Pendente</div>
-                            {% elif event.status == "active" %}
-                                <div class="tag-progress">Em andamento</div>
-                            {% elif event.status == "closed" %}
-                                <div class="tag-default">Encerrado</div>
-                            {% else %}
-                                <div class="tag-default">{{ event.get_status_display }}</div>
-                            {% endif %}
-                        </td>
-                        <td>{{ event.organizers.count }}</td>
-                        <td>
-                            {% with event.duration as total_hours %}
-                                {{ total_hours|default:"0h" }}
-                            {% endwith %}
-                        </td>
-                        <td>
-                            {{ event.total_activities|default:"0" }}
-                        </td>
-                        <td class="rounded-br-md">{{ event.created_by.email }}</td>
+            <tbody>
+                {% if events %}
+                    {% for event in events %}
+                        <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                            <td class="rounded-bl-md">{{ event.title }}</td>
+                            <td>
+                                {% if event.status == "pending" %}
+                                    <div class="tag-default">Pendente</div>
+                                {% elif event.status == "active" %}
+                                    <div class="tag-progress">Em andamento</div>
+                                {% elif event.status == "closed" %}
+                                    <div class="tag-default">Encerrado</div>
+                                {% else %}
+                                    <div class="tag-default">{{ event.get_status_display }}</div>
+                                {% endif %}
+                            </td>
+                            <td>{{ event.organizers.count }}</td>
+                            <td>
+                                {% with event.duration as total_hours %}
+                                    {{ total_hours|default:"0h" }}
+                                {% endwith %}
+                            </td>
+                            <td>
+                                {{ event.total_activities|default:"0" }}
+                            </td>
+                            <td class="rounded-br-md">{{ event.created_by.email }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6"><span>Sem eventos</span></td>
                     </tr>
-                {% endfor %}
-            {% else %}
-                <tr>
-                    <td colspan="6"><span>Sem eventos</span></td>
-                </tr>
-            {% endif %}
+                {% endif %}
             </tbody>
 
         </table>
     </div>
+
+    <!--paginação-->
     <div class="py-5 w-full flex flex-col justify-center items-center">
         <div class="text-green-900 text-xl">
             {% if page_obj.has_previous %}

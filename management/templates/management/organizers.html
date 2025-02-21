@@ -34,18 +34,39 @@
 
 
             <tbody>
-                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
-                    <td class ="rounded-bl-md">
-                        <div class = "w-10 h-10 rounded-full bg-gray-300">
-
-                        </div>
-                    </td>
-                    <td> <div class = "default-tag">Fulano</div> </td>
-                    <td>12/09/2023</td>
-                    <td>fulano@gmail.com</td>
-                    <td class = "rounded-br-md">Organizador</td>
-                </tr>
+                {% for organizer in organizers %}
+                    <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                        <td class="rounded-bl-md">
+                            <div class="w-10 h-10 rounded-full bg-gray-300">
+                                {% if organizer.avatar %}
+                                    <img src="{{ organizer.avatar.url }}" alt="Avatar" class="w-full h-full rounded-full">
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="default-tag">{{ organizer.username }}</div>
+                        </td>
+                        <td>
+                            {{ organizer.date_joined|date:"d/m/Y" }}
+                        </td>
+                        <td>
+                            {{ organizer.email }}
+                        </td>
+                        <td class="rounded-br-md">
+                            {% if organizer.event_set.exists %}
+                                Organizador
+                            {% else %}
+                                Participante
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4">Nenhum organizador encontrado.</td>
+                    </tr>
+                {% endfor %}
             </tbody>
+
 
         </table>
     </div>

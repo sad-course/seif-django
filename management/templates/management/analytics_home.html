@@ -28,14 +28,31 @@
 
 
             <tbody class="text-center">
-                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
-                    <td class ="rounded-bl-md">Expotec</td>
-                    <td class = "w-40"> <div class = "tag-progress">andamento</div> </td>
-                    <td>120</td>
-                    <td>48h</td>
-                    <td>12</td>
+              {% if events %}
+              {% for event in events %}
+                  <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                      <td class="rounded-bl-md">{{ event.title }}</td>
+                      <td>
+                          {% if event.status == "pending" %}
+                              <div class="tag-default">Pendente</div>
+                          {% elif event.status == "active" %}
+                              <div class="tag-progress">Em andamento</div>
+                          {% elif event.status == "closed" %}
+                              <div class="tag-default">Encerrado</div>
+                          {% else %}
+                              <div class="tag-default">{{ event.get_status_display }}</div>
+                          {% endif %}
+                      </td>
+                      <td>{{ event.organizers.count }}</td>
+                      <td>
+                          {% with event.duration as total_hours %}
+                              {{ total_hours|default:"0h" }}
+                          {% endwith %}
+                      </td>
+                      <td>
+                        {{ event.total_activities|default:"0" }}
+                    </td>
                     <td class = "rounded-br-md">
-
                         <a href="{% url 'analytics_event_detail' %}">
                             <button class="btn-default">
                                 Detalhar
@@ -43,21 +60,12 @@
                         </a>
                     </td>
                 </tr>
-
-                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
-                    <td class ="rounded-bl-md">Expotec</td>
-                    <td > <div class = "tag-default">em breve</div> </td>
-                    <td>120</td>
-                    <td>48h</td>
-                    <td>12</td>
-                    <td class = "rounded-br-md">
-                        <a href="{% url 'analytics_event_detail' %}">
-                            <button class="btn-default">
-                                Detalhar
-                            </button>
-                        </a>
-                    </td>
-                </tr>
+                {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6"><span>Sem eventos</span></td>
+                    </tr>
+                {% endif %}
             </tbody>
 
         </table>
