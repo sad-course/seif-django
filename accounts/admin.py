@@ -6,6 +6,8 @@ from .models import Participant, AcademicIntern
 
 class ParticipantAdmin(admin.ModelAdmin):
     list_display = ["username", "email", "cpf", "phone"]
+    fields = ("username", "email")
+    search_fields = ("username", "email")
 
 
 class SuapUserAdmin(admin.ModelAdmin):
