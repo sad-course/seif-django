@@ -1,19 +1,19 @@
-repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.3.0
+  repos:
+  -   repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v2.3.0
+      hooks:
+      -   id: check-yaml
+      -   id: end-of-file-fixer
+      -   id: trailing-whitespace
+  -   repo: https://github.com/psf/black
+      rev: 24.10.0
+      hooks:
+      -   id: black
+  - repo: local
     hooks:
-    -   id: check-yaml
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
--   repo: https://github.com/psf/black
-    rev: 24.10.0
-    hooks:
-    -   id: black
-- repo: local
-  hooks:
-  - id: venv\Scripts\pylint
-    name: pylint
-    entry: python -m pylint
-    language: system
-    types: [python]
-    args: [--ignore-patterns=venv, --load-plugins=pylint_django, --django-settings-module=SEIF.settings]
+    - id: venv\Scripts\pylint
+      name: pylint
+      entry: python -m pylint
+      language: system
+      types: [python]
+      args: [--ignore-patterns=venv, --load-plugins=pylint_django, --django-settings-module=SEIF.settings]

@@ -54,12 +54,12 @@ python manage.py makenv dev
 python manage.py env dev
 ```
 
-**Check database configuration and create if not already**
+**Check database (create if not already) and apply schema migrations**
 ```bash
 python manage.py checkdb
 ```
 
-**Apply all the initial migrations**
+**Seed the database with initial data**
 ```bash
 python manage.py migrate
 ```
