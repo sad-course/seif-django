@@ -7,11 +7,6 @@ urlpatterns = [
     path("participants/", views.participants, name="participants"),
     path("create_event/<int:event_id>/", views.create_event, name="create_event"),
     path(
-        "create_event/<int:event_id>/create_activity/",
-        views.create_activity,
-        name="create_activity",
-    ),
-    path(
         "request_create_event/", views.request_create_event, name="request_create_event"
     ),
     path("analytics/home/", views.analytics_home, name="analytics_home"),

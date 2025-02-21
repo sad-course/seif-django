@@ -8,31 +8,12 @@ class EventPublishRequestForm(forms.Form):
     campus = forms.ChoiceField(
         choices=Event.Campus.choices,
     )
-
-    cargo = forms.CharField(
-        max_length=100,
-        widget=forms.TextInput(
-            attrs={
-                "class": "w-full rounded-lg bg-gray-100",
-                "placeholder": "ex: Professor, Aluno",
-            }
-        ),
-    )
     event_title = forms.CharField(
         max_length=200,
         widget=forms.TextInput(
             attrs={
                 "class": "w-full rounded-lg bg-gray-100",
                 "placeholder": "Nome do evento",
-            }
-        ),
-    )
-    event_type = forms.CharField(
-        max_length=100,
-        widget=forms.TextInput(
-            attrs={
-                "class": "w-full rounded-lg bg-gray-100",
-                "placeholder": "ex: Comemorativo, Tecnólogico, Acadêmico",
             }
         ),
     )
@@ -72,7 +53,6 @@ class EventForm(forms.Form):
     description = forms.CharField(widget=forms.Textarea)
     init_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
     end_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
-    init_time = forms.TimeField(widget=forms.TimeInput(attrs={"type": "time"}))
     initial_status = forms.ChoiceField(choices=[("rascunho", "Rascunho")])
     tags = forms.CharField(max_length=100)
     campus = forms.ChoiceField(choices=Event.Campus.choices)
@@ -107,12 +87,6 @@ class EventForm(forms.Form):
         self.fields["end_date"].widget = forms.DateInput(
             attrs={
                 "type": "date",
-                "class": "w-full rounded-lg bg-gray-100 text-gray-400",
-            }
-        )
-        self.fields["init_time"].widget = forms.TimeInput(
-            attrs={
-                "type": "time",
                 "class": "w-full rounded-lg bg-gray-100 text-gray-400",
             }
         )
@@ -247,7 +221,12 @@ class ActivityForm(forms.Form):
         ),
     )
     type = forms.ChoiceField(
-        choices=[("", "Selecione"), ("opcao1", "Opção 1"), ("opcao2", "Opção 2")],
+        choices=[
+            ("", "Selecione"),
+            ("palestra", "Palestra"),
+            ("minicurso", "Minicurso"),
+            ("oficina", "Oficina"),
+        ],
         widget=forms.Select(
             attrs={
                 "class": "mt-1 block w-full text-gray-400 rounded-md \
@@ -256,9 +235,8 @@ class ActivityForm(forms.Form):
             }
         ),
     )
-    instructor = forms.MultipleChoiceField(
-        choices=[("1", "Fulano da Silva")],
-        widget=forms.SelectMultiple(
+    instructor = forms.CharField(
+        widget=forms.TextInput(
             attrs={
                 "class": "mt-1 block w-full h-full text-gray-400 rounded-md \
                     border-gray-300 shadow-sm focus:border-green-500 \
@@ -275,6 +253,16 @@ class ActivityForm(forms.Form):
                 "placeholder": "X horas",
             }
         ),
+    )
+
+    capacity = forms.IntegerField(
+        widget=forms.NumberInput(
+            attrs={
+                "class": "mt-1 block w-full rounded-md border-gray-300 \
+                      shadow-sm focus:border-green-500 focus:ring-green-500",
+                "placeholder": "Vagas disponíveis",
+            }
+        )
     )
 
     def clean_init_date(self):

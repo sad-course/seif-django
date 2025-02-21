@@ -15,9 +15,9 @@
             {% endfor %}
         </div>
     {% endif %}
-    <form id="create-event-form" action="{% url 'create_event' event_id %}" method="POST" enctype="multipart/form-data" class="max-w-[850px]">
+    <form id="create-event-form" action="{% url 'create_event' event.id %}" method="POST" enctype="multipart/form-data" class="max-w-[850px]">
         {% csrf_token %}
-
+        <input type="hidden" name="event_form" value="1">
         {% for field in form %}
             {% for error in field.errors %}
                 {% include 'partials/components/badge_message.html' with status='warning' message=error %}
@@ -26,7 +26,14 @@
 
         <div class="flex gap-8 w-full">
             <!-- Metade Esquerda - Local da Imagem -->
-            <div class="flex w-[360px] h-[426px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
+
+            <div class="flex flex-col w-full max-w-[300px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
+                {% if event.banner %}
+                    <span id="file-name" class="text-gray-500">{{ event.banner }}</span>
+                {% else %}
+                    <span id="file-name" class="text-gray-500">Nenhum arquivo selecionado</span>
+                {% endif %}
+
                 {# Renderiza o campo de imagem – o widget definido em forms.py já tem a classe "hidden" #}
                 {{ form.banner }}
                 <label for="{{ form.banner.id_for_label }}" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
@@ -34,7 +41,7 @@
                 </label>
             </div>
 
-            <div class="space-y-6">
+            <div class="space-y-6 w-full">
                 <!-- Título -->
                 <div>
                     <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-600">Título</label>
@@ -56,10 +63,6 @@
                     <div class="flex-1 w-12">
                         <label for="{{ form.end_date.id_for_label }}" class="text-sm font-medium text-gray-600">Fim</label>
                         {{ form.end_date }}
-                    </div>
-                    <div class="flex-1">
-                        <label for="{{ form.init_time.id_for_label }}" class="text-sm font-medium text-gray-600">Horário de Início</label>
-                        {{ form.init_time }}
                     </div>
                     <div class="flex-1">
                         <label for="{{ form.initial_status.id_for_label }}" class="text-sm font-medium text-gray-600">Status Inicial</label>
@@ -100,22 +103,27 @@
 
         <!-- Adicionar Atividades -->
         <div class="mt-6">
-            <button id="add-activity-btn" type="button" class="btn-default">
-                Adicionar Atividades +
-            </button>
+                <button id="add-activity-btn" type="button" class="btn-default">
+                    Adicionar Atividades +
+                </button>
         </div>
 
         <!-- Cards (conteúdo estático para visualização) -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             <!-- Card 1 -->
-            <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
-                <h3 class="font-semibold text-lg text-gray-900">Palestra de Abertura</h3>
-                <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
-                <p class="text-sm text-gray-700 mt-1">Ministrada por: NOME</p>
-                <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
-            </div>
+            {% if event.activity_set.all %}
+                {% for activity in event.activity_set.all  %}
+                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250">
+                    <h3 class="font-semibold text-lg text-gray-900">{{activity.title}}</h3>
+                    <p class="text-sm text-gray-500 mt-2">00/00 ÀS 17:00</p>
+                    <p class="text-sm text-gray-700 mt-1">Ministrada por: {{activity.instructor}}</p>
+                    <p class="text-sm text-gray-600 mt-4">Lorem Ipsum is simply dummy text...</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <span>Crie atividades para seu evento</span>
+            {% endif %}
 
-            {{event.description}}
 
         </div>
 
@@ -133,11 +141,10 @@
         <div class="bg-gray-200 w-11/12 max-w-2xl relative h-[600px] rounded-lg shadow-lg p-6 overflow-y-auto">
             <button id = "close-activity-modal" class = "absolute right-0 top-0"> X </button>
             <h2 class="text-xl font-bold mb-4 text-gray-700">Criando atividade</h2>
-            <form id="activity-form" method="POST" class="space-y-4">
-                {% csrf_token %}
 
-                <!-- Campo oculto para passar o evento_id -->
-                <input type="hidden" name="event_id" value="{{ event.id }}">
+            <form id="activity-form" action = "{% url 'create_event' event.id %}" method="POST" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="activity_form" value="1">
 
                 <div>
                     <label for = {{activity_form.title.id}} class="block text-gray-600 font-medium">Título</label>
@@ -166,6 +173,10 @@
                         <label for = {{ activity_form.type.id}} class="block text-gray-600 font-medium">Tipo</label>
                         {{ activity_form.type }}
                     </div>
+                    <div>
+                        <label for = {{ activity_form.capacity.id}} class="block text-gray-600 font-medium">Vagas disponíveis</label>
+                        {{ activity_form.capacity }}
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -179,15 +190,12 @@
                         {{ activity_form.estimated_duration }}
                     </div>
                 </div>
-
+                <div class="mt-6 flex justify-end">
+                    <button type="submit" class="btn-default">Criar</button>
+                </div>
             </form>
         </div>
     </div>
 </div>
-
-
-{% block script %}
-    <script src="../../assets/vendor/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js"></script>
-{% endblock %}
 
 {% endblock %}

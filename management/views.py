@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .forms import EventForm, EventPublishRequestForm, ActivityForm
@@ -29,33 +28,33 @@ def analytics_event_detail(request):
 
 def create_event(request, event_id):
     event = Event.objects.get(id=event_id)
-    if request.method == "POST":
+    if request.method == "POST" and "event_form" in request.POST:
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
             data = form.cleaned_data
-            new_event = Event.objects.create(
-                title=data["title"],
-                description=data["description"],
-                banner=data["banner"],
-                campus=data["campus"],
-                status=data["initial_status"],
-                init_date=data["init_date"],
-                end_date=data["end_date"],
-                created_by=request.user,
-            )
+            event.title = data["title"]
+            event.description = data["description"]
+            event.banner = data["banner"]
+            event.campus = data["campus"]
+            event.status = data["initial_status"]
+            event.init_date = data["init_date"]
+            event.end_date = data["end_date"]
+            event.save()
+
             tag_names = data["tags"].split(",")
             tags = []
 
             for tag_name in tag_names:
                 tag_name = tag_name.strip()
-                tag = Tag.objects.get_or_create(name=tag_name)
+                # pylint: disable=W0612
+                tag, created = Tag.objects.get_or_create(name=tag_name)
                 tags.append(tag)
 
-            new_event.tags.set(tags)
-            new_event.save()
+            event.tags.set(tags)
+            event.save()
 
             messages.success(request, "Evento criado!")
-            return HttpResponseRedirect(reverse_lazy("create_event"))
+            return redirect(reverse_lazy("management"))
     else:
         form = EventForm(
             initial={
@@ -68,23 +67,11 @@ def create_event(request, event_id):
             }
         )
 
-    return render(
-        request,
-        "management/create_event.html",
-        {
-            "form": form,
-            "event_id": event_id,
-            "event": event,
-        },
-    )
-
-
-def create_activity(request, event_id):
-    current_event = Event.objects.get(id=event_id)
-    if request.method == "POST":
-        form = ActivityForm()
-        if form.is_valid():
-            data = form.cleaned_data
+    if request.POST and "activity_form" in request.POST:
+        print("Request POST:", request.POST)
+        activity_form = ActivityForm(request.POST)
+        if activity_form.is_valid():
+            data = activity_form.cleaned_data
             new_activity = Activity.objects.create(
                 title=data["title"],
                 description=data["description"],
@@ -92,18 +79,28 @@ def create_activity(request, event_id):
                 end_date=data["end_date"],
                 instructor=data["instructor"],
                 estimated_duration=data["estimated_duration"],
-                capacity=data["capacity"],
+                capacity=3,
+                event=event,
             )
-            new_type = ActivityType.objects.create(name=data["activity_type"])
+            # pylint: disable=W0612
+            new_type, created = ActivityType.objects.get_or_create(name=data["type"])
             new_activity.activity_type = new_type
-            new_activity.event = current_event
             new_activity.save()
-            return redirect("create_event", event_id=current_event.id)
+
+            messages.success(request, "Atividade criada com sucesso!")
+
+            return redirect(reverse_lazy("create_event", kwargs={"event_id": event.id}))
     else:
-        form = ActivityForm()
+        activity_form = ActivityForm()
 
     return render(
-        request, "management/create_event.html", {"form": form, "event": current_event}
+        request,
+        "management/create_event.html",
+        {
+            "form": form,
+            "event": event,
+            "activity_form": activity_form,
+        },
     )
 
 
@@ -120,8 +117,8 @@ def request_create_event(request):
                 end_date=data["end_date"],
                 created_by=request.user,
             )
-            return render(
-                request, "management/create_event.html", {"event": new_event.id}
+            return redirect(
+                reverse_lazy("create_event", kwargs={"event_id": new_event.id})
             )
     else:
         form = EventPublishRequestForm()
