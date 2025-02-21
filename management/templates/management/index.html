@@ -32,7 +32,7 @@
             <div class="p-9 rounded-lg bg-gray-50 shadow-md">
                 <h3 class="text-green-900 font-semibold text-3xl lg-screen:text-4xl">Atividades</h3>
                 <h2 class="text-green-400 font-semibold text-5xl">
-                    {% if activities_count %} {{ activities_count }} {% else %} 0 {% endif %}
+                    {% if total_activities %} {{ total_activities }} {% else %} 0 {% endif %}
                 </h2>
                 <div class="pt-5">
                     {% svg 'activities' %}

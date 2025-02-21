@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.db.models import Count
-from .models import Event, Participant
+from .models import Event, Participant, Activity
 
 
 events = Event.objects.annotate(total_activities=Count("activity"))
@@ -43,12 +43,13 @@ class AnalyticsHome(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Event.objects.all()
+        return Event.objects.annotate(total_activities=Count("activity"))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["total_events"] = Event.objects.count()
         context["total_participants"] = Participant.objects.count()
+        context["total_activities"] = Activity.objects.count()  # Contagem de atividades
         active_events = Event.objects.filter(status="active").count()
         context["active_events_percentage"] = (
             (active_events / context["total_events"]) * 100
