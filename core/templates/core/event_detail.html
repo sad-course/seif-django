@@ -3,48 +3,47 @@
 {% block content %}
 <!-- Informações do evento -->
 <div class = " flex flex-col w-full gap-14 pt-20 justify-center md-screen:flex-row ">
+    {% if event %}
 
     <!--Informações textuais na versao reponsiva abaixo de 900px-->
     <div class = "md-screen:hidden" >
-        <h2 class = "font-extrabold text-3xl md-screen:text-4xl  " >NOME EVENTO E EDIÇÃO</h2>
+        <h2 class = "font-extrabold text-3xl md-screen:text-4xl">{{event.title}}</h2>
 
         <!--tags-->
         <div class = "flex items-center gap-3 overflow-x-scroll md-screen:scrollbar-hide pt-6">
-            <div class = "tag-progress">em andamento</div>
-            <div class = "tag-default">em breve</div>
-            <div class = "tag-default">pesquisa</div>
-            <div class = "tag-default">aberto ao público</div>
+            {% for tag in event.tags.all %}
+                <div class = "tag-default">{{tag.name}}</div>
+            {% endfor %}
         </div>
     </div>
 
-    <div class = "flex flex-col gap-16 md:flex-row">
+    <div class = "w-full flex flex-col gap-16 md:flex-row">
         <!--Imagem-->
-        <div class = "max-w-[400px] w-full md:max-w-[350px] h-[570px] self-center md-screen:self-start bg-gray-200 md-screen:w-[370px]"></div>
-
+        <img
+            src="{{event.banner.url}}"
+            alt=""
+            class = "max-w-[450px] w-full md:max-w-[400px] h-[500px] self-center md-screen:self-start object-fill md-screen:w-[370px]"
+        />
         <!--Informações textuais-->
         <div class = "flex-1 flex flex-col justify-between">
             <div class>
-                <h2 class = "font-extrabold text-4xl hidden  md-screen:block" >NOME EVENTO E EDIÇÃO</h2>
+                <h2 class = "font-extrabold text-4xl hidden  md-screen:block" >{{event.title}}</h2>
 
                 <!--tags-->
                 <div class = "items-center gap-3 overflow-x-scroll md-screen:scrollbar-hide pt-6 hidden md-screen:flex">
-                    <div class = "tag-progress">em andamento</div>
-                    <div class = "tag-default">em breve</div>
-                    <div class = "tag-default">pesquisa</div>
-                    <div class = "tag-default">aberto ao público</div>
+                    {% for tag in event.tags.all %}
+                        <div class = "tag-default">{{tag.name}}</div>
+                    {% endfor %}
                 </div>
 
                 <div class = "flex flex-col gap-4 py-6  text-base text-gray-400 font-semibold">
                     <span>Campus Pau dos Ferros</span>
-                    <span>INICIO: </br> 00/00/0000</span>
-                    <span>FIM: </br> 00/00/0000</span>
+                    <span>INICIO: </br> {{event.init_date|date:"d/m/Y"}}</span>
+                    <span>FIM: </br> {{event.end_date|date:"d/m/Y"}}</span>
                 </div>
 
-                <p class = "text-base text-justify w-auto ">
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Laudantium ullam illum nam consequuntur qui corrupti facilis
-                    quae delectus vitae reiciendis voluptatibus harum neque natus aut,
-                    voluptates iusto consequatur quasi eum.
+                <p class = "text-base text-justify w-full">
+                    {{event.description|striptags}}
                 </p>
             </div>
 
@@ -59,120 +58,34 @@
     <!--Container de cards-->
     <div class = "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
         <!--Card-->
-        <div class = "card-activity">
-            <div class = "flex flex-col text-base font-semibold text-gray-400">
-                <h3 class = "font-bold text-2xl text-gray-600">Palestra de Abertura</h3>
-                <span>00/00 as 17:00</span>
-                <span>Ministrada por: Nome</span>
+        {% if event.activity_set.all %}
+        {% for activity in event.activity_set.all  %}
+            <div class = "card-activity">
+                <div class = "flex flex-col text-base font-semibold text-gray-400">
+                    <h3 class = "font-bold text-2xl text-gray-600">{{activity.title}}</h3>
+                    <span>{{activity.init_date|date:"d/m/Y"}}</span>
+                    <span>Ministrada por: {{activity.instructor}}</span>
 
-                <p class = "font-normal text-gray-600 pt-4">Descrição simples </p>
+                    <p class = "font-normal text-gray-600 pt-4">{{activity.description|striptags}}</p>
+                </div>
+
+                <div class = "flex items-center gap-5">
+                    <div class = "tag-default" >900 vagas</div>
+                    <input
+                    type = "checkbox"
+                    name="activity"
+                    value = "palestra-ab"
+                    class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
+                    />
+                    <label for="activity"></label>
+
+
+                </div>
             </div>
-
-            <div class = "flex items-center gap-5">
-                <div class = "tag-default" >900 vagas</div>
-                <input
-                type = "checkbox"
-                name="activity"
-                value = "palestra-ab"
-                class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
-                />
-                <label for="activity"></label>
-
-
-            </div>
-        </div>
-
-        <div class = "card-activity">
-            <div class = "flex flex-col text-base font-semibold text-gray-400">
-                <h3 class = "font-bold text-2xl text-gray-600">Palestra de Abertura</h3>
-                <span>00/00 as 17:00</span>
-                <span>Ministrada por: Nome</span>
-
-                <p class = "font-normal text-gray-600 pt-4">Descrição simples </p>
-            </div>
-
-            <div class = "flex items-center gap-5">
-                <div class = "tag-default" >900 vagas</div>
-                <input
-                type = "checkbox"
-                name="activity"
-                value = "palestra-ab"
-                class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
-                />
-                <label for="activity"></label>
-
-
-            </div>
-        </div>
-
-        <div class = "card-activity">
-            <div class = "flex flex-col text-base font-semibold text-gray-400">
-                <h3 class = "font-bold text-2xl text-gray-600">Palestra de Abertura</h3>
-                <span>00/00 as 17:00</span>
-                <span>Ministrada por: Nome</span>
-
-                <p class = "font-normal text-gray-600 pt-4">Descrição simples </p>
-            </div>
-
-            <div class = "flex items-center gap-5">
-                <div class = "tag-default" >900 vagas</div>
-                <input
-                type = "checkbox"
-                name="activity"
-                value = "palestra-ab"
-                class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
-                />
-                <label for="activity"></label>
-
-
-            </div>
-        </div>
-
-        <div class = "card-activity">
-            <div class = "flex flex-col text-base font-semibold text-gray-400">
-                <h3 class = "font-bold text-2xl text-gray-600">Palestra de Abertura</h3>
-                <span>00/00 as 17:00</span>
-                <span>Ministrada por: Nome</span>
-
-                <p class = "font-normal text-gray-600 pt-4">Descrição simples </p>
-            </div>
-
-            <div class = "flex items-center gap-5">
-                <div class = "tag-default" >900 vagas</div>
-                <input
-                type = "checkbox"
-                name="activity"
-                value = "palestra-ab"
-                class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
-                />
-                <label for="activity"></label>
-
-
-            </div>
-        </div>
-
-        <div class = "card-activity">
-            <div class = "flex flex-col text-base font-semibold text-gray-400">
-                <h3 class = "font-bold text-2xl text-gray-600">Palestra de Abertura</h3>
-                <span>00/00 as 17:00</span>
-                <span>Ministrada por: Nome</span>
-
-                <p class = "font-normal text-gray-600 pt-4">Descrição simples </p>
-            </div>
-
-            <div class = "flex items-center gap-5">
-                <div class = "tag-default" >900 vagas</div>
-                <input
-                type = "checkbox"
-                name="activity"
-                value = "palestra-ab"
-                class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
-                />
-                <label for="activity"></label>
-
-
-            </div>
-        </div>
+        {% endfor %}
+        {%else%}
+            <span>Sem atividades</span>
+        {% endif%}
     </div>
 
     <div class = "flex justify-end pt-20">
@@ -180,5 +93,6 @@
             <button class = "btn-default">Salvar</button>
         </a>
     </div>
+    {% endif %}
 </div>
 {% endblock %}

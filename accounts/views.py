@@ -4,7 +4,8 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
-from core.models import EventSubscritption
+from core.models import EventSubscription
+
 from .forms import LoginForm, SignupForm
 from .models import Participant
 
@@ -14,7 +15,7 @@ from .models import Participant
 class Profile(TemplateView):
     def get(self, *args, **kwargs):
         participant = self.request.user
-        event_subscriptions = EventSubscritption.objects.filter(
+        event_subscriptions = EventSubscription.objects.filter(
             participant=participant
         ).count()
 
@@ -37,6 +38,11 @@ class SignIn(FormView):
     template_name = "accounts/login.html"
     form_class = LoginForm
     success_url = reverse_lazy("home")
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(self.get_success_url())
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         data = form.cleaned_data
