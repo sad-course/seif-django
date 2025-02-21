@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import ListView
+
 from django.db.models import Count
 from .models import Event, Participant, Activity
 
-
 events = Event.objects.annotate(total_activities=Count("activity"))
-
 
 # Create your views here.
 class Index(ListView):
@@ -43,8 +42,16 @@ class Organizers(ListView):
         return context
 
 
-def participants(request):
-    return render(request, "management/participants.html")
+class Participants(ListView):
+    model = Participant
+    template_name = "management/participants.html"
+    context_object_name = "participants"
+    paginate_by = 10
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["participants_count"] = Participant.objects.all().count()
+        return context
 
 
 class AnalyticsHome(ListView):
