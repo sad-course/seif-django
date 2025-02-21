@@ -5,7 +5,6 @@
 {% block content %}
 <div class="flex gap-10 w-full p-10 flex-wrap lg:flex-nowrap ">
     <div class="flex flex-col gap-8 sm:w-full lg:w-1/2 p-10 rounded-lg shadow-lg shadow-gray-800/25">
-        {% if user.is_authenticated %}
         <div class="flex items-center gap-2">
             <form action="{% url 'profile' %}" method = "POST" enctype="multipart/form-data" id = "upload-form">
                 {% csrf_token %}
@@ -31,7 +30,6 @@
                     0 certificados
             </span>
         </div>
-        {% endif %}
         <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPersonalData">Modificar Dados</button>
         <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPassword">Modificar Senha</button>
 
@@ -50,7 +48,7 @@
     <div class="popup-group w-full lg:w-1/2">
         <div class="flex flex-col justify-end gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 hidden" id="popupPersonalData">
             <div class="badge-message hidden">
-                {% include 'partials/components/badge_message.html' with status='warning' message='CPF informado é inválido!' %}
+                {% include 'partials/badge_message.html' with status='warning' message='CPF informado é inválido!' %}
             </div>
 
             <div class="flex flex-col sm gap-5">
@@ -82,7 +80,7 @@
         </div>
         <div class="flex flex-col justify-center gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 hidden" id="popupPasswordReset">
             <div class="badge-message hidden">
-                {% include 'partials/components/badge_message.html' with status='success' message='Senha alterada com sucesso' %}
+                {% include 'partials/badge_message.html' with status='success' message='Senha alterada com sucesso' %}
             </div>
 
             <div class="flex flex-col sm gap-5">

@@ -19,16 +19,17 @@ class Profile(TemplateView):
             participant=participant
         ).count()
 
-        user_event_subs = {
+        context = {
             "event_count": event_subscriptions,
         }
-        return render(self.request, "accounts/profile.html", context=user_event_subs)
+
+        return render(self.request, "accounts/profile.html", context=context)
 
     def post(self, *args, **kwargs):
         if self.request.FILES.get("photo"):
             participant = self.request.user
             participant.avatar = self.request.FILES["photo"]
-            participant.save()
+            participant.save(update_fields=["avatar"])
             return redirect("profile")
 
         return self.get(self.request, *args, **kwargs)
