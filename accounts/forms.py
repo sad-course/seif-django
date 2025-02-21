@@ -1,5 +1,5 @@
+import re
 from django import forms
-from django.core.validators import ValidationError
 
 
 class LoginForm(forms.Form):
@@ -43,12 +43,12 @@ class SignupForm(forms.Form):
     )
     phone = forms.CharField(
         label="phone",
-        max_length=20,
+        max_length=14,
         widget=forms.TextInput(attrs={"placeholder": "(XX)XXXX-XXXX"}),
     )
     cpf = forms.CharField(
         label="cpf",
-        max_length=20,
+        max_length=14,
         widget=forms.TextInput(attrs={"placeholder": "XXX.XXX.XXX-XX"}),
     )
 
@@ -75,7 +75,19 @@ class SignupForm(forms.Form):
         )
 
     def clean(self):
+        cleaned_data = super().clean()
+
+        cpf = self.cleaned_data.get("cpf")
+        cleaned_cpf = re.sub(r"\D", "", cpf)
+
+        if len(cleaned_cpf) != 11:
+            self.add_error("cpf", "CPF inválido. Deve conter 11 dígitos.")
+        else:
+            cleaned_data["cpf"] = cleaned_cpf
+
         password = self.cleaned_data.get("password")
         check_password = self.cleaned_data.get("checkPassword")
         if password != check_password:
-            raise ValidationError("Senhas não coincidem")
+            self.add_error("password", "Senhas não coincidem")
+
+        return cleaned_data

@@ -34,13 +34,15 @@
         <div class="flex flex-col gap-2 ">
             <button type="submit" class="self-center btn-default w-full h-[58px]">Confirmar</button>
             <span class="self-center">ou</span>
-            <span class="self-center underline text-green-700">
-                <a href="https://suap.ifrn.edu.br"
-                title="Clique nesse link para logar com o SUAP"
-                >
-                Entre com o Suap
-                </a>
-            </span>
+            {% if request.user.is_anonymous %}
+                <span class="self-center underline text-green-700">
+                    <a href="{% url 'social:begin' 'suap' %}"
+                        title="Clique nesse link para logar com o SUAP"
+                    >
+                    Entre com o Suap
+                    </a>
+                </span>
+            {% endif %}
 
             <span class="text-center font-bold">
                 Não tem conta? Faça seu
