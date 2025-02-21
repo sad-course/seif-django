@@ -20,6 +20,7 @@ class Profile(TemplateView):
         ).count()
 
         context = {
+            "avatar": participant.avatar,
             "event_count": event_subscriptions,
         }
 

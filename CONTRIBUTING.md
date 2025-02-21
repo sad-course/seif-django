@@ -49,11 +49,6 @@ python manage.py makenv dev
 </br>
 </br>
 
-**Switch environent to the desired env file**
-```bash
-python manage.py env dev
-```
-
 **Check database (create if not already) and apply schema migrations**
 ```bash
 python manage.py checkdb
@@ -61,7 +56,7 @@ python manage.py checkdb
 
 **Seed the database with initial data**
 ```bash
-python manage.py migrate
+python manage.py seed_db
 ```
 
 **Install the TailWind CSS dependencies**

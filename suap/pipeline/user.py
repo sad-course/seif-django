@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def download_image_suap(image_url, user_identification):
     try:
-        response = requests.get(image_url, timeout=1)
+        response = requests.get(image_url, timeout=5)
         response.raise_for_status()
         if response.status_code == 200:
             file_object = ContentFile(

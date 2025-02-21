@@ -9,8 +9,23 @@
             <form action="{% url 'profile' %}" method = "POST" enctype="multipart/form-data" id = "upload-form">
                 {% csrf_token %}
                 <input type="file" name="photo" accept="image/*" class="hidden" id="photo-upload">
+
                 <label for="photo-upload" class = "cursor-pointer">
-                    {% svg 'edit-profile-pic' class='' %}
+                    {% if avatar %}
+                        <div style="position: relative; display: inline-block;">
+                            <div class="w-[97px] h-[97px] overflow-hidden flex justify-center items-center">
+                                <img class="rounded-full h-full w-full object-cover" src="{{ avatar.url }}" alt="">
+                            </div>
+                            <svg width="30" fill="none" viewBox="90 75 40 30" style="position: absolute; top: 70px; right: -20px;">
+                                <g clip-path="url(#clip1_4_2)">
+                                    <path d="M120.75 95.75C120.75 96.413 120.487 97.0489 120.018 97.5178C119.549 97.9866 118.913 98.25 118.25 98.25H95.75C95.087 98.25 94.4511 97.9866 93.9822 97.5178C93.5134 97.0489 93.25 96.413 93.25 95.75V82C93.25 81.337 93.5134 80.7011 93.9822 80.2322C94.4511 79.7634 95.087 79.5 95.75 79.5H100.75L103.25 75.75H110.75L113.25 79.5H118.25C118.913 79.5 119.549 79.7634 120.018 80.2322C120.487 80.7011 120.75 81.337 120.75 82V95.75Z" stroke="#1E1E1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M107 93.25C109.761 93.25 112 91.0114 112 88.25C112 85.4886 109.761 83.25 107 83.25C104.239 83.25 102 85.4886 102 88.25C102 91.0114 104.239 93.25 107 93.25Z" stroke="#1E1E1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                            </svg>
+                        </div>
+                    {% else %}
+                        {% svg 'edit-profile-pic' class='' %}
+                    {% endif %}
                 </label>
                 <button type="submit" class = "hidden">Upload</button>
             </form>
