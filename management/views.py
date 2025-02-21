@@ -26,9 +26,14 @@ class Organizers(ListView):
     context_object_name = "organizers"
     paginate_by = 10
 
+    def get_queryset(self):
+        return Participant.objects.filter(
+            event__status__in=["active", "approved"]
+        ).distinct()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["organizers_count"] = Participant.objects.all().count()
+        context["organizers_count"] = self.get_queryset().count()
         return context
 
 
