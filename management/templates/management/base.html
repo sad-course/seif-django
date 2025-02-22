@@ -38,7 +38,8 @@
 
                     <!--Esse só tem para o organizador-->
                     <li><a href="{% url 'analytics_home'%}"> <span>Panorama analítico</span></a></li>
-                    <li><a href="{% url 'create_event' %}"> <span>Criar evento</span></a></li>
+                    <!--Organizador não tem mais essa rota-->
+                    <li class = "hidden"><a href=""> <span>Criar evento</span></a></li>
                     <li><a href="{% url 'participants' %}"> <span>Participantes</span></a></li>
 
                     <!--Esse só tem para o administrador-->
