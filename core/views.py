@@ -25,8 +25,9 @@ class Index(ListView):
             )
 
         event_filter = EventFilter(self.request.GET, queryset=queryset)
-
-        return event_filter.qs
+        queryset = event_filter.qs
+        queryset = queryset.order_by("id")
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
