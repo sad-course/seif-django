@@ -62,7 +62,11 @@ class Event(models.Model):
     init_date = models.DateTimeField("Início da atividade")
     end_date = models.DateTimeField("Fim da atividade")
     campus = models.CharField(
-        max_length=50, blank=False, null=False, default=Campus.CAMPUS_NULL
+        max_length=50,
+        blank=False,
+        null=False,
+        choices=Campus.choices,
+        default=Campus.CAMPUS_NULL,
     )
     status = models.CharField(
         "", max_length=50, choices=EventStatus.choices, default=EventStatus.DRAFT
@@ -79,6 +83,7 @@ class Event(models.Model):
         on_delete=models.CASCADE,
         related_name="events_managed",
         verbose_name="Criado por",
+
     )
 
     class Meta:

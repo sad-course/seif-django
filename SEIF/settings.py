@@ -22,30 +22,14 @@ from . import ckeditor_config, logging
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SEIF_ENV_OPTIONS = {"development": ".env.dev", "production": ".env.prod"}
-
 # Configuring environment variables
 dotenv.load_dotenv(".env")
-SEIF_ENV = os.getenv("SEIF_ENV", "default")
 
-# Load general variables for SOCIAL AUTH
 SOCIAL_AUTH_SUAP_KEY = os.getenv("SOCIAL_AUTH_SUAP_KEY")
 SOCIAL_AUTH_SUAP_SECRET = os.getenv("SOCIAL_AUTH_SUAP_SECRET")
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
-
-ENV_VARS_FILE = SEIF_ENV_OPTIONS.get(SEIF_ENV, ".env")
-
-env_path = dotenv.find_dotenv(ENV_VARS_FILE)
-if env_path is None:
-    raise FileNotFoundError(
-        f"Could not find {ENV_VARS_FILE} file. Please make sure you have a \
-        {ENV_VARS_FILE} file in your project root."
-    )
-
-dotenv.load_dotenv(env_path)
-
 
 NPM_BIN_PATH = which("npm")
 
@@ -76,6 +60,7 @@ INSTALLED_APPS = [
     "dj_svg",
     "django_ckeditor_5",
     "social_django",
+    "django_filters",
     # local apps
     "core",
     "accounts",

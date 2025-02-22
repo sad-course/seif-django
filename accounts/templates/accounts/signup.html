@@ -8,15 +8,15 @@
 
         {% for field in form.fields %}
             {% for error in field.errors %}
-                {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+                {% include 'partials/badge_message.html' with status='warning' message=error %}
             {% endfor %}
         {% endfor %}
         {% for error in form.non_field_errors %}
-            {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+            {% include 'partials/badge_message.html' with status='warning' message=error %}
         {% endfor %}
         {% for field in form %}
             {% for error in field.errors %}
-                {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+                {% include 'partials/badge_message.html' with status='warning' message=error %}
             {% endfor %}
         {% endfor %}
 
