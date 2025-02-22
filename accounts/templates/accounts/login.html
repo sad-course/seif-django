@@ -7,11 +7,11 @@
 
         {% for field in form.fields %}
             {% for error in field.errors %}
-                {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+                {% include 'partials/badge_message.html' with status='warning' message=error %}
             {% endfor %}
         {% endfor %}
         {% for error in form.non_field_errors %}
-            {% include 'partials/components/badge_message.html' with status='warning' message=error %}
+            {% include 'partials/badge_message.html' with status='warning' message=error %}
         {% endfor %}
 
         <h1 class="text-4xl font-bold text-center pt-4">Login</h1>
