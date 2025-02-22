@@ -113,6 +113,16 @@ def edit_event(request, event_id):
                 tags.append(tag)
 
             event.tags.set(tags)
+            event.organizers.set(data["organizers"])
+
+            # tornando os participantes selecionados em organizadores
+            organizers_list = data["organizers"]
+            for organizer in organizers_list:
+                participant = Participant.objects.get(id=organizer)
+                group = Group.objects.get(name="Organizers")
+                participant.groups.add(group)
+                participant.save()
+
             event.save()
 
             messages.success(request, "Evento criado!")

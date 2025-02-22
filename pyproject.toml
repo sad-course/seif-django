@@ -6,6 +6,7 @@ disable = [
     "C0116",   # Missing function docstring
     "W0613",   # Unused argument 'kwargs'
     "W0718",
+    "R0914",
 ]
 ignore-paths = [".*/migrations"]
 

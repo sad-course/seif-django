@@ -1,7 +1,7 @@
 import datetime
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Event, ActivityType
+from .models import Event, ActivityType, Participant
 
 
 class EventPublishRequestForm(forms.Form):
@@ -56,7 +56,11 @@ class EventForm(forms.Form):
     initial_status = forms.ChoiceField(choices=[("rascunho", "Rascunho")])
     tags = forms.CharField(max_length=100)
     campus = forms.ChoiceField(choices=Event.Campus.choices)
-    organizers = forms.EmailField()
+    organizers = forms.ModelMultipleChoiceField(
+        queryset=Participant.objects.all(),
+        widget=forms.SelectMultiple(attrs={"class": "w-full rounded-lg bg-gray-100"}),
+        required=True,
+    )
     banner = forms.FileField(required=True)
     solicitation = forms.BooleanField(
         initial=False, required=False, widget=forms.HiddenInput()
@@ -103,12 +107,7 @@ class EventForm(forms.Form):
         self.fields["campus"].widget = forms.Select(
             attrs={"class": "w-full rounded-lg bg-gray-100"}
         )
-        self.fields["organizers"].widget = forms.EmailInput(
-            attrs={
-                "class": "w-full rounded-lg bg-gray-100",
-                "placeholder": "fulano@gmail.com",
-            }
-        )
+
         self.fields["banner"].widget = forms.FileInput(attrs={"class": "hidden h-full"})
 
     def clean_init_date(self):
@@ -157,16 +156,6 @@ class EventForm(forms.Form):
         if inital_status not in ["rascunho", "rascunho"]:
             raise ValidationError("Status inválido.")
         return inital_status
-
-    def clean_organizers(self):
-        organizers = self.cleaned_data["organizers"]
-        # Se houver mais de um organizador, os e-mails devem ser separados por vírgula
-        organizers = organizers.split(",")
-        for email in organizers:
-            email = email.strip()
-            if not forms.EmailField().clean(email):
-                raise ValidationError(f"O e-mail '{email}' é inválido.")
-        return organizers
 
 
 class ActivityForm(forms.Form):
