@@ -1,8 +1,8 @@
-from datetime import timedelta
 import uuid
+from datetime import timedelta
+
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
-
 from accounts.models import Participant
 
 
@@ -74,7 +74,7 @@ class Event(models.Model):
     banner = models.ImageField(
         "Banner",
         upload_to="events/banners/",
-        default="/static/images/event-banner-default.png",
+        default="events/banners/event-banner-default.jpg",
     )
     tags = models.ManyToManyField(to=Tag, verbose_name="Tags")
     organizers = models.ManyToManyField(to=Participant, verbose_name="Organizadores")
@@ -83,7 +83,6 @@ class Event(models.Model):
         on_delete=models.CASCADE,
         related_name="events_managed",
         verbose_name="Criado por",
-
     )
 
     class Meta:

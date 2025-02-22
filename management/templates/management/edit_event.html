@@ -28,16 +28,14 @@
             <!-- Metade Esquerda - Local da Imagem -->
 
             <div class="flex flex-col w-[450px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
-                {% if event.banner %}
-                    <span id="file-name" class="text-gray-500">{{ event.banner }}</span>
-                {% else %}
-                    <span id="file-name" class="text-gray-500">Nenhum arquivo selecionado</span>
-                {% endif %}
-
-                {# Renderiza o campo de imagem – o widget definido em forms.py já tem a classe "hidden" #}
                 {{ form.banner }}
+                {# Renderiza o campo de imagem – o widget definido em forms.py já tem a classe "hidden" #}
                 <label for="{{ form.banner.id_for_label }}" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
-                    <span>Arraste ou clique para adicionar uma imagem</span>
+                    {% if event.banner %}
+                        <div class="w-full h-full overflow-hidden flex justify-center items-center">
+                            <img class="h-full w-full object-cover" src="{{ event.banner.url }}" alt="">
+                        </div>
+                    {% endif %}
                 </label>
             </div>
 

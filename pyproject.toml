@@ -5,6 +5,7 @@ disable = [
     "C0115",  # Missing class docstring
     "C0116",   # Missing function docstring
     "W0613",   # Unused argument 'kwargs'
+    "W0718",
 ]
 ignore-paths = [".*/migrations"]
 
