@@ -83,6 +83,7 @@ class Event(models.Model):
         on_delete=models.CASCADE,
         related_name="events_managed",
         verbose_name="Criado por",
+
     )
 
     class Meta:

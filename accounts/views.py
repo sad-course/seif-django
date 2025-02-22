@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from core.models import EventSubscription
+
 from .forms import LoginForm, SignupForm
 from .models import Participant
 
@@ -18,16 +19,18 @@ class Profile(TemplateView):
             participant=participant
         ).count()
 
-        user_event_subs = {
+        context = {
+            "avatar": participant.avatar,
             "event_count": event_subscriptions,
         }
-        return render(self.request, "accounts/profile.html", context=user_event_subs)
+
+        return render(self.request, "accounts/profile.html", context=context)
 
     def post(self, *args, **kwargs):
         if self.request.FILES.get("photo"):
             participant = self.request.user
             participant.avatar = self.request.FILES["photo"]
-            participant.save()
+            participant.save(update_fields=["avatar"])
             return redirect("profile")
 
         return self.get(self.request, *args, **kwargs)
@@ -37,6 +40,11 @@ class SignIn(FormView):
     template_name = "accounts/login.html"
     form_class = LoginForm
     success_url = reverse_lazy("home")
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(self.get_success_url())
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         data = form.cleaned_data
