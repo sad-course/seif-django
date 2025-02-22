@@ -51,7 +51,6 @@
                     <th class="rounded-tl-md">Evento</th>
                     <th>Status</th>
                     <th>Participantes</th>
-                    <th>Horas</th>
                     <th>Atividades</th>
                     <th>Responsável</th>
                     <th class="rounded-tr-md">Editar</th>
@@ -75,12 +74,7 @@
                                 {% endif %}
                             </td>
                             <td>{{ event.organizers.count }}</td>
-                            <td>
-                                {% with event.duration as total_hours %}
-                                    {{ total_hours|default:"0h" }}
-                                {% endwith %}
-                            </td>
-                            <td>{{ event.total_activities|default:"0" }}</td>
+                            <td>{{ event.activity_set.all.count|default:"0" }}</td>
                             <td>{{ event.created_by.email }}</td>
                             <td class="rounded-br-md">
                                 <a href="{% url 'edit_event' event.id  %}">
