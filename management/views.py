@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView
+from django.contrib.auth.models import Group
 from django.contrib import messages
 from .forms import EventForm, EventPublishRequestForm, ActivityForm
 from .models import Event, Tag, Activity, ActivityType
@@ -133,6 +134,10 @@ class CreateEventRequestView(FormView):
             end_date=data["end_date"],
             created_by=self.request.user,
         )
+
+        group = Group.objects.get(name="Organizers")
+        self.request.user.groups.add(group)
+        self.request.user.save()
 
         messages.success(self.request, "Evento solicitado com sucesso!")
         return redirect(reverse_lazy("edit_event", kwargs={"event_id": new_event.id}))
