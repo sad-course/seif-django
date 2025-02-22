@@ -22,17 +22,13 @@ class Command(BaseCommand):
 
         except (ValidationError, IntegrityError) as exception:
             message = self.style.ERROR(
-                "An exception was raised during the seed of Group. \
-                Exception: %s, Message: %s",
-                type(exception).__name__,
-                str(exception),
+                f"An exception was raised during the seed of Group. \
+                Exception: {type(exception).__name__}, Message: {str(exception)}"
             )
-        except (DatabaseError, OperationalError, ProgrammingError):
+        except (DatabaseError, OperationalError, ProgrammingError) as exception:
             message = self.style.ERROR(
-                "An exception was raised during the seed of Group. \
-                Exception: %s, Message: %s",
-                type(exception).__name__,
-                str(exception),
+                f"An exception was raised during the seed of Group. \
+                Exception: {type(exception).__name__}, Message: {str(exception)}"
             )
 
         self.stdout.write(message)
