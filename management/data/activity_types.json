@@ -1,0 +1,46 @@
+[
+    {
+        "name": "Palestra",
+        "description": "Uma apresentação formal sobre um tema específico, conduzida por um especialista."
+    },
+    {
+        "name": "Workshop",
+        "description": "Uma atividade prática onde os participantes aprendem novas habilidades através de exercícios e interações."
+    },
+    {
+        "name": "Mesa Redonda",
+        "description": "Discussão aberta entre especialistas sobre um tema, com possibilidade de participação do público."
+    },
+    {
+        "name": "Oficina",
+        "description": "Sessão prática voltada ao desenvolvimento de habilidades específicas, geralmente com uso de materiais didáticos."
+    },
+    {
+        "name": "Painel",
+        "description": "Grupo de especialistas discutindo um tema específico com moderação."
+    },
+    {
+        "name": "Sessão de Perguntas e Respostas",
+        "description": "Espaço para o público fazer perguntas a palestrantes ou especialistas."
+    },
+    {
+        "name": "Networking",
+        "description": "Oportunidade para os participantes interagirem e criarem conexões profissionais."
+    },
+    {
+        "name": "Apresentação de Projetos",
+        "description": "Momento para exibição e explicação de projetos desenvolvidos pelos participantes."
+    },
+    {
+        "name": "Hackathon",
+        "description": "Maratona de desenvolvimento onde equipes trabalham em soluções para desafios específicos."
+    },
+    {
+        "name": "Competição",
+        "description": "Atividade que envolve desafios ou disputas entre os participantes."
+    },
+    {
+        "name": "Minicurso",
+        "description": "Sessão de curta duração com foco em aprendizado intensivo sobre um tema específico."
+    }
+]

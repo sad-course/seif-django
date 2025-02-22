@@ -64,12 +64,12 @@
                         <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
                             <td class="rounded-bl-md">{{ event.title }}</td>
                             <td>
-                                {% if event.status == "pending" %}
-                                    <div class="tag-default">Pendente</div>
+                                {% if event.status == "draft" %}
+                                    <div class="tag-progress">{{event.get_status_display }}</div>
                                 {% elif event.status == "active" %}
-                                    <div class="tag-progress">Em andamento</div>
+                                    <div class="tag-default">{{event.get_status_display }}</div>
                                 {% elif event.status == "closed" %}
-                                    <div class="tag-default">Encerrado</div>
+                                    <div class="tag-default">{{event.get_status_display }}</div>
                                 {% else %}
                                     <div class="tag-default">{{ event.get_status_display }}</div>
                                 {% endif %}
@@ -83,7 +83,7 @@
                             <td>{{ event.total_activities|default:"0" }}</td>
                             <td>{{ event.created_by.email }}</td>
                             <td class="rounded-br-md">
-                                <a href="{% url edit_event' event.id  %}">
+                                <a href="{% url 'edit_event' event.id  %}">
                                     <button class="btn-default">
                                         Editar evento
                                     </button>
