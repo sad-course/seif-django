@@ -3,9 +3,11 @@
 
 {% block content %}
 
-<div class="py-7">
-    <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
-    <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
+<div class="py-7 mx-auto w-full flex flex-col items-center justify-between">
+    <div class = "w-full" >
+        <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
+        <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
+    </div>
     {% if messages %}
         <div>
             {% for message in messages %}
@@ -13,7 +15,7 @@
             {% endfor %}
         </div>
     {% endif %}
-    <form id="create-event-form" action="{% url 'edit_event' event.id %}" method="POST" enctype="multipart/form-data" class="max-w-[850px]">
+    <form id="create-event-form" action="{% url 'edit_event' event.id %}" method="POST" enctype="multipart/form-data" class="w-full">
         {% csrf_token %}
         <input type="hidden" name="event_form" value="1">
         {% for field in form %}
@@ -25,7 +27,7 @@
         <div class="flex gap-8 w-full">
             <!-- Metade Esquerda - Local da Imagem -->
 
-            <div class="flex flex-col w-[350px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
+            <div class="flex flex-col w-[450px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
                 {% if event.banner %}
                     <span id="file-name" class="text-gray-500">{{ event.banner }}</span>
                 {% else %}
