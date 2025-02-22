@@ -83,7 +83,7 @@
                             <td>{{ event.total_activities|default:"0" }}</td>
                             <td>{{ event.created_by.email }}</td>
                             <td class="rounded-br-md">
-                                <a href="{% url edit_event' event.id  %}">
+                                <a href="{% url 'edit_event' event.id  %}">
                                     <button class="btn-default">
                                         Editar evento
                                     </button>

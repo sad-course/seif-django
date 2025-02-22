@@ -3,7 +3,6 @@ import requests
 
 from social_core.pipeline.user import USER_FIELDS
 from django.core.files.base import ContentFile
-
 from accounts.models import AcademicIntern
 
 logger = logging.getLogger(__name__)
@@ -11,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def download_image_suap(image_url, user_identification):
     try:
-        response = requests.get(image_url, timeout=1)
+        response = requests.get(image_url, timeout=5)
         response.raise_for_status()
         if response.status_code == 200:
             file_object = ContentFile(
@@ -50,7 +49,6 @@ def save_suap_user(strategy, details, response, backend, *args, **kwargs):
         )
 
         fields.update({"avatar": user_image_file_object})
-
         if backend.setting("FORCE_EMAIL_LOWERCASE", False):
             emailfield = fields.get("email")
             if emailfield:
@@ -61,9 +59,12 @@ def save_suap_user(strategy, details, response, backend, *args, **kwargs):
             association_type=user_type,
             defaults={**fields},
         )
+        if user and not user.password:
+            user.set_unusable_password()
+            user.save(update_fields=["password"])
+
         if created:
-            return {"is_new": False}
+            return {"is_new": True, "user": user}
 
-        return {"is_new": True, "user": user}
-
+        return {"is_new": False}
     return {}

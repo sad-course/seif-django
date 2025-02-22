@@ -1,0 +1,220 @@
+{% extends "management/base.html" %}
+{% load svg %}
+
+{% block content %}
+
+<div class="py-7 mx-auto w-full flex flex-col items-center justify-between">
+    <div class = "w-full" >
+        <h1 class="text-2xl font-semibold mb-6 text-green-900">Criando Novo Evento</h1>
+        <h2 class="text-xl font-semibold mb-6 text-gray-950">Informações Principais</h2>
+    </div>
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                {% include 'partials/badge_message.html' with status='success' message=message %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    <form id="create-event-form" action="{% url 'edit_event' event.id %}" method="POST" enctype="multipart/form-data" class="w-full">
+        {% csrf_token %}
+        <input type="hidden" name="event_form" value="1">
+        {% for field in form %}
+            {% for error in field.errors %}
+                {% include 'partials/badge_message.html' with status='warning' message=error %}
+            {% endfor %}
+        {% endfor %}
+
+        <div class="flex gap-8 w-full">
+            <!-- Metade Esquerda - Local da Imagem -->
+
+            <div class="flex flex-col w-[450px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
+                {% if event.banner %}
+                    <span id="file-name" class="text-gray-500">{{ event.banner }}</span>
+                {% else %}
+                    <span id="file-name" class="text-gray-500">Nenhum arquivo selecionado</span>
+                {% endif %}
+
+                {# Renderiza o campo de imagem – o widget definido em forms.py já tem a classe "hidden" #}
+                {{ form.banner }}
+                <label for="{{ form.banner.id_for_label }}" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
+                    <span>Arraste ou clique para adicionar uma imagem</span>
+                </label>
+            </div>
+
+            <div class="space-y-6 w-full">
+                <!-- Título -->
+                <div>
+                    <label for="{{ form.title.id_for_label }}" class="block text-sm font-medium text-gray-600">Título</label>
+                    {{ form.title }}
+                </div>
+
+                <!-- Descrição -->
+                <div>
+                    <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-600">Descrição</label>
+                    {{ form.description }}
+                </div>
+
+                <!-- Datas e Status -->
+                <div class="flex flex-wrap gap-2">
+                    <div class="flex-1 w-12">
+                        <label for="{{ form.init_date.id_for_label }}" class="text-sm font-medium text-gray-600">Início</label>
+                        {{ form.init_date }}
+                    </div>
+                    <div class="flex-1 w-12">
+                        <label for="{{ form.end_date.id_for_label }}" class="text-sm font-medium text-gray-600">Fim</label>
+                        {{ form.end_date }}
+                    </div>
+                    <div class="flex-1">
+                        <label for="{{ form.initial_status.id_for_label }}" class="text-sm font-medium text-gray-600">Status Inicial</label>
+                        <select name="{{ form.initial_status.name }}" id="{{ form.initial_status.id_for_label }}" class="w-full rounded-lg bg-gray-100">
+                            <option value="" disabled selected>-------</option>
+                            {% for value, label in form.initial_status.field.choices %}
+                                <option value="{{ value }}" {% if form.initial_status.value == value %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tags e Campus -->
+        <div class="flex gap-5 mt-5">
+            <div class="flex flex-col space-y-2">
+                <label for="{{ form.tags.id_for_label }}" class="text-sm font-medium text-gray-600">Tags</label>
+                {{ form.tags }}
+            </div>
+            <div class="flex flex-1 flex-col space-y-2">
+                <label for="{{ form.campus.id_for_label }}" class="text-sm font-medium text-gray-600">Campus</label>
+                <select name="{{ form.campus.name }}" id="{{ form.campus.id_for_label }}" class="w-full rounded-lg bg-gray-100">
+                    <option value="" disabled selected>-------</option>
+                    {% for value, label in form.campus.field.choices %}
+                        <option value="{{ value }}" {% if form.campus.value == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+        </div>
+
+        <!-- Adicionar Organizadores -->
+        <div class="mt-6">
+            <label for="{{ form.organizers.id_for_label }}" class="block text-sm font-medium text-gray-600">Adicione Organizadores</label>
+            {{ form.organizers }}
+        </div>
+
+        <!-- Adicionar Atividades -->
+        <div class="mt-6">
+                <button id="add-activity-btn" type="button" class="btn-default">
+                    Adicionar Atividades +
+                </button>
+        </div>
+
+        <!-- Cards (conteúdo estático para visualização) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <!-- Card 1 -->
+            {% if event.activity_set.all %}
+                {% for activity in event.activity_set.all  %}
+                <div class="bg-white shadow-md rounded-lg p-4 border-2 border-gray-250 flex justify-between items-start">
+                    <div class = "w-full">
+                        <h3 class="font-semibold text-lg text-gray-900">{{activity.title}}</h3>
+                        <p class="text-sm text-gray-500 mt-2">{{activity.init_date|date:'d/m/Y'}}</p>
+                        <p class="text-sm text-gray-700 mt-1">Ministrada por: {{activity.instructor}}</p>
+                        <p class="text-sm text-gray-700 mt-1"> {{activity.activity_type.name}}</p>
+                        <p class="text-sm text-gray-600 mt-4">{{activity.description}}</p>
+                    </div>
+
+                    <button onclick = "deleteActivity({{ activity.id }})">
+                        {% svg 'delete' %}
+                    </button>
+                </div>
+                {% endfor %}
+            {% else %}
+                <span>Crie atividades para seu evento</span>
+            {% endif %}
+
+
+        </div>
+
+        <!-- Botão Finalizar -->
+        <div class="mt-6 flex justify-end">
+            <button type="submit" class="btn-default">Finalizar</button>
+        </div>
+    </form>
+
+</div>
+
+<!--Esse form é responsável por deletar a atividade selecionada -->
+<form id = "delete-activity-form" method="POST" action="{% url 'edit_event' event.id %}" class="hidden mt-4">
+    {% csrf_token %}
+    <input type="hidden" name="activity_id" id = "activity-id">
+</form>
+
+<!-- Modal de criar atividade (mantém a estilização original) -->
+<div id="activity-modal" class="hidden">
+
+    <div  class="fixed flex inset-0 items-center justify-center bg-gray-300 bg-opacity-70">
+        <div class="bg-gray-200 w-11/12 max-w-2xl relative h-[600px] rounded-lg shadow-lg p-6 overflow-y-auto">
+            <button id = "close-activity-modal" class = "absolute right-0 top-0"> X </button>
+            <h2 class="text-xl font-bold mb-4 text-gray-700">Criando atividade</h2>
+
+            <form id="activity-form" action = "{% url 'edit_event' event.id %}" method="POST" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="activity_form" value="1">
+
+                <div>
+                    <label for = {{activity_form.title.id}} class="block text-gray-600 font-medium">Título</label>
+                    {{ activity_form.title }}
+                </div>
+
+                <div>
+                    <label for = {{ activity_form.description.id }} class="block text-gray-600 font-medium">Descrição</label>
+                    {{ activity_form.description }}
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-4 md:grid-cols-4 gap-4">
+                    <div>
+                        <label for = {{ activity_form.init_date.id }} class="block text-gray-600 font-medium">Início</label>
+                        {{ activity_form.init_date }}
+                    </div>
+                    <div>
+                        <label for = {{ activity_form.end_date.id }} class="block text-gray-600 font-medium">Fim</label>
+                        {{ activity_form.end_date }}
+                    </div>
+                    <div>
+                        <label for = {{ activity_form.init_time.id }} class="block text-gray-600 font-medium">Horário de início</label>
+                        {{ activity_form.init_time }}
+                    </div>
+                    <div>
+                        <label for = "" class="block text-gray-600 font-medium"> Tipo</label>
+                        <select name="{{ activity_form.activity_type.name }}" id="{{ activity_form.type.id_for_label }}" class="w-full rounded-lg bg-gray-100">
+                            <option value="" disabled selected>-------</option>
+                                {% for value, label in activity_form.fields.activity_type.choices %}
+                                    <option value="{{ value }}" {% if activity_form.activity_type.value == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for = {{ activity_form.capacity.id}} class="block text-gray-600 font-medium">Vagas disponíveis</label>
+                        {{ activity_form.capacity }}
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="h-10">
+                        <label for = {{ activity_form.instructor.id }} class="block text-gray-600 font-medium">Responsável(s)</label>
+                        {{ activity_form.instructor }}
+                    </div>
+
+                    <div>
+                        <label for = {{ activity_form.estimated_duration.id }} class="block text-gray-600 font-medium">Horas previstas</label>
+                        {{ activity_form.estimated_duration }}
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-end">
+                    <button type="submit" class="btn-default">Criar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

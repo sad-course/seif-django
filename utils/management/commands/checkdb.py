@@ -2,6 +2,7 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 from django.conf import settings
 from django.core.management.base import BaseCommand
+from django.core.management import call_command
 
 
 class Command(BaseCommand):
@@ -36,12 +37,14 @@ class Command(BaseCommand):
             if not exists:
                 self.stdout.write(f"Database '{db_name}' does not exist. Creating...")
                 cursor.execute(f"CREATE DATABASE {db_name};")
-                self.stdout.write(f"Database '{db_name}' created successfully.")
+                self.stdout.write(f"✅ Database '{db_name}' created successfully.")
             else:
-                self.stdout.write(f"Database '{db_name}' already exists.")
+                self.stdout.write(f"✅ Database '{db_name}' already exists.")
 
-        except psycopg2.Error as e:
-            self.stderr.write(f"Error connecting to PostgreSQL: {e}")
+            self.stdout.write(self.style.SUCCESS("📂 Applying schema to database..."))
+            call_command("migrate")
+        except psycopg2.Error as exception:
+            self.stderr.write(f"🛑 Error connecting to PostgreSQL: {exception}")
         finally:
             if connection:
                 cursor.close()
