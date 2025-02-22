@@ -67,11 +67,11 @@
                         {% csrf_token %}
                         <div class = "flex items-center gap-2 cursor-pointer">
                             <button type="submit">
-                                <span>Sair</span>
-                            </button>
-                            <button>
-                                {% svg 'logout'%}
-                            </button>
+                                <div class="flex gap-3">
+                                  <span>Sair</span>
+                                  {% svg 'logout'%}
+                                </div>
+                              </button>
                         </div>
                     </form>
 
