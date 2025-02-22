@@ -10,7 +10,9 @@
         <!-- Cards -->
             <div class=" w-[350px] p-9 rounded-lg bg-gray-50 shadow-md">
                 <h3 class="text-green-900 font-semibold text-4xl">Organizadores</h3>
-                <h2 class="text-green-400 font-semibold text-5xl">30</h2>
+                <h2 class="text-green-400 font-semibold text-5xl">
+                    {{ organizers_count }}
+                </h2>
                 <div class="pt-5">
                     {% svg 'organizer' %}
                 </div>
@@ -31,21 +33,59 @@
             </thead>
 
 
-            <tbody>
-                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
-                    <td class ="rounded-bl-md">
-                        <div class = "w-10 h-10 rounded-full bg-gray-300">
-
-                        </div>
-                    </td>
-                    <td> <div class = "default-tag">Fulano</div> </td>
-                    <td>12/09/2023</td>
-                    <td>fulano@gmail.com</td>
-                    <td class = "rounded-br-md">Organizador</td>
-                </tr>
+            <tbody class="text-center">
+                {% for organizer in organizers %}
+                    <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                        <td class="rounded-bl-md">
+                            <div class="w-10 h-10 rounded-full bg-gray-300">
+                                {% if organizer.avatar %}
+                                    <img src="{{ organizer.avatar.url }}" alt="Avatar" class="w-full h-full rounded-full">
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="default-tag">{{ organizer.username }}</div>
+                        </td>
+                        <td>
+                            {{ organizer.date_joined|date:"d/m/Y" }}
+                        </td>
+                        <td>
+                            {{ organizer.email }}
+                        </td>
+                        <td class="rounded-br-md">
+                            {% if organizer.event_set.exists %}
+                                Organizador
+                            {% else %}
+                                Participante
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-4">Nenhum organizador encontrado.</td>
+                    </tr>
+                {% endfor %}
             </tbody>
 
+
         </table>
+    </div>
+
+    <!--paginação-->
+    <div class="py-5 w-full flex flex-col justify-center items-center">
+        <div class="text-green-900 text-xl">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Voltar</a>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </div>
+
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
     </div>
 </div>
 

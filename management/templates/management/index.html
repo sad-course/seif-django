@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class = "pt-12">
-    
+
     <div>
         <h1 class = "font-medium text-3xl text-green-900 pb-8" >Fulano Dital</h1>
 
@@ -11,7 +11,9 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <div class="p-9 rounded-lg bg-gray-50 shadow-md">
                 <h3 class="text-green-900 font-semibold text-3xl lg-screen:text-4xl ">Eventos</h3>
-                <h2 class="text-green-400 font-semibold text-5xl">9</h2>
+                <h2 class="text-green-400 font-semibold text-5xl">
+                    {%if events %} {{events_count}} {% else %} 0 {% endif %}
+                </h2>
                 <div class="pt-5">
                     {% svg 'calendar-management' %}
                 </div>
@@ -19,7 +21,9 @@
 
             <div class="p-9 rounded-lg bg-gray-50 shadow-md">
                 <h3 class="text-green-900 font-semibold text-3xl lg-screen:text-4xl">Organizadores</h3>
-                <h2 class="text-green-400 font-semibold text-5xl">9</h2>
+                <h2 class="text-green-400 font-semibold text-5xl">
+                    {{ organizers_count }}
+                </h2>
                 <div class="pt-5">
                     {% svg 'organizer' %}
                 </div>
@@ -27,7 +31,9 @@
 
             <div class="p-9 rounded-lg bg-gray-50 shadow-md">
                 <h3 class="text-green-900 font-semibold text-3xl lg-screen:text-4xl">Atividades</h3>
-                <h2 class="text-green-400 font-semibold text-5xl">20</h2>
+                <h2 class="text-green-400 font-semibold text-5xl">
+                    {{ total_activities }}
+                </h2>
                 <div class="pt-5">
                     {% svg 'activities' %}
                 </div>
@@ -38,41 +44,72 @@
     </div>
 
     <h3 class = "font-semibold text-2xl text-green-900 pt-10 pb-6" >Seus Eventos</h3>
-    <div class = "overflow-x-auto shadow-md">
-        <table class = "w-full table-auto ">
-            <thead class = "bg-green-400" >
-                <tr class = "text-left  prose-th:p-3 ">
-                    <th class = "rounded-tl-md" >Evento</th>
+    <div class="overflow-x-auto shadow-md">
+        <table class="w-full table-auto">
+            <thead class="bg-green-400">
+                <tr class="text-center prose-th:p-3">
+                    <th class="rounded-tl-md">Evento</th>
                     <th>Status</th>
                     <th>Participantes</th>
-                    <th>Horas</th>
                     <th>Atividades</th>
-                    <th class = "rounded-tr-md">Responsável</th>
+                    <th>Responsável</th>
+                    <th class="rounded-tr-md">Editar</th>
                 </tr>
             </thead>
-    
-            
-            <tbody>
-                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
-                    <td class ="rounded-bl-md">Expotec</td>
-                    <td class = "w-40"> <div class = "tag-progress">andamento</div> </td>
-                    <td>120</td>
-                    <td>48h</td>
-                    <td>12</td>
-                    <td class = "rounded-br-md">fulano@gmail.com</td>
-                </tr>
 
-                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
-                    <td class ="rounded-bl-md">Expotec</td>
-                    <td > <div class = "tag-default">em breve</div> </td>
-                    <td>120</td>
-                    <td>48h</td>
-                    <td>12</td>
-                    <td class = "rounded-br-md">fulano@gmail.com</td>
-                </tr>
+            <tbody class="text-center">
+                {% if events %}
+                    {% for event in events %}
+                        <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                            <td class="rounded-bl-md">{{ event.title }}</td>
+                            <td>
+                                {% if event.status == "draft" %}
+                                    <div class="tag-progress">{{event.get_status_display }}</div>
+                                {% elif event.status == "active" %}
+                                    <div class="tag-default">{{event.get_status_display }}</div>
+                                {% elif event.status == "closed" %}
+                                    <div class="tag-default">{{event.get_status_display }}</div>
+                                {% else %}
+                                    <div class="tag-default">{{ event.get_status_display }}</div>
+                                {% endif %}
+                            </td>
+                            <td>{{ event.organizers.count }}</td>
+                            <td>{{ event.activity_set.all.count|default:"0" }}</td>
+                            <td>{{ event.created_by.email }}</td>
+                            <td class="rounded-br-md">
+                                <a href="{% url 'edit_event' event.id  %}">
+                                    <button class="btn-default">
+                                        Editar evento
+                                    </button>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7"><span>Sem eventos</span></td>
+                    </tr>
+                {% endif %}
             </tbody>
-    
         </table>
+    </div>
+
+
+    <!--paginação-->
+    <div class="py-5 w-full flex flex-col justify-center items-center">
+        <div class="text-green-900 text-xl">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo;</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Voltar</a>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+            {% endif %}
+        </div>
+
+        <span>Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}</span>
     </div>
 </div>
 
