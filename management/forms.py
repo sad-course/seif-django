@@ -1,7 +1,7 @@
 import datetime
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Event
+from .models import Event, ActivityType
 
 
 class EventPublishRequestForm(forms.Form):
@@ -220,12 +220,10 @@ class ActivityForm(forms.Form):
             }
         ),
     )
-    type = forms.ChoiceField(
+    activity_type = forms.ChoiceField(
         choices=[
-            ("", "Selecione"),
-            ("palestra", "Palestra"),
-            ("minicurso", "Minicurso"),
-            ("oficina", "Oficina"),
+            (activity_type.id, activity_type.name)
+            for activity_type in ActivityType.objects.all()
         ],
         widget=forms.Select(
             attrs={

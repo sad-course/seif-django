@@ -75,6 +75,7 @@ def edit_event(request, event_id):
         activity_form = ActivityForm(request.POST)
         if activity_form.is_valid():
             data = activity_form.cleaned_data
+            print(data["activity_type"])
             new_activity = Activity.objects.create(
                 title=data["title"],
                 description=data["description"],
@@ -85,9 +86,9 @@ def edit_event(request, event_id):
                 capacity=data["capacity"],
                 event=event,
             )
-            # pylint: disable=W0612
-            new_type, created = ActivityType.objects.get_or_create(name=data["type"])
-            new_activity.activity_type = new_type
+
+            activity_type = ActivityType.objects.get(id=data["activity_type"])
+            new_activity.activity_type = activity_type
             new_activity.save()
 
             messages.success(request, "Atividade criada com sucesso!")
