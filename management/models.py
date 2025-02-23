@@ -88,6 +88,7 @@ class Event(models.Model):
 
     class Meta:
         verbose_name_plural = "Eventos"
+        ordering = ["init_date"]
 
     def __str__(self):
         return f"Evento: {self.title}"
@@ -134,6 +135,12 @@ class Activity(models.Model):
 
     def __str__(self):
         return f"Atividade: {self.title}"
+
+    @property
+    def has_capacity(self):
+        if self.capacity > 0:
+            return True
+        return False
 
 
 class Certificate(models.Model):
