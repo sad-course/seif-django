@@ -1,7 +1,12 @@
 {% extends "management/base.html" %}
 {% load svg %}
-
+{% load static %}
+{% block header %}
+<title>Editar Evento - {{ event.title }}</title>
+    {{ form.media }}
+{% endblock %}
 {% block content %}
+
 
 <div class="py-7 mx-auto w-full flex flex-col items-center justify-between">
     <div class = "w-full" >
@@ -27,13 +32,13 @@
         <div class="flex gap-8 w-full">
             <!-- Metade Esquerda - Local da Imagem -->
 
-            <div class="flex flex-col w-[450px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
+            <div class="flex flex-col shrink-0 w-[300px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
                 {{ form.banner }}
                 {# Renderiza o campo de imagem – o widget definido em forms.py já tem a classe "hidden" #}
                 <label for="{{ form.banner.id_for_label }}" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
                     {% if event.banner %}
                         <div class="w-full h-full overflow-hidden flex justify-center items-center">
-                            <img class="h-full w-full object-cover" src="{{ event.banner.url }}" alt="">
+                            <img class="h-full w-full object-cover" src="{{ event.banner.url }}" id="eventBanner" alt="">
                         </div>
                     {% endif %}
                 </label>
@@ -47,7 +52,7 @@
                 </div>
 
                 <!-- Descrição -->
-                <div>
+                <div class="">
                     <label for="{{ form.description.id_for_label }}" class="block text-sm font-medium text-gray-600">Descrição</label>
                     {{ form.description }}
                 </div>
@@ -215,4 +220,28 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block script %}
+<script>
+
+    var bannerInput = document.querySelector("#id_banner")
+
+    bannerInput.addEventListener("input", (event)=>{
+        const file = event.target.files[0];
+
+        if (file) {
+            let eventBannerImg = document.querySelector("#eventBanner")
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                eventBannerImg.src = e.target.result;
+            };
+
+            reader.readAsDataURL(file);
+
+        }
+    })
+
+
+</script>
 {% endblock %}

@@ -96,11 +96,12 @@ def edit_event(request, event_id):
             data = form.cleaned_data
             event.title = data["title"]
             event.description = data["description"]
-            event.banner = data["banner"]
             event.campus = data["campus"]
             event.status = data["initial_status"]
             event.init_date = data["init_date"]
             event.end_date = data["end_date"]
+            if data["banner"]:
+                event.banner = data["banner"]
             event.save()
 
             tag_names = data["tags"].split(",")
@@ -113,11 +114,14 @@ def edit_event(request, event_id):
                 tags.append(tag)
 
             event.tags.set(tags)
-            event.organizers.set(data["organizers"])
+
+            selected_organizers = form.cleaned_data["organizers"]
+            organizer_ids = selected_organizers.values_list("id", flat=True)
+
+            event.organizers.set(organizer_ids)
 
             # tornando os participantes selecionados em organizadores
-            organizers_list = data["organizers"]
-            for organizer in organizers_list:
+            for organizer in organizer_ids:
                 participant = Participant.objects.get(id=organizer)
                 group = Group.objects.get(name="Organizers")
                 participant.groups.add(group)
@@ -132,8 +136,8 @@ def edit_event(request, event_id):
             initial={
                 "title": event.title,
                 "description": event.description,
-                "init_date": event.init_date,
-                "end_date": event.end_date,
+                "init_date": event.init_date.date(),
+                "end_date": event.end_date.date(),
                 "initial_status": event.status,
                 "campus": event.campus,
             }
@@ -145,7 +149,6 @@ def edit_event(request, event_id):
         activity_form = ActivityForm(request.POST)
         if activity_form.is_valid():
             data = activity_form.cleaned_data
-            print(data["activity_type"])
             new_activity = Activity.objects.create(
                 title=data["title"],
                 description=data["description"],

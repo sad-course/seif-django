@@ -1,4 +1,6 @@
 import datetime
+from django_ckeditor_5.widgets import CKEditor5Widget
+
 from django import forms
 from django.core.exceptions import ValidationError
 from .models import Event, ActivityType, Participant
@@ -18,9 +20,9 @@ class EventPublishRequestForm(forms.Form):
         ),
     )
     description = forms.CharField(
-        widget=forms.Textarea(
+        widget=CKEditor5Widget(
             attrs={
-                "class": "w-full h-24 rounded-lg bg-gray-100",
+                "class": "w-full h-24 rounded-lg bg-gray-100 django_ckeditor_5",
                 "placeholder": "Breve descrição do evento",
             }
         )
@@ -50,7 +52,7 @@ class EventPublishRequestForm(forms.Form):
 class EventForm(forms.Form):
 
     title = forms.CharField(max_length=100)
-    description = forms.CharField(widget=forms.Textarea)
+    description = forms.CharField(widget=CKEditor5Widget(config_name="extends"))
     init_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
     end_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
     initial_status = forms.ChoiceField(choices=[("rascunho", "Rascunho")])
@@ -61,7 +63,7 @@ class EventForm(forms.Form):
         widget=forms.SelectMultiple(attrs={"class": "w-full rounded-lg bg-gray-100"}),
         required=True,
     )
-    banner = forms.FileField(required=True)
+    banner = forms.FileField(required=False)
     solicitation = forms.BooleanField(
         initial=False, required=False, widget=forms.HiddenInput()
     )  # Campo oculto
@@ -76,24 +78,28 @@ class EventForm(forms.Form):
                 "placeholder": "Título do evento",
             }
         )
-        self.fields["description"].widget = forms.Textarea(
+        self.fields["description"].widget = CKEditor5Widget(
             attrs={
-                "class": "w-full h-36 rounded-lg bg-gray-100",
+                "class": "w-full h-36 rounded-lg bg-gray-100 django_ckeditor_5",
                 "placeholder": "Descrição do evento",
-            }
+            },
+            config_name="extends",
         )
         self.fields["init_date"].widget = forms.DateInput(
             attrs={
                 "type": "date",
                 "class": "w-full  rounded-lg bg-gray-100 text-gray-400",
-            }
+            },
+            format="%Y-%m-%d",
         )
         self.fields["end_date"].widget = forms.DateInput(
             attrs={
                 "type": "date",
                 "class": "w-full rounded-lg bg-gray-100 text-gray-400",
-            }
+            },
+            format="%Y-%m-%d",
         )
+
         self.fields["initial_status"].widget = forms.Select(
             attrs={"class": "w-full rounded-lg bg-gray-100"}
         )
@@ -170,10 +176,10 @@ class ActivityForm(forms.Form):
         ),
     )
     description = forms.CharField(
-        widget=forms.Textarea(
+        widget=CKEditor5Widget(
             attrs={
                 "class": "mt-1 block w-full rounded-md border-gray-300 \
-                    shadow-sm focus:border-green-500 focus:ring-green-500",
+                    shadow-sm focus:border-green-500 focus:ring-green-500 django_ckeditor_5",
                 "rows": 4,
                 "placeholder": "Descrição da atividade",
             }
@@ -186,7 +192,8 @@ class ActivityForm(forms.Form):
                 "class": "mt-1 block w-full text-gray-400 rounded-md \
                     border-gray-300 shadow-sm focus:border-green-500 \
                         focus:ring-green-500",
-            }
+            },
+            format="%Y-%m-%d",
         ),
     )
     end_date = forms.DateField(
@@ -196,7 +203,8 @@ class ActivityForm(forms.Form):
                 "class": "mt-1 block w-full text-gray-400 rounded-md \
                     border-gray-300 shadow-sm focus:border-green-500 \
                         focus:ring-green-500",
-            }
+            },
+            format="%Y-%m-%d",
         ),
     )
     init_time = forms.TimeField(
