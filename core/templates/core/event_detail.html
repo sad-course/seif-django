@@ -59,43 +59,113 @@
 
 <div class = "py-16 w-full">
     <!--Container de cards-->
-    <div class = "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
-        <!--Card-->
-        {% if event.activity_set.all %}
-        {% for activity in event.activity_set.all  %}
-            <div class = "card-activity">
-                <div class = "flex flex-col text-base font-semibold text-gray-400">
-                    <h3 class = "font-bold text-2xl text-gray-600">{{activity.title}}</h3>
-                    <span>{{activity.init_date|date:"d/m/Y"}}</span>
-                    <span>Ministrada por: {{activity.instructor}}</span>
+    <form action="{% url 'event_subscription' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="event_id" value="{{ event.id }}">
+        <div class = "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
+            <!--Card-->
+            {% if event.activity_set.all %}
+                {% for activity in event.activity_set.all  %}
+                    <div class = "card-activity">
+                        <div class = "flex flex-col text-base font-semibold text-gray-400">
+                            <h3 class = "font-bold text-2xl text-gray-600">{{activity.title}}</h3>
+                            <span>{{activity.init_date|date:"d/m/Y"}}</span>
+                            <span>Ministrada por: {{activity.instructor}}</span>
 
-                    <p class = "font-normal text-gray-600 pt-4">{{activity.description|striptags}}</p>
-                </div>
+                            <p class = "font-normal text-gray-600 pt-4">{{activity.description|striptags}}</p>
+                        </div>
 
-                <div class = "flex items-center gap-5">
-                    <div class = "tag-default" >900 vagas</div>
-                    <input
-                    type = "checkbox"
-                    name="activity"
-                    value = "palestra-ab"
-                    class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
-                    />
-                    <label for="activity"></label>
+                        <div class = "flex items-center gap-5">
+                            {% if activity.capacity == 0 %}
+                                <div class = "tag-finished" >Vagas esgotadas</div>
+                            {% else %}
+                                <div class = "tag-default" >{{ activity.capacity }} vagas</div>
+                                <input
+                                type = "checkbox"
+                                name="selected_activities"
+                                value = {{ activity.id }}
+                                class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
+                                {% if activity.id in activities_subscribed %} checked {% endif %}
+                                />
+                                <label for="activity"></label>
+                            {% endif %}
 
+                        </div>
+                    </div>
+                {% endfor %}
+            {%else%}
+                <span>Sem atividades</span>
+            {% endif%}
+        </div>
+        <div class = "flex justify-end pt-20">
+            {% if event.status == "active" %}
+                {% if event.activity_set.all %}
+                    {% if activities_subscribed %}
+                        <div class="flex gap-8">
+                            <button type="button" class = "btn-warning" id="subscriptionDeleteBtn">Remover Inscrição</button>
+                            <button type="button" class = "btn-default" id="subscriptionEditBtn">Editar Inscrição</button>
+                        </div>
+                    {% else %}
+                        <button type="submit" class = "btn-default" id="subscribeBtn">Inscrever</button>
+                    {% endif %}
+                {% endif %}
+            {% endif%}
+        </div>
+    </form>
 
-                </div>
-            </div>
-        {% endfor %}
-        {%else%}
-            <span>Sem atividades</span>
-        {% endif%}
-    </div>
-
-    <div class = "flex justify-end pt-20">
-        <a href="{% url 'my_events' %}">
-            <button class = "btn-default">Inscrever</button>
-        </a>
-    </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block script %}
+<script>
+
+function getCSRFToken() {
+    const cookieValue = document.cookie
+        .split("; ")
+        .find(row => row.startsWith("csrftoken="))
+        ?.split("=")[1];
+    return cookieValue;
+}
+var eventID = document.querySelector("input[name='event_id']").value
+var subscribeBtn = document.querySelector("#subscribeBtn")
+var subscriptionEditBtn = document.querySelector("#subscriptionEditBtn")
+var subscriptionDeleteBtn = document.querySelector("#subscriptionDeleteBtn")
+
+if (subscribeBtn != null){
+    subscribeBtn.addEventListener("click" , () => {
+        let selected_activities = document.querySelectorAll("input[name='selected_activities']")
+
+        selected_activities.map(item, ()=>{
+            console.log(item)
+        })
+    })
+}
+
+async function deleteSubscription(){
+    try {
+        let response = await fetch("/event/subcription/",{
+            method: "DELETE",
+            headers:{
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCSRFToken()
+            },
+            body: JSON.stringify({"event_id": eventID})
+        })
+        .then(response => response.json())
+        .then(data => window.location.reload())
+
+    } catch (error) {
+        console.error("Error deleting subscription:", error);
+    }
+
+}
+
+if (subscriptionDeleteBtn != null){
+    subscriptionDeleteBtn.addEventListener("click", () => {
+        deleteSubscription()
+    })
+}
+
+</script>
 {% endblock %}
