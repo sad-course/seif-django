@@ -1,7 +1,8 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 from django.core.paginator import Paginator
 from django.db.models import Q
-from .models import Event
+
+from management.models import Event
 from .filters import EventFilter
 
 
@@ -17,15 +18,20 @@ class Index(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
+        print(f"QUERY ANTES DO FILTRO {queryset}")
+        queryset = queryset.exclude(status__in=["draft", "approved"])
         query = self.request.GET.get("q")
 
         if query:
+            print("Entoruuu")
             queryset = queryset.filter(
                 Q(title__icontains=query) | Q(description__icontains=query)
             )
 
         event_filter = EventFilter(self.request.GET, queryset=queryset)
         queryset = event_filter.qs
+        print(queryset)
+
         queryset = queryset.order_by("id")
         return queryset
 
@@ -72,3 +78,7 @@ class Details(DetailView):
     template_name = "core/event_detail.html"
     context_object_name = "event"
     pk_url_kwarg = "event_id"
+
+
+class EventSubscribe(CreateView):
+    template_name = ""

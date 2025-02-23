@@ -26,7 +26,7 @@ def generate_check_in_qr_code(sender, instance, raw, **kwargs):
         except Exception as exception:  # pylint: disable=W0718
             logger.exception(
                 "An exception was raised during the generation of qrcode for checkin.\
-                            Exception:  %s, Message: %s",
+                Exception:  %s, Message: %s",
                 type(exception).__name__,
                 str(exception),
             )
