@@ -43,27 +43,24 @@
 
 
     </div>
-
-    <div class="flex flex-col items-end gap-3 text-base font-semibold py-5">
-        <form method="GET" action="{% url 'management' %}" id="filter-form">
-            <ul class="flex items-center gap-4 prose-li:flex prose-li:items-center prose-li:cursor-pointer">
-                <!-- Filtro de status -->
-                <li class="list-border-bottom">
-                    <select name="status" class="border-none outline-none" onchange="this.form.submit()">
-                        <option value="" disabled selected>Status</option>
-                        <option value="" {% if request.GET.status == "" %}selected{% endif %}>Todos</option>
-                        {% for value, label in filter.form.status.field.choices %}
-                            <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
-                                {{ label }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </li>
-            </ul>
+    <div class="flex justify-between items-center py-5">
+        <h3 class="font-semibold text-2xl text-green-900">Seus Eventos</h3>
+        <form method="GET" action="{% url 'management' %}" id="filter-form" class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+                <label for="status" class="text-sm">Status:</label>
+                <select name="status" id="status" class="border-none outline-none p-2 rounded-md" onchange="this.form.submit()">
+                    <option value="" disabled selected>Status</option>
+                    <option value="" {% if request.GET.status == "" %}selected{% endif %}>Todos</option>
+                    {% for value, label in filter.form.status.field.choices %}
+                        <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
         </form>
     </div>
 
-    <h3 class = "font-semibold text-2xl text-green-900 pt-10 pb-6" >Seus Eventos</h3>
     <div class="overflow-x-auto shadow-md">
         <table class="w-full table-auto">
             <thead class="bg-green-400">
@@ -76,19 +73,18 @@
                     <th class="rounded-tr-md">Editar</th>
                 </tr>
             </thead>
-
             <tbody class="text-center">
                 {% if events %}
                     {% for event in events %}
                         <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
                             <td class="rounded-bl-md">{{ event.title }}</td>
                             <td>
-                                {% if event.status in "draft" %}
-                                    <div class="tag-progress">{{event.get_status_display }}</div>
+                                {% if event.status == "draft" %}
+                                    <div class="tag-progress">{{ event.get_status_display }}</div>
                                 {% elif event.status == "active" %}
-                                    <div class="tag-default">{{event.get_status_display }}</div>
+                                    <div class="tag-default">{{ event.get_status_display }}</div>
                                 {% elif event.status == "closed" %}
-                                    <div class="tag-finished">{{event.get_status_display }}</div>
+                                    <div class="tag-finished">{{ event.get_status_display }}</div>
                                 {% elif event.status == "pending" %}
                                     <div class="tag-progress">{{ event.get_status_display }}</div>
                                 {% else %}
@@ -99,7 +95,7 @@
                             <td>{{ event.activity_set.all.count|default:"0" }}</td>
                             <td>{{ event.created_by.email }}</td>
                             <td class="rounded-br-md">
-                                <a href="{% url 'edit_event' event.id  %}">
+                                <a href="{% url 'edit_event' event.id %}">
                                     <button class="btn-default">
                                         Editar evento
                                     </button>
@@ -113,12 +109,10 @@
                     </tr>
                 {% endif %}
             </tbody>
-
         </table>
     </div>
 
-
-    <!--paginação-->
+    <!-- Paginação -->
     <div class="py-5 w-full flex flex-col justify-center items-center">
         <div class="text-green-900 text-xl">
             {% if page_obj.has_previous %}

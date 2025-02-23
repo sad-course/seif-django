@@ -29,7 +29,7 @@ class Event(models.Model):
             "canceled",
             "Cancelado",
         )
-        DRAFT = "draft", "Rascunho"
+        DRAFT = "draft", "Não aprovado"
         APPROVED = "approved", "Aprovado"
 
     class Campus(models.TextChoices):  # pylint: disable=too-many-ancestors
