@@ -7,6 +7,7 @@ from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.db.models import Count
 
+from .filters import EventFilter
 from .forms import EventForm, EventPublishRequestForm, ActivityForm
 from .models import Event, Tag, Activity, ActivityType, Participant
 
@@ -21,6 +22,11 @@ class Index(ListView):
     context_object_name = "events"
     paginate_by = 10
 
+    def get_queryset(self):
+        queryset = Event.objects.all()
+        event_filter = EventFilter(self.request.GET, queryset=queryset)
+        return event_filter.qs
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["events_count"] = Event.objects.count()
@@ -30,6 +36,7 @@ class Index(ListView):
             .count()
         )
         context["total_activities"] = Activity.objects.count()
+        context["filter"] = EventFilter(self.request.GET)
         return context
 
 

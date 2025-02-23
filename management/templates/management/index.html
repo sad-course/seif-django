@@ -44,6 +44,25 @@
 
     </div>
 
+    <div class="flex flex-col items-end gap-3 text-base font-semibold py-5">
+        <form method="GET" action="{% url 'management' %}" id="filter-form">
+            <ul class="flex items-center gap-4 prose-li:flex prose-li:items-center prose-li:cursor-pointer">
+                <!-- Filtro de status -->
+                <li class="list-border-bottom">
+                    <select name="status" class="border-none outline-none" onchange="this.form.submit()">
+                        <option value="" disabled selected>Status</option>
+                        <option value="" {% if request.GET.status == "" %}selected{% endif %}>Todos</option>
+                        {% for value, label in filter.form.status.field.choices %}
+                            <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </li>
+            </ul>
+        </form>
+    </div>
+
     <h3 class = "font-semibold text-2xl text-green-900 pt-10 pb-6" >Seus Eventos</h3>
     <div class="overflow-x-auto shadow-md">
         <table class="w-full table-auto">
