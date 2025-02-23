@@ -1,5 +1,8 @@
 {% extends "core/base.html" %}
 
+{% block header %}
+<title>Detalhe - {{ event.title }}</title>
+{% endblock %}
 {% block content %}
 <!-- Informações do evento -->
 <div class = " flex flex-col w-full gap-14 pt-20 justify-center md-screen:flex-row ">
