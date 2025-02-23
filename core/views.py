@@ -1,11 +1,15 @@
 import json
-from django.http import HttpResponse, JsonResponse
+import logging
+from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from core.models import EventSubscription
 from management.models import Activity, Event
@@ -13,6 +17,8 @@ from .filters import EventFilter
 
 filtered_choices = Event.EventStatus.choices[1], Event.EventStatus.choices[2]
 filtered_campus = Event.Campus.choices[1:]
+
+logger = logging.getLogger(__name__)
 
 
 # Create your views here.
@@ -27,7 +33,6 @@ class Index(ListView):
         queryset = queryset.exclude(
             Q(status__in=["draft", "approved", "pending"]) | Q(campus="null")
         )
-        print(queryset)
         query = self.request.GET.get("q")
 
         if query:
@@ -38,7 +43,6 @@ class Index(ListView):
         event_filter = EventFilter(self.request.GET, queryset=queryset)
         queryset = event_filter.qs
 
-        queryset = queryset.order_by("id")
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -119,9 +123,15 @@ class EventSubscriptionView(View):
         activities_list = self.request.POST.getlist("selected_activities")
         try:
             activities_list = [int(activity_id) for activity_id in activities_list]
+            if not activities_list:
+                messages.error(request, "É necessário passar alguma opção!")
+                return redirect(
+                    reverse_lazy("event_details", kwargs={"event_id": event_id})
+                )
 
-            if activities_list:
-                for activity in activities_list:
+            for activity in activities_list:
+                activity_instance = Activity.objects.get(id=activity)
+                if activity_instance.has_capacity:
                     subcription_instance, created = (
                         EventSubscription.objects.get_or_create(
                             event__id=event_id,
@@ -132,20 +142,38 @@ class EventSubscriptionView(View):
                     if not created:
                         subcription_instance.is_subcription_canceled = False
                         subcription_instance.save()
+                else:
+                    messages.error(
+                        request, f"Sem vagas para a atividade {activity_instance.title}"
+                    )
+                    return redirect(
+                        reverse_lazy("event_details", kwargs={"event_id": event_id})
+                    )
 
-                Activity.objects.decrement_capacity(activities_list, value=1)
-            else:
-                return HttpResponse({"message": "Nao aceito isso!"})
+            Activity.objects.decrement_capacity(activities_list, value=1)
 
         except Exception as exception:
-            return HttpResponse({"message": f"Nao aceito isso! {exception}"})
+            logger.exception(
+                "An exception was raised during the event subscription creation.\
+                Exception:  %s, Message: %s",
+                type(exception).__name__,
+                str(exception),
+            )
+            messages.error(request, f"Exception: {str(exception)}")
+            return redirect(
+                reverse_lazy("event_details", kwargs={"event_id": event_id})
+            )
 
-        return HttpResponse({"message": "Nao aceito isso!"})
+        return redirect(reverse_lazy("my_events"))
 
     def delete(self, request, *args, **kwargs):
         participant = self.request.user.id
-        data = json.loads(request.body)
-        event_id = data.get("event_id", None)
+        try:
+            data = json.loads(request.body)
+            event_id = data.get("event_id", None)
+        except json.decoder.JSONDecodeError:
+            messages.error(request, "É necessário passar o event id")
+            return JsonResponse(data={"error": "Provide the body data", "status": 400})
 
         try:
             if event_id:
@@ -164,17 +192,20 @@ class EventSubscriptionView(View):
                 is_subcription_canceled=False,
             )
 
+            subcriptions_activities_ids = list(
+                subcriptions.values_list("activity", flat=True)
+            )
             subcriptions.update(is_subcription_canceled=True)
-            subcriptions_activities_ids = subcriptions.values_list(
-                "activity", flat=True
-            )
-            print(subcriptions)
-            Activity.objects.increment_capacity(
-                list(subcriptions_activities_ids), value=1
-            )
+            Activity.objects.increment_capacity(subcriptions_activities_ids, value=1)
 
             return JsonResponse(data={"message": "Subscription cancelled succesfuly!"})
         except Exception as exception:
+            logger.exception(
+                "An exception was raised during the event subscription deletion.\
+                Exception:  %s, Message: %s",
+                type(exception).__name__,
+                str(exception),
+            )
             return JsonResponse(
                 data={
                     "exception": {"type": type(exception).__name__},

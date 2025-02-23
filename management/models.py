@@ -99,8 +99,6 @@ class ActivityManager(models.Manager):
         """Incrementa a capacidade de vagas de uma atividade"""
         queryset = self.filter(id__in=activity_ids)
 
-        print(f"incrementooo {queryset}")
-
         return queryset.update(capacity=F("capacity") + value)
 
     def decrement_capacity(self, activity_ids, value=1):

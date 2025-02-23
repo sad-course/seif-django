@@ -1,10 +1,19 @@
 {% extends "core/base.html" %}
-
+{% load static %}
 {% block header %}
-<title>Detalhe - {{ event.title }}</title>
+<title>Inscrição - {{ event.title }}</title>
 {% endblock %}
+
+
 {% block content %}
 <!-- Informações do evento -->
+
+{% if messages %}
+{% for message in messages %}
+    {% include 'partials/badge_message.html' with status='warning' message=message %}
+{% endfor %}
+{% endif %}
+
 <div class = " flex flex-col w-full gap-14 pt-20 justify-center md-screen:flex-row ">
     {% if event %}
 
@@ -56,7 +65,6 @@
 </div>
 
 <!--Listagem de ativiades-->
-
 <div class = "py-16 w-full">
     <!--Container de cards-->
     <form action="{% url 'event_subscription' %}" method="post">
@@ -118,54 +126,5 @@
 {% endblock %}
 
 {% block script %}
-<script>
-
-function getCSRFToken() {
-    const cookieValue = document.cookie
-        .split("; ")
-        .find(row => row.startsWith("csrftoken="))
-        ?.split("=")[1];
-    return cookieValue;
-}
-var eventID = document.querySelector("input[name='event_id']").value
-var subscribeBtn = document.querySelector("#subscribeBtn")
-var subscriptionEditBtn = document.querySelector("#subscriptionEditBtn")
-var subscriptionDeleteBtn = document.querySelector("#subscriptionDeleteBtn")
-
-if (subscribeBtn != null){
-    subscribeBtn.addEventListener("click" , () => {
-        let selected_activities = document.querySelectorAll("input[name='selected_activities']")
-
-        selected_activities.map(item, ()=>{
-            console.log(item)
-        })
-    })
-}
-
-async function deleteSubscription(){
-    try {
-        let response = await fetch("/event/subcription/",{
-            method: "DELETE",
-            headers:{
-                "Content-Type": "application/json",
-                "X-CSRFToken": getCSRFToken()
-            },
-            body: JSON.stringify({"event_id": eventID})
-        })
-        .then(response => response.json())
-        .then(data => window.location.reload())
-
-    } catch (error) {
-        console.error("Error deleting subscription:", error);
-    }
-
-}
-
-if (subscriptionDeleteBtn != null){
-    subscriptionDeleteBtn.addEventListener("click", () => {
-        deleteSubscription()
-    })
-}
-
-</script>
+<script src="{% static 'js/subscription_requests.js' %}"></script>
 {% endblock %}
