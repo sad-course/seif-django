@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.views.generic import FormView, ListView
 from django.contrib.auth.models import Group
 from django.contrib import messages
-from django.db.models import Count
+from django.db.models import Count, Q
 
 from .forms import EventForm, EventPublishRequestForm, ActivityForm
 from .models import Event, Tag, Activity, ActivityType, Participant
@@ -20,6 +20,15 @@ class Index(ListView):
     template_name = "management/index.html"
     context_object_name = "events"
     paginate_by = 10
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(
+            Q(created_by__id=self.request.user.id)
+            | Q(organizers__in=[self.request.user.id])
+        )
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
