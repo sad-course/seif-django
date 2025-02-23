@@ -136,8 +136,10 @@ class EventSubscriptionView(View):
                 Activity.objects.decrement_capacity(activities_list, value=1)
             else:
                 return HttpResponse({"message": "Nao aceito isso!"})
+
         except Exception as exception:
             return HttpResponse({"message": f"Nao aceito isso! {exception}"})
+
         return HttpResponse({"message": "Nao aceito isso!"})
 
     def delete(self, request, *args, **kwargs):

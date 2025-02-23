@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, ListView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -101,5 +101,12 @@ def my_certificates(request):
     return render(request, "accounts/my_certificates.html")
 
 
-def my_events(request):
-    return render(request, "accounts/my_events.html")
+class MyEvents(ListView):
+    model = EventSubscription
+    template_name = "accounts/my_events.html"
+    context_object_name = "event_subscriptions"
+
+    def get_queryset(self):
+        return EventSubscription.objects.filter(
+            participant=self.request.user, is_subcription_canceled=False
+        )
