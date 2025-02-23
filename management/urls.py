@@ -23,4 +23,5 @@ urlpatterns = [
     ),
     path("event/submit/", views.event_submit_dashboard, name="event_submit_dashboard"),
     path("event/submit/detail/", views.event_submit_detail, name="event_submit_detail"),
+    path("tags/", views.TagsListView.as_view(), name="get_tags_json"),
 ]

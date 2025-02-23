@@ -6,7 +6,7 @@
 
 
     <div>
-        <h1 class = "font-medium text-3xl text-green-900 pb-8" >Fulano Dital</h1>
+        <h1 class = "font-bold text-4xl text-green-900 pb-8" > Olá, {{ user.username }}!</h1>
 
         <!-- Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -64,12 +64,14 @@
                         <tr class="prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
                             <td class="rounded-bl-md">{{ event.title }}</td>
                             <td>
-                                {% if event.status == "draft" %}
+                                {% if event.status in "draft" %}
                                     <div class="tag-progress">{{event.get_status_display }}</div>
                                 {% elif event.status == "active" %}
                                     <div class="tag-default">{{event.get_status_display }}</div>
                                 {% elif event.status == "closed" %}
-                                    <div class="tag-default">{{event.get_status_display }}</div>
+                                    <div class="tag-finished">{{event.get_status_display }}</div>
+                                {% elif event.status == "pending" %}
+                                    <div class="tag-progress">{{ event.get_status_display }}</div>
                                 {% else %}
                                     <div class="tag-default">{{ event.get_status_display }}</div>
                                 {% endif %}

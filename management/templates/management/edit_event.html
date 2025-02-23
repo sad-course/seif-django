@@ -3,7 +3,19 @@
 {% load static %}
 {% block header %}
 <title>Editar Evento - {{ event.title }}</title>
-    {{ form.media }}
+<!-- CSS/JS ckeditor_django_5 -->
+{{ form.media }}
+
+<!-- Tagify Content -->
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+
+<style>
+.tagify__tag{
+    z-index: 0;
+}
+</style>
 {% endblock %}
 {% block content %}
 
@@ -29,10 +41,10 @@
             {% endfor %}
         {% endfor %}
 
-        <div class="flex gap-8 w-full">
+        <div class="flex flex-col md-screen:flex-row gap-8 w-full">
             <!-- Metade Esquerda - Local da Imagem -->
 
-            <div class="flex flex-col shrink-0 w-[300px] h-[400px] mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
+            <div class="flex flex-col shrink-0 w-[300px] h-auto mt-6 justify-center items-center border-2 border-dashed border-gray-600 rounded-lg bg-gray-250">
                 {{ form.banner }}
                 {# Renderiza o campo de imagem – o widget definido em forms.py já tem a classe "hidden" #}
                 <label for="{{ form.banner.id_for_label }}" class="text-gray-500 text-center cursor-pointer w-full h-full flex items-center justify-center">
@@ -57,26 +69,28 @@
                     {{ form.description }}
                 </div>
 
-                <!-- Datas e Status -->
-                <div class="flex flex-wrap gap-2">
-                    <div class="flex-1 w-12">
-                        <label for="{{ form.init_date.id_for_label }}" class="text-sm font-medium text-gray-600">Início</label>
-                        {{ form.init_date }}
-                    </div>
-                    <div class="flex-1 w-12">
-                        <label for="{{ form.end_date.id_for_label }}" class="text-sm font-medium text-gray-600">Fim</label>
-                        {{ form.end_date }}
-                    </div>
-                    <div class="flex-1">
-                        <label for="{{ form.initial_status.id_for_label }}" class="text-sm font-medium text-gray-600">Status Inicial</label>
-                        <select name="{{ form.initial_status.name }}" id="{{ form.initial_status.id_for_label }}" class="w-full rounded-lg bg-gray-100">
-                            <option value="" disabled selected>-------</option>
-                            {% for value, label in form.initial_status.field.choices %}
-                                <option value="{{ value }}" {% if form.initial_status.value == value %}selected{% endif %}>{{ label }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
+            </div>
+
+            </div>
+        </div>
+        <!-- Datas e Status -->
+        <div class="flex flex-wrap gap-2">
+            <div class="flex-1 w-12">
+                <label for="{{ form.init_date.id_for_label }}" class="text-sm font-medium text-gray-600">Início</label>
+                {{ form.init_date }}
+            </div>
+            <div class="flex-1 w-12">
+                <label for="{{ form.end_date.id_for_label }}" class="text-sm font-medium text-gray-600">Fim</label>
+                {{ form.end_date }}
+            </div>
+            <div class="flex-1">
+                <label for="{{ form.status.id_for_label }}" class="text-sm font-medium text-gray-600">Status Inicial</label>
+                <select name="{{ form.status.name }}" id="{{ form.status.id_for_label }}" class="w-full rounded-lg bg-gray-100">
+                    <option value="" disabled selected>-------</option>
+                    {% for value, label in form.status.field.choices %}
+                        <option value="{{ value }}" {% if form.status.value == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
             </div>
         </div>
 
@@ -99,7 +113,7 @@
         </div>
 
         <!-- Adicionar Organizadores -->
-        <div class="mt-6">
+        <div class="mt-6 space-y-2">
             <label for="{{ form.organizers.id_for_label }}" class="block text-sm font-medium text-gray-600">Adicione Organizadores</label>
             {{ form.organizers }}
         </div>
@@ -122,7 +136,7 @@
                         <p class="text-sm text-gray-500 mt-2">{{activity.init_date|date:'d/m/Y'}}</p>
                         <p class="text-sm text-gray-700 mt-1">Ministrada por: {{activity.instructor}}</p>
                         <p class="text-sm text-gray-700 mt-1"> {{activity.activity_type.name}}</p>
-                        <p class="text-sm text-gray-600 mt-4">{{activity.description}}</p>
+                        <p class="text-sm text-gray-600 mt-4">{{activity.description|striptags}}</p>
                     </div>
 
                     <button onclick = "deleteActivity({{ activity.id }})">
@@ -151,7 +165,7 @@
     <input type="hidden" name="activity_id" id = "activity-id">
 </form>
 
-<!-- Modal de criar atividade (mantém a estilização original) -->
+<!-- Modal de criar atividade -->
 <div id="activity-modal" class="hidden">
 
     <div  class="fixed flex inset-0 items-center justify-center bg-gray-300 bg-opacity-70">
@@ -223,25 +237,5 @@
 {% endblock %}
 
 {% block script %}
-<script>
-
-    var bannerInput = document.querySelector("#id_banner")
-
-    bannerInput.addEventListener("input", (event)=>{
-        const file = event.target.files[0];
-
-        if (file) {
-            let eventBannerImg = document.querySelector("#eventBanner")
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                eventBannerImg.src = e.target.result;
-            };
-
-            reader.readAsDataURL(file);
-
-        }
-    })
-
-
-</script>
+<script src="{% static 'js/event_form.js' %}"></script>
 {% endblock %}

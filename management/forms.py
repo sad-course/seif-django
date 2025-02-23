@@ -1,9 +1,17 @@
+import ast
 import datetime
 from django_ckeditor_5.widgets import CKEditor5Widget
 
 from django import forms
 from django.core.exceptions import ValidationError
 from .models import Event, ActivityType, Participant
+
+EXCLUDED_STATUS = ["draft", "approved"]
+EDITABLE_STATUS = [
+    (key, label)
+    for key, label in Event.EventStatus.choices
+    if key not in EXCLUDED_STATUS
+]
 
 
 class EventPublishRequestForm(forms.Form):
@@ -55,7 +63,7 @@ class EventForm(forms.Form):
     description = forms.CharField(widget=CKEditor5Widget(config_name="extends"))
     init_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
     end_date = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}))
-    initial_status = forms.ChoiceField(choices=[("rascunho", "Rascunho")])
+    status = forms.ChoiceField(choices=EDITABLE_STATUS)
     tags = forms.CharField(max_length=100)
     campus = forms.ChoiceField(choices=Event.Campus.choices)
     organizers = forms.ModelMultipleChoiceField(
@@ -100,7 +108,7 @@ class EventForm(forms.Form):
             format="%Y-%m-%d",
         )
 
-        self.fields["initial_status"].widget = forms.Select(
+        self.fields["status"].widget = forms.Select(
             attrs={"class": "w-full rounded-lg bg-gray-100"}
         )
         self.fields["tags"].widget = forms.TextInput(
@@ -118,10 +126,11 @@ class EventForm(forms.Form):
 
     def clean_init_date(self):
         init_date = self.cleaned_data["init_date"]
-        if init_date < datetime.date.today():
-            raise ValidationError(
-                "A data de início não pode ser anterior à data de hoje."
-            )
+        if "init_date" in self.changed_data:
+            if init_date < datetime.date.today():
+                raise ValidationError(
+                    "A data de início não pode ser anterior à data de hoje."
+                )
         return init_date
 
     def clean_end_date(self):
@@ -135,6 +144,11 @@ class EventForm(forms.Form):
 
     def clean_tags(self):
         tags = self.cleaned_data.get("tags", "").strip()
+        tags_list = ast.literal_eval(tags) if tags else []
+
+        tags_list = [tag_item["value"] for tag_item in tags_list]
+        tags = ",".join(tags_list)
+
         if not tags:
             raise ValidationError("As tags não podem estar vazias.")
         if any(char in tags for char in "!@#$%^&*()[]{};:/<>?\\|`~=_+"):
@@ -157,11 +171,11 @@ class EventForm(forms.Form):
                 raise ValidationError("A imagem deve ser no formato JPG, JPEG ou PNG.")
         return banner
 
-    def clean_initial_status(self):
-        inital_status = self.cleaned_data["initial_status"]
-        if inital_status not in ["rascunho", "rascunho"]:
+    def clean_status(self):
+        status = self.cleaned_data["status"]
+        if status in EXCLUDED_STATUS:
             raise ValidationError("Status inválido.")
-        return inital_status
+        return status
 
 
 class ActivityForm(forms.Form):
@@ -184,6 +198,7 @@ class ActivityForm(forms.Form):
                 "placeholder": "Descrição da atividade",
             }
         ),
+        required=False,
     )
     init_date = forms.DateField(
         widget=forms.DateInput(
