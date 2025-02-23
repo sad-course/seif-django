@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.views import View
+from django.http import JsonResponse
 from django.views.generic import FormView, ListView
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.db.models import Count
+
 from .forms import EventForm, EventPublishRequestForm, ActivityForm
 from .models import Event, Tag, Activity, ActivityType, Participant
 
@@ -87,17 +90,30 @@ def analytics_event_detail(request):
     return render(request, "management/analytics_event_detail.html")
 
 
-def edit_event(request, event_id):
+def edit_event(request, event_id):  # pylint: disable=R0915
     event = Event.objects.get(id=event_id)
+    tags = list(event.tags.all().only("name").values_list("name", flat=True))
+    tags_into_string = ",".join(tag for tag in tags)
+
+    event_initial_data = {
+        "title": event.title,
+        "description": event.description,
+        "init_date": event.init_date.date(),
+        "end_date": event.end_date.date(),
+        "status": event.status,
+        "campus": event.campus,
+        "tags": tags_into_string,
+        "organizers": event.organizers.all(),
+    }
     # Requisição para atualizar evento
     if request.method == "POST" and "event_form" in request.POST:
-        form = EventForm(request.POST, request.FILES)
+        form = EventForm(request.POST, request.FILES, initial=event_initial_data)
         if form.is_valid():
             data = form.cleaned_data
             event.title = data["title"]
             event.description = data["description"]
             event.campus = data["campus"]
-            event.status = data["initial_status"]
+            event.status = data["status"]
             event.init_date = data["init_date"]
             event.end_date = data["end_date"]
             if data["banner"]:
@@ -132,16 +148,7 @@ def edit_event(request, event_id):
             messages.success(request, "Evento criado!")
             return redirect(reverse_lazy("management"))
     else:
-        form = EventForm(
-            initial={
-                "title": event.title,
-                "description": event.description,
-                "init_date": event.init_date.date(),
-                "end_date": event.end_date.date(),
-                "initial_status": event.status,
-                "campus": event.campus,
-            }
-        )
+        form = EventForm(initial=event_initial_data)
 
     # Requisição para criar a atividade
     if request.POST and "activity_form" in request.POST:
@@ -235,3 +242,10 @@ def event_submit_dashboard(request):
 
 def event_submit_detail(request):
     return render(request, "management/event_submit_detail.html")
+
+
+class TagsListView(View):
+    def get(self, request, *args, **kwargs):
+        tags = Tag.objects.all().values_list("name", flat=True)
+
+        return JsonResponse(list(tags), safe=False)
