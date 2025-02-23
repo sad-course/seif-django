@@ -108,6 +108,9 @@ class MyCertificates(ListView):
     template_name = "accounts/my_certificates.html"
     context_object_name = "certificates"
 
+    def get_queryset(self):
+        return Certificate.objects.filter(participant=self.request.user)
+
 
 def create_certificate(participant_username, activity_title):
     # Caminho da imagem de fundo no static
