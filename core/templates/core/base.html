@@ -19,7 +19,7 @@
     <header class = "max-w-[1440px] w-full min-h-40 flex flex-col px-8">
         <div class = "flex justify-between items-center mt-8 mb-4 text-lg">
             <div class = "flex items-center gap-2">
-                <a href = "{% url 'home' %}"><img src = "static/img/logoifrn.png" alt="" /></a>
+                <a href = "{% url 'home' %}"><img src = "{% static 'img/logoifrn.png' %}" alt="" /></a>
                 <a href = "{% url 'home' %}" class = "font-extrabold text-gray-600 text-4xl"> SEIF </a>
             </div>
 
@@ -139,7 +139,7 @@
         <div class = "max-w-[1440px] w-full px-8 py-10 flex flex-col">
             <div class = "flex justify-between items-center gap-[50px] pb-10 lg:gap-[300px] flex-col lg:flex-row">
                 <div class = "w-full flex items-start lg:justify-between flex-wrap flex-col gap-8">
-                    <img class = "pt-5" src = "static/img/logowhiteif.png" alt = "Logotipo do IFRN na cor branca"/>
+                    <img class = "pt-5" src = "{% static 'img/logowhiteif.png' %}" alt = "Logotipo do IFRN na cor branca"/>
 
                     <h3> SEIF </h3>
                     <ul class = "flex items-center gap-8">

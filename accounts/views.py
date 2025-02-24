@@ -153,5 +153,12 @@ def create_certificate(participant_username, activity_title):
     return image_file
 
 
-def my_events(request):
-    return render(request, "accounts/my_events.html")
+class MyEvents(ListView):
+    model = EventSubscription
+    template_name = "accounts/my_events.html"
+    context_object_name = "event_subscriptions"
+
+    def get_queryset(self):
+        return EventSubscription.objects.filter(
+            participant=self.request.user, is_subcription_canceled=False
+        )
