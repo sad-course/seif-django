@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.http import JsonResponse
@@ -255,7 +255,19 @@ def event_submit_dashboard(request):
 class EventSubmitDetail(DetailView):
     model = Event
     template_name = "management/event_submit_detail.html"
-    context_object_name = "evento"
+    context_object_name = "event"
+
+    def post(self, request, pk, *args, **kwargs):
+        event = get_object_or_404(Event, pk=pk)
+        if "approve" in request.POST:
+            event.status = Event.EventStatus.APPROVED
+            event.save()
+            messages.success(request, "Evento aprovado!")
+        elif "reject" in request.POST:
+            event.status = Event.EventStatus.RECUSED  # Alterado para RECUSED
+            event.save()
+            messages.success(request, "Evento recusado!")
+        return redirect(reverse_lazy("event_submit_detail", kwargs={"pk": pk}))
 
 
 class TagsListView(View):

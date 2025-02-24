@@ -31,6 +31,7 @@ class Event(models.Model):
         )
         DRAFT = "draft", "Não aprovado"
         APPROVED = "approved", "Aprovado"
+        RECUSED = "recused", "Recusado"
 
     class Campus(models.TextChoices):  # pylint: disable=too-many-ancestors
         CAMPUS_NULL = "null", "Null"
