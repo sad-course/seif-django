@@ -159,7 +159,7 @@ class EventSubscriptionView(View):
                 type(exception).__name__,
                 str(exception),
             )
-            messages.error(request, f"Exception: {str(exception)}")
+            messages.error(request, "An internal error has occurred. Please try again later.")
             return redirect(
                 reverse_lazy("event_details", kwargs={"event_id": event_id})
             )
@@ -275,7 +275,7 @@ class EventSubscriptionView(View):
             )
             return JsonResponse(
                 data={
-                    "exception": {"type": type(exception).__name__},
-                    "Message": f"Exception raised during the subscription delete {str(exception)}",
-                }
+                    "error": "An internal error has occurred. Please try again later.",
+                },
+                status=500
             )
