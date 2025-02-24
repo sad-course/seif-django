@@ -56,8 +56,10 @@
                                 {% for group in participant.groups.all %}
                                     {% if group.name == "Administrators" %}
                                         Administrador
-                                        {% elif group.name == "Organizers" %}
-                                            Organizador
+                                    {% elif group.name == "Organizers" %}
+                                        Organizador
+                                    {% else %}
+                                        Participante
                                     {% endif %}
                                 {% endfor %}
                             {% else %}

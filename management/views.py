@@ -106,7 +106,7 @@ class Organizers(ListView):
             queryset = Participant.objects.filter(event__in=user_events).distinct()
 
         elif self.request.user.groups.filter(name="Administrators").exists():
-            queryset = queryset.all()
+            queryset = Participant.objects.filter(groups__name="Organizers").distinct()
 
         return queryset
 
