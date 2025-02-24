@@ -84,10 +84,10 @@
                         </div>
 
                         <div class = "flex items-center gap-5">
-                            {% if activity.capacity == 0 %}
+                            {% if activity.capacity == 0 and activity.id not in activities_subscribed%}
                                 <div class = "tag-finished" >Vagas esgotadas</div>
                             {% else %}
-                                <div class = "tag-default" >{{ activity.capacity }} vagas</div>
+                                <div class = "{% if activity.capacity != 0 %} tag-default {% else %} tag-finished {% endif %}" >{{ activity.capacity }} vagas</div>
                                 <input
                                 type = "checkbox"
                                 name="selected_activities"
