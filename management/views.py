@@ -67,7 +67,7 @@ class Index(ListView):
                 Participant.objects.filter(
                     (
                         Q(event__created_by=self.request.user)
-                        or Q(event__organizers=self.request.user)
+                        | Q(event__organizers=self.request.user)
                     )
                 )
                 .distinct()
@@ -76,7 +76,7 @@ class Index(ListView):
             context["total_activities"] = Activity.objects.filter(
                 (
                     Q(event__created_by=self.request.user)
-                    or Q(event__organizers=self.request.user)
+                    | Q(event__organizers=self.request.user)
                 )
             ).count()
 
@@ -122,9 +122,23 @@ class Participants(ListView):
     context_object_name = "participants"
     paginate_by = 10
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        if self.request.user.groups.filter(name="Organizers").exists():
+            user_events = Event.objects.filter(
+                Q(organizers=self.request.user) | Q(created_by=self.request.user)
+            )
+            queryset = Participant.objects.filter(event__in=user_events).distinct()
+
+        elif self.request.user.groups.filter(name="Administrators").exists():
+            queryset = Participant.objects.all()
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["participants_count"] = Participant.objects.all().count()
+        context["participants_count"] = self.get_queryset().count()
         return context
 
 
