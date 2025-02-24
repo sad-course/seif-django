@@ -12,6 +12,10 @@ class CommandItem(NamedTuple):
 COMMANDS = [
     CommandItem("populate_user_groups", "Populate the group entity..."),
     CommandItem("populate_activity_types", "Populate the activity types..."),
+    CommandItem(
+        "copy_banner_default_to_media",
+        "Importing default images from static to media...",
+    ),
 ]
 
 

@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.http import HttpResponseForbidden
+from django.views import View
+from django.http import JsonResponse
 from django.views.generic import FormView, ListView
+from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+
 from .forms import EventForm, EventPublishRequestForm, ActivityForm
 from .models import Event, Tag, Activity, ActivityType, Participant
 
@@ -155,20 +159,34 @@ def analytics_event_detail(request):
     return render(request, "management/analytics_event_detail.html")
 
 
-def edit_event(request, event_id):
+def edit_event(request, event_id):  # pylint: disable=R0915
     event = Event.objects.get(id=event_id)
+    tags = list(event.tags.all().only("name").values_list("name", flat=True))
+    tags_into_string = ",".join(tag for tag in tags)
+
+    event_initial_data = {
+        "title": event.title,
+        "description": event.description,
+        "init_date": event.init_date.date(),
+        "end_date": event.end_date.date(),
+        "status": event.status,
+        "campus": event.campus,
+        "tags": tags_into_string,
+        "organizers": event.organizers.all(),
+    }
     # Requisição para atualizar evento
     if request.method == "POST" and "event_form" in request.POST:
-        form = EventForm(request.POST, request.FILES)
+        form = EventForm(request.POST, request.FILES, initial=event_initial_data)
         if form.is_valid():
             data = form.cleaned_data
             event.title = data["title"]
             event.description = data["description"]
-            event.banner = data["banner"]
             event.campus = data["campus"]
-            event.status = data["initial_status"]
+            event.status = data["status"]
             event.init_date = data["init_date"]
             event.end_date = data["end_date"]
+            if data["banner"]:
+                event.banner = data["banner"]
             event.save()
 
             tag_names = data["tags"].split(",")
@@ -181,21 +199,25 @@ def edit_event(request, event_id):
                 tags.append(tag)
 
             event.tags.set(tags)
+
+            selected_organizers = form.cleaned_data["organizers"]
+            organizer_ids = selected_organizers.values_list("id", flat=True)
+
+            event.organizers.set(organizer_ids)
+
+            # tornando os participantes selecionados em organizadores
+            for organizer in organizer_ids:
+                participant = Participant.objects.get(id=organizer)
+                group = Group.objects.get(name="Organizers")
+                participant.groups.add(group)
+                participant.save()
+
             event.save()
 
             messages.success(request, "Evento criado!")
             return redirect(reverse_lazy("management"))
     else:
-        form = EventForm(
-            initial={
-                "title": event.title,
-                "description": event.description,
-                "init_date": event.init_date,
-                "end_date": event.end_date,
-                "initial_status": event.status,
-                "campus": event.campus,
-            }
-        )
+        form = EventForm(initial=event_initial_data)
 
     # Requisição para criar a atividade
     if request.POST and "activity_form" in request.POST:
@@ -203,7 +225,6 @@ def edit_event(request, event_id):
         activity_form = ActivityForm(request.POST)
         if activity_form.is_valid():
             data = activity_form.cleaned_data
-            print(data["activity_type"])
             new_activity = Activity.objects.create(
                 title=data["title"],
                 description=data["description"],
@@ -262,6 +283,10 @@ class CreateEventRequestView(FormView):
             created_by=self.request.user,
         )
 
+        group = Group.objects.get(name="Organizers")
+        self.request.user.groups.add(group)
+        self.request.user.save()
+
         messages.success(self.request, "Evento solicitado com sucesso!")
         return redirect(reverse_lazy("edit_event", kwargs={"event_id": new_event.id}))
 
@@ -286,3 +311,10 @@ def event_submit_dashboard(request):
 
 def event_submit_detail(request):
     return render(request, "management/event_submit_detail.html")
+
+
+class TagsListView(View):
+    def get(self, request, *args, **kwargs):
+        tags = Tag.objects.all().values_list("name", flat=True)
+
+        return JsonResponse(list(tags), safe=False)

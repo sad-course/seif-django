@@ -1,3 +1,6 @@
 .ck.ck-editor {
     color: black !important;
 }
+.ck-editor-container{
+    box-sizing: border-box !important;
+}

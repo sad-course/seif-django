@@ -53,7 +53,9 @@ class ActivityAdmin(admin.ModelAdmin):
         "capacity",
         "activity_type",
         "is_active",
+        "estimated_duration",
     )
+
     list_filter = ("is_active", "event")
     search_fields = ("title", "instructor")
 

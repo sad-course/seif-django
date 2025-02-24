@@ -1,5 +1,9 @@
 {% extends "management/base.html" %}
 {% load svg %}
+{% block header %}
+<title>Quero criar um Evento</title>
+    {{ form.media }}
+{% endblock %}
 {% block content %}
 
 <!--tela não possui eventos-->
