@@ -85,6 +85,7 @@ class Event(models.Model):
         related_name="events_managed",
         verbose_name="Criado por",
     )
+    observation = models.TextField(blank=True, null=True, verbose_name="Observação")
 
     class Meta:
         verbose_name_plural = "Eventos"

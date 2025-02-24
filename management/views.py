@@ -8,7 +8,12 @@ from django.contrib import messages
 from django.db.models import Count
 
 from .filters import EventFilter
-from .forms import EventForm, EventPublishRequestForm, ActivityForm
+from .forms import (
+    EventForm,
+    EventPublishRequestForm,
+    ActivityForm,
+    EventObservationForm,
+)
 from .models import Event, Tag, Activity, ActivityType, Participant
 
 
@@ -257,17 +262,32 @@ class EventSubmitDetail(DetailView):
     template_name = "management/event_submit_detail.html"
     context_object_name = "event"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["observation_form"] = EventObservationForm()
+        return context
+
     def post(self, request, pk, *args, **kwargs):
-        event = get_object_or_404(Event, pk=pk)
+        evento = get_object_or_404(Event, pk=pk)
+
+        if "observation" in request.POST:
+            observation_form = EventObservationForm(request.POST)
+            if observation_form.is_valid():
+                evento.observation = observation_form.cleaned_data["observation"]
+                evento.save()
+            else:
+                messages.error(request, "Erro ao salvar observação.")
+
         if "approve" in request.POST:
-            event.status = Event.EventStatus.APPROVED
-            event.save()
-            messages.success(request, "Evento aprovado!")
+            evento.status = Event.EventStatus.APPROVED
+            evento.save()
         elif "reject" in request.POST:
-            event.status = Event.EventStatus.RECUSED  # Alterado para RECUSED
-            event.save()
-            messages.success(request, "Evento recusado!")
-        return redirect(reverse_lazy("event_submit_detail", kwargs={"pk": pk}))
+            evento.status = Event.EventStatus.RECUSED
+            evento.save()
+
+        return redirect(
+            reverse_lazy("event_publish_request")
+        )  # Redireciona para event_publish_request
 
 
 class TagsListView(View):

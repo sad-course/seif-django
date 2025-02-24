@@ -291,3 +291,17 @@ class ActivityForm(forms.Form):
                 "A data de fim não pode ser anterior à data de início."
             )
         return end_date
+
+
+class EventObservationForm(forms.Form):
+    observation = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+                "class": "border-0 block w-full h-[400px] px-4 py-2 text-base text-gray-700 \
+                    placeholder-gray-400 bg-gray-200 border-gray-300 rounded-md focus:outline-none \
+                        focus:ring-2 focus:ring-green-500 focus:border-green-500",
+                "placeholder": "Adicione sua observação...",
+            }
+        ),
+        label="Observação",
+    )
