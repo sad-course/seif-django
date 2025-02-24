@@ -4,7 +4,21 @@
 
 <div class = "pt-12">
 
+    {% if messages.error %}
+        <div>
+            {% for message in messages %}
+                {% include 'partials/badge_message.html' with status='warning' message=message %}
+            {% endfor %}
+        </div>
+    {% endif %}
 
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                {% include 'partials/badge_message.html' with status='sucess' message=message %}
+            {% endfor %}
+        </div>
+    {% endif %}
     <div>
         <h1 class = "font-bold text-4xl text-green-900 pb-8" > Olá, {{ user.username }}!</h1>
 

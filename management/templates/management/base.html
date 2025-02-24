@@ -1,5 +1,6 @@
 {% load static tailwind_tags %}
 {% load svg  %}
+{% load custom_filters %}
 {% load static %}
 
 <html lang="pt-br" class = "h-full">
@@ -45,7 +46,9 @@
                     <li><a href="{% url 'participants' %}"> <span>Participantes</span></a></li>
 
                     <!--Esse só tem para o administrador-->
-                    <li><a href="{% url 'event_publish_request' %}" class="block"> <span>Solicitações</span></a></li>
+                    {% if user|is_admin %}
+                        <li><a href="{% url 'event_publish_request' %}" class="block"> <span>Solicitações</span></a></li>
+                    {% endif %}
                 </ul>
             </div>
         </aside>
