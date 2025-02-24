@@ -50,10 +50,16 @@
 
         <div class="flex gap-2">
             <button type="submit" class="self-center text-red-200 w-full h-[58px]">Excluir Conta</button>
+
+
             <div class="group w-full">
-                <button type="submit" class="self-center btn-warning-unfilled w-full h-[58px] group-hover:hidden">Sair</button>
-                <button type="submit" class="hidden self-center btn-warning w-full h-[58px] group-hover:block">Sair</button>
+                <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                    <button type="submit" class="self-center btn-warning-unfilled w-full h-[58px] group-hover:hidden">Sair</button>
+                    <button type="submit" class="hidden self-center btn-warning w-full h-[58px] group-hover:block">Sair</button>
+                </form>
             </div>
+
         </div>
 
 
