@@ -4,8 +4,8 @@ repos:
     hooks:
     -   id: check-yaml
     -   id: end-of-file-fixer
-    -   id: trailing-whitespace
         exclude: "requirements\\.txt"
+    -   id: trailing-whitespace
 -   repo: https://github.com/psf/black
     rev: 24.10.0
     hooks:

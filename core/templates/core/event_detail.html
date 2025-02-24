@@ -1,10 +1,19 @@
 {% extends "core/base.html" %}
-
+{% load static %}
 {% block header %}
-<title>Detalhe - {{ event.title }}</title>
+<title>Inscrição - {{ event.title }}</title>
 {% endblock %}
+
+
 {% block content %}
 <!-- Informações do evento -->
+
+{% if messages %}
+{% for message in messages %}
+    {% include 'partials/badge_message.html' with status='warning' message=message %}
+{% endfor %}
+{% endif %}
+
 <div class = " flex flex-col w-full gap-14 pt-20 justify-center md-screen:flex-row ">
     {% if event %}
 
@@ -56,46 +65,66 @@
 </div>
 
 <!--Listagem de ativiades-->
-
 <div class = "py-16 w-full">
     <!--Container de cards-->
-    <div class = "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
-        <!--Card-->
-        {% if event.activity_set.all %}
-        {% for activity in event.activity_set.all  %}
-            <div class = "card-activity">
-                <div class = "flex flex-col text-base font-semibold text-gray-400">
-                    <h3 class = "font-bold text-2xl text-gray-600">{{activity.title}}</h3>
-                    <span>{{activity.init_date|date:"d/m/Y"}}</span>
-                    <span>Ministrada por: {{activity.instructor}}</span>
+    <form action="{% url 'event_subscription' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="event_id" value="{{ event.id }}">
+        <div class = "grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-6 w-full">
+            <!--Card-->
+            {% if event.activity_set.all %}
+                {% for activity in event.activity_set.all  %}
+                    <div class = "card-activity">
+                        <div class = "flex flex-col text-base font-semibold text-gray-400">
+                            <h3 class = "font-bold text-2xl text-gray-600">{{activity.title}}</h3>
+                            <span>{{activity.init_date|date:"d/m/Y"}}</span>
+                            <span>Ministrada por: {{activity.instructor}}</span>
 
-                    <p class = "font-normal text-gray-600 pt-4">{{activity.description|striptags}}</p>
-                </div>
+                            <p class = "font-normal text-gray-600 pt-4">{{activity.description|striptags}}</p>
+                        </div>
 
-                <div class = "flex items-center gap-5">
-                    <div class = "tag-default" >900 vagas</div>
-                    <input
-                    type = "checkbox"
-                    name="activity"
-                    value = "palestra-ab"
-                    class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
-                    />
-                    <label for="activity"></label>
+                        <div class = "flex items-center gap-5">
+                            {% if activity.capacity == 0 and activity.id not in activities_subscribed%}
+                                <div class = "tag-finished" >Vagas esgotadas</div>
+                            {% else %}
+                                <div class = "{% if activity.capacity != 0 %} tag-default {% else %} tag-finished {% endif %}" >{{ activity.capacity }} vagas</div>
+                                <input
+                                type = "checkbox"
+                                name="selected_activities"
+                                value = {{ activity.id }}
+                                class = "w-10 h-10 rounded-lg border-green-400 text-green-400 cursor-pointer"
+                                {% if activity.id in activities_subscribed %} checked {% endif %}
+                                />
+                                <label for="activity"></label>
+                            {% endif %}
 
+                        </div>
+                    </div>
+                {% endfor %}
+            {%else%}
+                <span>Sem atividades</span>
+            {% endif%}
+        </div>
+        <div class = "flex justify-end pt-20">
+            {% if event.status == "active" %}
+                {% if event.activity_set.all %}
+                    {% if activities_subscribed %}
+                        <div class="flex gap-8">
+                            <button type="button" class = "btn-warning" id="subscriptionDeleteBtn">Remover Inscrição</button>
+                            <button type="button" class = "btn-default" id="subscriptionEditBtn">Editar Inscrição</button>
+                        </div>
+                    {% else %}
+                        <button type="submit" class = "btn-default" id="subscribeBtn">Inscrever</button>
+                    {% endif %}
+                {% endif %}
+            {% endif%}
+        </div>
+    </form>
 
-                </div>
-            </div>
-        {% endfor %}
-        {%else%}
-            <span>Sem atividades</span>
-        {% endif%}
-    </div>
-
-    <div class = "flex justify-end pt-20">
-        <a href="{% url 'my_events' %}">
-            <button class = "btn-default">Salvar</button>
-        </a>
-    </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/subscription_requests.js' %}"></script>
 {% endblock %}

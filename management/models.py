@@ -2,6 +2,7 @@ import uuid
 from datetime import timedelta
 
 from django.db import models
+from django.db.models import F
 from django_ckeditor_5.fields import CKEditor5Field
 from accounts.models import Participant
 
@@ -87,9 +88,24 @@ class Event(models.Model):
 
     class Meta:
         verbose_name_plural = "Eventos"
+        ordering = ["init_date"]
 
     def __str__(self):
         return f"Evento: {self.title}"
+
+
+class ActivityManager(models.Manager):
+    def increment_capacity(self, activity_ids, value=1):
+        """Incrementa a capacidade de vagas de uma atividade"""
+        queryset = self.filter(id__in=activity_ids)
+
+        return queryset.update(capacity=F("capacity") + value)
+
+    def decrement_capacity(self, activity_ids, value=1):
+        """Decrementa a capacidade de vagas de uma atividade em que a capacidade é diferente de 0"""
+        return self.filter(id__in=activity_ids, capacity__gte=value).update(
+            capacity=F("capacity") - value
+        )
 
 
 class Activity(models.Model):
@@ -110,11 +126,19 @@ class Activity(models.Model):
         null=True,
     )
 
+    objects = ActivityManager()
+
     class Meta:
         verbose_name_plural = "Atividades"
 
     def __str__(self):
         return f"Atividade: {self.title}"
+
+    @property
+    def has_capacity(self):
+        if self.capacity > 0:
+            return True
+        return False
 
 
 class Certificate(models.Model):

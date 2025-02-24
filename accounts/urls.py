@@ -8,7 +8,7 @@ from .views import (
     reset_password,
     request_reset_password,
     MyCertificates,
-    my_events,
+    MyEvents,
 )
 
 urlpatterns = [
@@ -21,5 +21,5 @@ urlpatterns = [
     ),
     path("reset_password/", reset_password, name="reset_password"),
     path("my_certificates/", MyCertificates.as_view(), name="my_certificates"),
-    path("my_events/", my_events, name="my_events"),
+    path("my_events/", MyEvents.as_view(), name="my_events"),
 ]
