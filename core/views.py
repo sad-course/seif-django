@@ -228,9 +228,9 @@ class EventSubscriptionView(View):
             )
             return JsonResponse(
                 data={
-                    "exception": {"type": type(exception).__name__},
-                    "Message": f"Exception raised during the subscription update {str(exception)}",
-                }
+                    "error": "An internal error has occurred. Please try again later.",
+                },
+                status=500
             )
 
     def delete(self, request, *args, **kwargs):
