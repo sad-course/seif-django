@@ -51,7 +51,19 @@
                             <td> {{participant.username}} </td>
                             <td>{{participant.date_joined|date:"d/m/Y"}}</td>
                             <td>{{participant.email}}</td>
-                            <td class = "rounded-br-md">Participante</td>
+                            <td class = "rounded-br-md">
+                            {% if participant.groups.all %}
+                                {% for group in participant.groups.all %}
+                                    {% if group.name == "Administrators" %}
+                                        Administrador
+                                        {% elif group.name == "Organizers" %}
+                                            Organizador
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                Participante
+                            {% endif %}
+                        </td>
                         </tr>
                     </tbody>
 
