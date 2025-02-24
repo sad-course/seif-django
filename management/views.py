@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.http import HttpResponseForbidden
 from django.views.generic import FormView, ListView
 from django.contrib import messages
-from django.db.models import Count
+from django.db.models import Count, Q
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from .forms import EventForm, EventPublishRequestForm, ActivityForm
 from .models import Event, Tag, Activity, ActivityType, Participant
 
@@ -17,15 +20,60 @@ class Index(ListView):
     context_object_name = "events"
     paginate_by = 10
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.groups.filter(
+            name__in=["Administrators", "Organizers"]
+        ).exists():
+            return HttpResponseForbidden(
+                "Você não tem permissão para acessar esta página."
+            )
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        if self.request.user.groups.filter(name="Organizers").exists():
+            queryset = queryset.filter(
+                (Q(organizers=self.request.user) | Q(created_by=self.request.user))
+            )
+
+        elif self.request.user.groups.filter(name="Administrators").exists():
+            queryset = queryset.all()
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["events_count"] = Event.objects.count()
-        context["organizers_count"] = (
-            Participant.objects.filter(event__status__in=["active", "approved"])
-            .distinct()
-            .count()
-        )
-        context["total_activities"] = Activity.objects.count()
+
+        if self.request.user.groups.filter(name="Organizers").exists():
+            context["events_count"] = Event.objects.filter(
+                (Q(organizers=self.request.user) | Q(created_by=self.request.user))
+            ).count()
+            context["organizers_count"] = (
+                Participant.objects.filter(
+                    (
+                        Q(event__created_by=self.request.user)
+                        or Q(event__organizers=self.request.user)
+                    )
+                )
+                .distinct()
+                .count()
+            )
+            context["total_activities"] = Activity.objects.filter(
+                (
+                    Q(event__created_by=self.request.user)
+                    or Q(event__organizers=self.request.user)
+                )
+            ).count()
+
+        elif self.request.user.groups.filter(name="Administrators").exists():
+            context["events_count"] = Event.objects.all.count()
+            context["organizers_count"] = (
+                Participant.objects.filter().distinct().count()
+            )
+            context["total_activities"] = Activity.objects.count()
+
         return context
 
 
@@ -36,9 +84,18 @@ class Organizers(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Participant.objects.filter(
-            event__status__in=["active", "approved"]
-        ).distinct()
+        queryset = super().get_queryset()
+
+        if self.request.user.groups.filter(name="Organizers").exists():
+            user_events = Event.objects.filter(
+                (Q(organizers=self.request.user) | Q(created_by=self.request.user))
+            )
+            queryset = Participant.objects.filter(event__in=user_events).distinct()
+
+        elif self.request.user.groups.filter(name="Administrators").exists():
+            queryset = queryset.all()
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -65,7 +122,19 @@ class AnalyticsHome(ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Event.objects.annotate(total_activities=Count("activity"))
+        queryset = super().get_queryset()
+
+        if self.request.user.groups.filter(name="Organizers").exists():
+            print(self.request.user)
+
+            queryset = queryset.filter(
+                (Q(organizers=self.request.user) | Q(created_by=self.request.user)),
+            )
+
+        elif self.request.user.groups.filter(name="Administrators").exists():
+            queryset = queryset.all()
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
