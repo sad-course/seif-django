@@ -1,4 +1,5 @@
 from django.contrib import admin
+from accounts.views import create_certificate
 from .models import Activity, Tag, Event, Certificate
 
 
@@ -62,8 +63,15 @@ class ActivityAdmin(admin.ModelAdmin):
 
 class CertificateAdmin(admin.ModelAdmin):
     list_display = ("activity", "created_at", "participant")
-    fields = ("activity", "created_at", "Participant")
     readonly_fields = ("created_at",)
+
+    def save_model(self, request, obj, form, change):
+        if not obj.image:
+            image_file = create_certificate(
+                obj.participant.username, obj.activity.title
+            )
+            obj.image = image_file
+        super().save_model(request, obj, form, change)
 
 
 admin.site.register(Tag, TagAdmin)

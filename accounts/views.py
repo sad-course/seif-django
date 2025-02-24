@@ -1,11 +1,17 @@
+import io
+import os
+from PIL import Image, ImageDraw, ImageFont
 from django.shortcuts import render, redirect
+from django.conf import settings
+from django.contrib.staticfiles import finders
+from django.core.files import File
 from django.views.generic import FormView, TemplateView, ListView
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from core.models import EventSubscription
-
+from management.models import Certificate
 from .forms import LoginForm, SignupForm
 from .models import Participant
 
@@ -97,8 +103,54 @@ def reset_password(request):
     return render(request, "accounts/reset_password.html")
 
 
-def my_certificates(request):
-    return render(request, "accounts/my_certificates.html")
+class MyCertificates(ListView):
+    model = Certificate
+    template_name = "accounts/my_certificates.html"
+    context_object_name = "certificates"
+
+    def get_queryset(self):
+        return Certificate.objects.filter(participant=self.request.user)
+
+
+def create_certificate(participant_username, activity_title):
+    # Caminho da imagem de fundo no static
+    static_bg_path = finders.find("img/certificatebg.png")
+
+    if not static_bg_path:
+        raise FileNotFoundError("Imagem de fundo não encontrada no diretório static.")
+
+    img = Image.open(static_bg_path)
+    d = ImageDraw.Draw(img)
+
+    # caminho que será salva
+    media_cert_path = os.path.join(
+        settings.MEDIA_ROOT, "certificates", "certificate_image.jpg"
+    )
+    font_path = os.path.join(
+        settings.BASE_DIR, "accounts/static/fonts/BebasNeue-Regular.ttf"
+    )
+    font_username = os.path.join(settings.BASE_DIR, "accounts/static/fonts/shine.ttf")
+
+    font = ImageFont.truetype(font_path, 60)
+    font_user = ImageFont.truetype(font_username, 100)
+
+    d.text((900, 500), f"{participant_username}", font=font_user, fill=(0, 0, 0))
+    d.text((700, 750), f"Atividade: {activity_title}", font=font, fill=(0, 0, 0))
+
+    # Salvar a imagem em um objeto BytesIO
+    img_io = io.BytesIO()
+    img.save(img_io, "JPEG")
+    img_io.seek(0)
+
+    # Cria um objeto File com a imagem gerada (sem salvar fisicamente no disco)
+    image_file = File(img_io, name="certificate_image.jpg")
+
+    # Opcionalmente, se quiser salvar a imagem diretamente em um campo do modelo ou algo similar
+    # Salvar a imagem no sistema de arquivos (mídia)
+    with open(media_cert_path, "wb") as f:
+        f.write(img_io.getvalue())
+
+    return image_file
 
 
 class MyEvents(ListView):
