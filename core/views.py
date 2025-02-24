@@ -143,7 +143,6 @@ class EventSubscriptionView(View):
                     if not created:
                         subcription_instance.is_subcription_canceled = False
                         subcription_instance.save()
-                    Activity.objects.decrement_capacity(activities_list, value=1)
                 else:
                     messages.error(
                         request, f"Sem vagas para a atividade {activity_instance.title}"
@@ -151,6 +150,7 @@ class EventSubscriptionView(View):
                     return redirect(
                         reverse_lazy("event_details", kwargs={"event_id": event_id})
                     )
+            Activity.objects.decrement_capacity(activities_list, value=1)
 
         except Exception as exception:
             logger.exception(
@@ -175,40 +175,53 @@ class EventSubscriptionView(View):
             messages.error(request, "É necessário passar o event id")
             return JsonResponse(data={"error": "Provide the body data", "status": 400})
 
-        activities_list = data.get("selected_activities", [])
+        selected_activities = data.get("selected_activities", [])
         try:
-            activities_list = [int(activity_id) for activity_id in activities_list]
-            if not activities_list:
+
+            selected_activities = [
+                int(activity_id) for activity_id in selected_activities
+            ]
+            if not selected_activities:
                 self.delete(request)
 
-            subscriptions = EventSubscription.objects.filter(
+            # todas as inscrições ativas para o evento
+            activities_subscribed = EventSubscription.objects.filter(
                 event__id=event_id,
                 participant__id=participant,
                 is_subcription_canceled=False,
-            ).values_list("activity", "is_subcription_canceled")
+            ).values_list("activity", flat=True)
 
-            for activity in activities_list:
-                activity_instance = Activity.objects.get(id=activity)
-                if not activity_instance in subscriptions:
-                    subcription_instance, created = (
-                        EventSubscription.objects.get_or_create(
-                            event_id=event_id,
-                            participant__id=participant,
-                            activity_id=activity,
-                        )
-                    )
-                    if not created:
-                        subcription_instance.is_subcription_canceled = False
-                        subcription_instance.save()
-                else:
-                    activities_list.remove(activity)
-                return JsonResponse(
-                    data={"message": "Subscription updated succesfuly!"}
+            current_set = set(activities_subscribed)
+            selected_set = set(selected_activities)
+
+            subscriptions_to_add = selected_set - current_set
+            subscriptions_to_remove = current_set - selected_set
+
+            print(f"{subscriptions_to_add} - to add")
+            print(f"{subscriptions_to_remove} - to remove")
+
+            for activity in subscriptions_to_add:
+                Activity.objects.get(id=activity)
+                EventSubscription.objects.update_or_create(
+                    event_id=event_id,
+                    participant_id=participant,
+                    activity_id=activity,
+                    defaults={"is_subcription_canceled": False},
                 )
 
+            Activity.objects.decrement_capacity(subscriptions_to_add, value=1)
+
+            EventSubscription.objects.filter(
+                event_id=event_id,
+                participant_id=participant,
+                activity_id__in=subscriptions_to_remove,
+            ).update(is_subcription_canceled=True)
+            Activity.objects.increment_capacity(subscriptions_to_remove, value=1)
+
+            return JsonResponse(data={"message": "Ok foi atualizados"})
         except Exception as exception:
             logger.exception(
-                "An exception was raised during the event subscription creation.\
+                "An exception was raised during the event subscription update.\
                 Exception:  %s, Message: %s",
                 type(exception).__name__,
                 str(exception),
@@ -216,7 +229,7 @@ class EventSubscriptionView(View):
             return JsonResponse(
                 data={
                     "exception": {"type": type(exception).__name__},
-                    "Message": f"Exception raised during the subscription delete {str(exception)}",
+                    "Message": f"Exception raised during the subscription update {str(exception)}",
                 }
             )
 
