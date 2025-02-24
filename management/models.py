@@ -123,6 +123,7 @@ class Certificate(models.Model):
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     participant = models.ForeignKey(to=Participant, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="certificates/", null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Certificados"
