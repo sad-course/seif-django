@@ -313,6 +313,7 @@ class CreateEventRequestView(FormView):
         return super().form_invalid(form)
 
 
+# organizer_event_submit_requests.html event_submit_detail.html
 class EventPublishRequests(ListView):
     model = Event
     template_name = "management/organizer_event_submit_requests.html"
@@ -328,14 +329,6 @@ class EventPublishRequests(ListView):
 
     def get_queryset(self):
         return Event.objects.filter(status=Event.EventStatus.DRAFT)
-
-
-def event_publish_request_detail(request):
-    return render(request, "management/organizer_event_submit_detail.html")
-
-
-def event_submit_dashboard(request):
-    return render(request, "management/event_submit_dashboard.html")
 
 
 class EventSubmitDetail(DetailView):

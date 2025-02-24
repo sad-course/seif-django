@@ -22,12 +22,6 @@ urlpatterns = [
         name="event_publish_request",
     ),
     path(
-        "event/request/detail/",
-        views.event_publish_request_detail,
-        name="event_request_detail",
-    ),
-    path("event/submit/", views.event_submit_dashboard, name="event_submit_dashboard"),
-    path(
         "event/submit/detail/<int:pk>/",
         EventSubmitDetail.as_view(),
         name="event_submit_detail",
