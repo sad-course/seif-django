@@ -11,9 +11,9 @@ function getCSRFToken() {
     return cookieValue;
 }
 
-var eventID = document.querySelector("input[name='event_id']").value
-var subscriptionEditBtn = document.querySelector("#subscriptionEditBtn")
-var subscriptionDeleteBtn = document.querySelector("#subscriptionDeleteBtn")
+var eventID = document.querySelector("input[name='event_id']").value;
+var subscriptionEditBtn = document.querySelector("#subscriptionEditBtn");
+var subscriptionDeleteBtn = document.querySelector("#subscriptionDeleteBtn");
 
 
 async function deleteSubscription(){
@@ -41,8 +41,47 @@ async function deleteSubscription(){
 
 }
 
+async function updateSubscription(){
+    const selectedActivities = Array.from(document.querySelectorAll('input[name="selected_activities"]:checked'))
+                                .map(option => option.value);
+    console.log(selectedActivities)
+    try {
+        let response = await fetch("/event/subcription/",{
+            method: "PATCH",
+            headers:{
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCSRFToken()
+            },
+            body: JSON.stringify({
+                "event_id": eventID,
+                "selected_activities": selectedActivities,
+            })
+        })
+
+        if (!response.ok){
+            let errorData = await response.json();
+            throw new Error(`Error ${response.status}: ${errorData.message || "Unknown error"}`);
+        }else{
+            let data = await response.json();
+            window.location.href = "/accounts/my_events/";
+        }
+
+
+    } catch (error) {
+        console.error("Error updating subscription:", error);
+    }
+
+}
+
 if (subscriptionDeleteBtn != null){
     subscriptionDeleteBtn.addEventListener("click", () => {
-        deleteSubscription()
-    })
-}
+        deleteSubscription();
+    });
+};
+
+if (subscriptionEditBtn != null){
+    console.log("entrei")
+    subscriptionEditBtn.addEventListener("click", () => {
+        updateSubscription();
+    });
+};
