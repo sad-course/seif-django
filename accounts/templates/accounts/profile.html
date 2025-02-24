@@ -46,15 +46,16 @@
             </span>
         </div>
         <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPersonalData">Modificar Dados</button>
-        <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPassword">Modificar Senha</button>
-
+        {% if not is_suap_user %}
+            <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPassword">Modificar Senha</button>
+        {% endif %}
         <div class="flex gap-2">
             <button type="submit" class="self-center text-red-200 w-full h-[58px]">Excluir Conta</button>
 
 
             <div class="group w-full">
                 <form action="{% url 'logout' %}" method="post">
-                        {% csrf_token %}
+                    {% csrf_token %}
                     <button type="submit" class="self-center btn-warning-unfilled w-full h-[58px] group-hover:hidden">Sair</button>
                     <button type="submit" class="hidden self-center btn-warning w-full h-[58px] group-hover:block">Sair</button>
                 </form>
@@ -68,14 +69,10 @@
 
     <div class="popup-group w-full lg:w-1/2">
         <div class="flex flex-col justify-end gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 hidden" id="popupPersonalData">
-            <div class="badge-message hidden">
-                {% include 'partials/badge_message.html' with status='warning' message='CPF informado é inválido!' %}
-            </div>
-
             <div class="flex flex-col sm gap-5">
                 <div class="flex flex-col sm gap-2.5">
-                    <label class="text-sm font-normal" for="fullname">Nome Completo:</label>
-                    <input class="w-full rounded-lg bg-gray-200" type="text" name="text" id="fullname" placeholder="Fulano de Tal da Silva">
+                    <label class="text-sm font-normal" for="name">Nome Completo:</label>
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="name" id="name" placeholder="{{ user.username }}">
                 </div>
 
                 <div class="flex flex-col sm gap-2.5">
@@ -86,12 +83,12 @@
 
                 <div class="flex flex-col sm gap-2.5">
                     <label class="text-sm font-normal" for="cpf">CPF:</label>
-                    <input class="w-full rounded-lg bg-gray-200" type="text" name="cpf" id="cpf" placeholder="XXX.XXX.XXX-XX">
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="cpf" id="cpf" placeholder="XXX.XXX.XXX-XX" maxlength="14">
                 </div>
 
                 <div class="flex flex-col sm gap-2.5">
                     <label class="text-sm font-normal" for="telefone">Telefone:</label>
-                    <input class="w-full rounded-lg bg-gray-200" type="text" name="phone" id="phone" placeholder="(XX)XXXXX-XXXX">
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="phone" id="phone" placeholder="(XX)XXXXX-XXXX" maxlength="14">
                 </div>
 
                 <div class="flex justify-end">
