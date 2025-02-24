@@ -285,9 +285,7 @@ class EventSubmitDetail(DetailView):
             evento.status = Event.EventStatus.RECUSED
             evento.save()
 
-        return redirect(
-            reverse_lazy("event_publish_request")
-        )  # Redireciona para event_publish_request
+        return redirect(reverse_lazy("event_publish_request"))
 
 
 class TagsListView(View):

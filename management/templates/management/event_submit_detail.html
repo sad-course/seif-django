@@ -26,9 +26,9 @@
         </div>
 
         <!-- Dados do Evento -->
-        <div class="bg-gray-200 rounded-md px-6 py-8">
+        <div class="bg-gray-200 rounded-md px-6 py-8 w-full">
             <h2 class="text-gray-600 text-3xl font-bold">Evento</h2>
-            <div class="flex flex-col mt-11">
+            <div class="flex flex-col mt-11 w-full">
                 <span><strong>Nome:</strong> {{ event.title }}</span>
                 <span><strong>Descrição breve:</strong> {{event.description|striptags|truncatechars:20}}</span>
                 <span><strong>Tipo:</strong>
@@ -55,7 +55,7 @@
                     {% csrf_token %}
                     {{ observation_form.as_p }}
 
-                    <div class="flex justify-end items-end gap-2">
+                    <div class="flex justify-end mt-5 items-end gap-2">
                         <button type="submit" name="reject" class="h-8 btn-warning">Recusar</button>
                         <button type="submit" name="approve" class="h-8 btn-default">Aceitar</button>
                     </div>
