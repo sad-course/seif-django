@@ -187,8 +187,11 @@ def edit_event(request, event_id):  # pylint: disable=R0915
 
     # barrando usuario se evento ainda nao for aprovado
     print(event.status)
-    if event.status in ["draft", "recused"]:
+    if event.status == "draft":
         messages.error(request, "O evento ainda não foi aprovado, aguarde análise!")
+        return redirect("management")
+    if event.status == "recused":
+        messages.error(request, event.observation)
         return redirect("management")
 
     tags = list(event.tags.all().only("name").values_list("name", flat=True))
