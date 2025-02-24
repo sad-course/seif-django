@@ -1,127 +1,42 @@
-{% extends 'management/base.html' %} {% load static %} {% block content %}
+{% extends 'management/base.html' %}
+{% load static %}
+
+{% block content %}
 <div class="pt-12 pb-8">
-	<h1 class="text-2xl">Solicitações de Submissão</h1>
+    <h1 class="text-2xl">Solicitações de Submissão</h1>
 </div>
 
 <!--cards-->
 <section class="submit-requests flex flex-wrap gap-5">
+    {% for event in draft_events %}
+    <a href="{% url 'event_submit_detail' pk=event.id %}">
+        <div class="p-9 rounded-lg bg-gray-50 shadow-md h-56">
+            <div>
+                <div class="flex gap-5">
+                    <h3 class="text-green-900 font-semibold text-3xl ">{{ event.title }}</h3>
+                    <div class = {% if event.get_status_display == "Ativo" %}"tag-default"{%else%}"tag-finished"{%endif%}>
+						{{ event.get_status_display }}</div>
+                </div>
 
-	<a href="{% url 'event_request_detail' %}">
-	<div class="p-9 rounded-lg bg-gray-50 shadow-md">
-		<div>
-			<div class="flex gap-5">
-				<h3 class="text-green-900 font-semibold text-3xl ">Expotec</h3>
-				<span class="tag-default ">Deferido</span>
-			</div>
+                <!--Tag do tipo-->
+				<div class="mt-7">
+					<div class = "flex items-center gap-3 overflow-x-scroll sm:scrollbar-hide">
+						{% for tag in event.tags.all %}
+							<div class = "tag-default">{{tag.name}}</div>
+						{% endfor %}
+					</div>
+					<p class = "text-base text-justify w-full mt-7">
+						Descrição: {{event.description|striptags|truncatechars:20}}
+					</p>
+				</div>
 
-			<!--Tag do tipo-->
-			<div class = "mt-7">
-				<div class="tag-not-started mb-3 w-24">Cientifico</div>
+            </div>
+        </div>
+    </a>
 
-				<p>
-					Dscrição: Lorem ipsum dolor
-				</p>
-
-			</div>
-		</div>
-	</div>
-	</a>
-
-	<div class="p-9 rounded-lg bg-gray-50 shadow-md">
-		<div>
-			<div class="flex gap-5">
-				<h3 class="text-green-900 font-semibold text-3xl ">Expotec</h3>
-				<span class="tag-default ">Deferido</span>
-			</div>
-
-			<!--Tag do tipo-->
-			<div class = "mt-7">
-				<div class="tag-not-started mb-3 w-24">Cientifico</div>
-
-				<p>
-					Dscrição: Lorem ipsum dolor
-				</p>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="p-9 rounded-lg bg-gray-50 shadow-md">
-		<div>
-			<div class="flex gap-5">
-				<h3 class="text-green-900 font-semibold text-3xl ">Expotec</h3>
-				<span class="tag-default ">Deferido</span>
-			</div>
-
-			<!--Tag do tipo-->
-			<div class = "mt-7">
-				<div class="tag-not-started mb-3 w-24">Cientifico</div>
-
-				<p>
-					Dscrição: Lorem ipsum dolor
-				</p>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="p-9 rounded-lg bg-gray-50 shadow-md">
-		<div>
-			<div class="flex gap-5">
-				<h3 class="text-green-900 font-semibold text-3xl ">Expotec</h3>
-				<span class="tag-default ">Deferido</span>
-			</div>
-
-			<!--Tag do tipo-->
-			<div class = "mt-7">
-				<div class="tag-not-started mb-3 w-24">Cientifico</div>
-
-				<p>
-					Dscrição: Lorem ipsum dolor
-				</p>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="p-9 rounded-lg bg-gray-50 shadow-md">
-		<div>
-			<div class="flex gap-5">
-				<h3 class="text-green-900 font-semibold text-3xl ">Expotec</h3>
-				<span class="tag-default ">Deferido</span>
-			</div>
-
-			<!--Tag do tipo-->
-			<div class = "mt-7">
-				<div class="tag-not-started mb-3 w-24">Cientifico</div>
-
-				<p>
-					Dscrição: Lorem ipsum dolor
-				</p>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="p-9 rounded-lg bg-gray-50 shadow-md">
-		<div>
-			<div class="flex gap-5">
-				<h3 class="text-green-900 font-semibold text-3xl ">Expotec</h3>
-				<span class="tag-default ">Deferido</span>
-			</div>
-
-			<!--Tag do tipo-->
-			<div class = "mt-7">
-				<div class="tag-not-started mb-3 w-24">Cientifico</div>
-
-				<p>
-					Descrição: Lorem ipsum dolor
-				</p>
-
-			</div>
-		</div>
-	</div>
-
+    {% empty %}
+    <p>Não há eventos em rascunho no momento.</p>
+    {% endfor %}
 </section>
 
-{% endblock%}
+{% endblock %}

@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from .views import EventSubmitDetail
 
 urlpatterns = [
     path("", views.Index.as_view(), name="management"),
@@ -15,7 +16,11 @@ urlpatterns = [
     path(
         "analytics/event/", views.analytics_event_detail, name="analytics_event_detail"
     ),
-    path("event/request/", views.event_publish_requests, name="event_publish_request"),
+    path(
+        "event/request/",
+        views.EventPublishRequests.as_view(),
+        name="event_publish_request",
+    ),
     path(
         "event/request/detail/",
         views.event_publish_request_detail,
@@ -23,7 +28,9 @@ urlpatterns = [
     ),
     path("event/submit/", views.event_submit_dashboard, name="event_submit_dashboard"),
     path(
-        "event/submit/detail/", views.event_submit_detail, name="event_submit_detail"
+        "event/submit/detail/<int:pk>/",
+        EventSubmitDetail.as_view(),
+        name="event_submit_detail",
     ),  # esse aqui
     path("tags/", views.TagsListView.as_view(), name="get_tags_json"),
 ]

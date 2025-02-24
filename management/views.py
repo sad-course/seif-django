@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from django.http import JsonResponse
-from django.views.generic import FormView, ListView
+from django.views.generic import FormView, ListView, DetailView
 from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.db.models import Count
@@ -235,8 +235,13 @@ class CreateEventRequestView(FormView):
         return super().form_invalid(form)
 
 
-def event_publish_requests(request):
-    return render(request, "management/organizer_event_submit_requests.html")
+class EventPublishRequests(ListView):
+    model = Event
+    template_name = "management/organizer_event_submit_requests.html"
+    context_object_name = "draft_events"
+
+    def get_queryset(self):
+        return Event.objects.filter(status=Event.EventStatus.DRAFT)
 
 
 def event_publish_request_detail(request):
@@ -247,8 +252,10 @@ def event_submit_dashboard(request):
     return render(request, "management/event_submit_dashboard.html")
 
 
-def event_submit_detail(request):
-    return render(request, "management/event_submit_detail.html")
+class EventSubmitDetail(DetailView):
+    model = Event
+    template_name = "management/event_submit_detail.html"
+    context_object_name = "evento"
 
 
 class TagsListView(View):

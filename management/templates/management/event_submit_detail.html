@@ -3,25 +3,39 @@
 	<h1 class="text-2xl">Solicitações de Submissão</h1>
 </div>
 
-<div class = "flex gap-1 items-center">
-    {% svg 'arrow-left' %}
-    <a href="{% url 'event_publish_request' %}" class = "text-green-900 font-semibold text-xl mb-1" >Voltar</a>
+<div class="flex gap-2 items-center">
+    <a href="{% url 'event_publish_request' %}" class="flex items-center text-green-900 font-semibold text-xl mb-1 hover:text-green-700 transition">
+        {% svg 'arrow-left' class="w-6 h-6" %}
+        <span>Voltar</span>
+    </a>
 </div>
+
 <div class = "rounded-lg bg-gray-50 px-6 py-10 border border-green-700">
-    <h2 class = "text-green-700 text-3xl font-semibold mb-7" >Solicitação N°48</h2>
+    <h2 class="text-green-700 text-3xl font-semibold mb-7">Solicitação N°{{ event.id }}</h2>
 
-    <div class = "flex gap-5">
-        <div class = "bg-gray-200 rounded-md px-6 py-8">
-            <h2 class = "text-gray-600 text-3xl font-bold">Solicitante</h2>
+    <div class="flex gap-5">
+        <!-- Dados do Solicitante -->
+        <div class="bg-gray-200 rounded-md px-6 py-8">
+            <h2 class="text-gray-600 text-3xl font-bold">Solicitante</h2>
 
-            <div class = "flex flex-col mt-11">
-                <span> <strong>Requisitada por:</strong>  Fulane</span>
-                <span><strong>Cargo:</strong>  Professor</span>
-                <span><strong>Campus:</strong>  IFRN-Pau dos Ferros</span>
-                <span><strong>Email:</strong>  fulano@gmail.com</span>
-
+            <div class="flex flex-col mt-11">
+                <span><strong>Requisitada por:</strong> {{ solicitante.name }}</span>
+                <span><strong>Cargo:</strong> {{ solicitante.role }}</span>
+                <span><strong>Campus:</strong> {{ event.campus }}</span>
+                <span><strong>Email:</strong> {{ solicitante.email }}</span>
             </div>
         </div>
+
+        <!-- Dados do Evento -->
+        <div class="bg-gray-200 rounded-md px-6 py-8">
+            <h2 class="text-gray-600 text-3xl font-bold">Evento</h2>
+            <div class="flex flex-col mt-11">
+                <span><strong>Nome:</strong> {{ event.title }}</span>
+                <span><strong>Descrição breve:</strong> {{ event.description|truncatechars:100 }}</span>
+                <span><strong>Tipo:</strong> {{ event.get_type_display }}</span>
+            </div>
+        </div>
+    </div>
 
         <div class = "bg-gray-200 rounded-md px-6 py-8">
             <h2 class = "text-gray-600 text-3xl font-bold">Evento</h2>
