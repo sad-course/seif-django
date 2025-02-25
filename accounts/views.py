@@ -1,5 +1,8 @@
 import io
 import os
+
+from social_django.models import UserSocialAuth
+
 from PIL import Image, ImageDraw, ImageFont
 from django.shortcuts import render, redirect
 from django.conf import settings
@@ -25,9 +28,13 @@ class Profile(TemplateView):
             participant=participant
         ).count()
 
+        is_suap_user = UserSocialAuth.objects.filter(
+            user=participant, provider="suap"
+        ).first()
         context = {
             "avatar": participant.avatar,
             "event_count": event_subscriptions,
+            "is_suap_user": is_suap_user,
         }
 
         return render(self.request, "accounts/profile.html", context=context)
