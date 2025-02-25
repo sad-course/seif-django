@@ -14,17 +14,16 @@ function getCSRFToken() {
 var eventID = document.querySelector("input[name='event_id']").value;
 var subscriptionEditBtn = document.querySelector("#subscriptionEditBtn");
 var subscriptionDeleteBtn = document.querySelector("#subscriptionDeleteBtn");
-
+var routeURL = `/event/subcription/${eventID}/`
 
 async function deleteSubscription(){
     try {
-        let response = await fetch("/event/subcription/",{
+        let response = await fetch(routeURL,{
             method: "DELETE",
             headers:{
                 "Content-Type": "application/json",
                 "X-CSRFToken": getCSRFToken()
             },
-            body: JSON.stringify({"event_id": eventID})
         })
 
         if (!response.ok){
@@ -44,16 +43,14 @@ async function deleteSubscription(){
 async function updateSubscription(){
     const selectedActivities = Array.from(document.querySelectorAll('input[name="selected_activities"]:checked'))
                                 .map(option => option.value);
-    console.log(selectedActivities)
     try {
-        let response = await fetch("/event/subcription/",{
+        let response = await fetch(routeURL,{
             method: "PATCH",
             headers:{
                 "Content-Type": "application/json",
                 "X-CSRFToken": getCSRFToken()
             },
             body: JSON.stringify({
-                "event_id": eventID,
                 "selected_activities": selectedActivities,
             })
         })
@@ -80,7 +77,6 @@ if (subscriptionDeleteBtn != null){
 };
 
 if (subscriptionEditBtn != null){
-    console.log("entrei")
     subscriptionEditBtn.addEventListener("click", () => {
         updateSubscription();
     });

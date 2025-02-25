@@ -159,18 +159,37 @@ class EventSubscriptionView(View):
                 type(exception).__name__,
                 str(exception),
             )
-            messages.error(request, "An internal error has occurred. Please try again later.")
+            messages.error(
+                request, "An internal error has occurred. Please try again later."
+            )
             return redirect(
                 reverse_lazy("event_details", kwargs={"event_id": event_id})
             )
 
         return redirect(reverse_lazy("my_events"))
 
+
+class EventSubscriptionDetailView(View):
+    def get_event_id(self):
+        event_id = self.kwargs.get("event_id", None)
+        try:
+            if event_id:
+                event_id = Event.objects.get(id=int(event_id)).id
+            else:
+                return JsonResponse(data={"error": "'event_id' is required"})
+        except ValueError:
+            return JsonResponse(data={"error": "Pass a integer 'event_id' value"})
+        except Event.DoesNotExist:
+            return JsonResponse(data={"error": "Event does not exist"})
+
+        return event_id
+
     def patch(self, request, *args, **kwargs):
+        event_id = self.get_event_id()
         participant = self.request.user.id
+
         try:
             data = json.loads(request.body)
-            event_id = data.get("event_id", None)
         except json.decoder.JSONDecodeError:
             messages.error(request, "É necessário passar o event id")
             return JsonResponse(data={"error": "Provide the body data", "status": 400})
@@ -184,7 +203,6 @@ class EventSubscriptionView(View):
             if not selected_activities:
                 self.delete(request)
 
-            # todas as inscrições ativas para o evento
             activities_subscribed = EventSubscription.objects.filter(
                 event__id=event_id,
                 participant__id=participant,
@@ -196,9 +214,6 @@ class EventSubscriptionView(View):
 
             subscriptions_to_add = selected_set - current_set
             subscriptions_to_remove = current_set - selected_set
-
-            print(f"{subscriptions_to_add} - to add")
-            print(f"{subscriptions_to_remove} - to remove")
 
             for activity in subscriptions_to_add:
                 Activity.objects.get(id=activity)
@@ -218,7 +233,8 @@ class EventSubscriptionView(View):
             ).update(is_subcription_canceled=True)
             Activity.objects.increment_capacity(subscriptions_to_remove, value=1)
 
-            return JsonResponse(data={"message": "Ok foi atualizados"})
+            return JsonResponse(data={"message": "Subscription updated succesfuly!"})
+
         except Exception as exception:
             logger.exception(
                 "An exception was raised during the event subscription update.\
@@ -230,27 +246,12 @@ class EventSubscriptionView(View):
                 data={
                     "error": "An internal error has occurred. Please try again later.",
                 },
-                status=500
+                status=500,
             )
 
     def delete(self, request, *args, **kwargs):
         participant = self.request.user.id
-        try:
-            data = json.loads(request.body)
-            event_id = data.get("event_id", None)
-        except json.decoder.JSONDecodeError:
-            messages.error(request, "É necessário passar o event id")
-            return JsonResponse(data={"error": "Provide the body data", "status": 400})
-
-        try:
-            if event_id:
-                event_id = Event.objects.get(id=int(event_id)).id
-            else:
-                return JsonResponse(data={"error": "'event_id' is required"})
-        except ValueError:
-            return JsonResponse(data={"error": "Pass a integer 'event_id' value"})
-        except Event.DoesNotExist:
-            return JsonResponse(data={"error": "Event does not exist"})
+        event_id = self.kwargs.get("event_id", None)
 
         try:
             subcriptions = EventSubscription.objects.filter(
@@ -277,5 +278,5 @@ class EventSubscriptionView(View):
                 data={
                     "error": "An internal error has occurred. Please try again later.",
                 },
-                status=500
+                status=500,
             )

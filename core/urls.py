@@ -9,4 +9,9 @@ urlpatterns = [
         views.EventSubscriptionView.as_view(),
         name="event_subscription",
     ),
+    path(
+        "event/subcription/<int:event_id>/",
+        views.EventSubscriptionDetailView.as_view(),
+        name="event_subscription_update",
+    ),
 ]
