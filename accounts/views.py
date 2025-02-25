@@ -24,13 +24,18 @@ from .models import Participant
 class Profile(TemplateView):
     def get(self, *args, **kwargs):
         participant = self.request.user
-        event_subscriptions = EventSubscription.objects.filter(
-            participant=participant
-        ).count()
+        event_subscriptions = (
+            EventSubscription.objects.filter(
+                participant=participant, is_subcription_canceled=False
+            )
+            .distinct("event")
+            .count()
+        )
 
         is_suap_user = UserSocialAuth.objects.filter(
             user=participant, provider="suap"
         ).first()
+
         context = {
             "avatar": participant.avatar,
             "event_count": event_subscriptions,

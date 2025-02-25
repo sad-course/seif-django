@@ -20,3 +20,6 @@ class EventSubscription(models.Model):
 
     class Meta:
         verbose_name = "Inscrições em Evento"
+
+    def __str__(self):
+        return f"Event={self.event.title}:Activity={self.activity.title}"
