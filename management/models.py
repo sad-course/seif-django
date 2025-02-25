@@ -30,8 +30,9 @@ class Event(models.Model):
             "canceled",
             "Cancelado",
         )
-        DRAFT = "draft", "Rascunho"
+        DRAFT = "draft", "Não aprovado"
         APPROVED = "approved", "Aprovado"
+        RECUSED = "recused", "Recusado"
 
     class Campus(models.TextChoices):  # pylint: disable=too-many-ancestors
         CAMPUS_NULL = "null", "Null"
@@ -85,6 +86,7 @@ class Event(models.Model):
         related_name="events_managed",
         verbose_name="Criado por",
     )
+    observation = models.TextField(blank=True, null=True, verbose_name="Observação")
 
     class Meta:
         verbose_name_plural = "Eventos"
