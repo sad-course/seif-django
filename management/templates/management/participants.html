@@ -3,14 +3,17 @@
 {% block content %}
 
 <div class = "pt-12">
-    
+
+
     <div>
-        <h1 class = "font-medium text-3xl text-green-900 pb-8" >Fulano Dital</h1>
+        <h1 class = "font-medium text-3xl text-green-900 pb-8" >Olá, {{user.username}}</h1>
 
         <!-- Cards -->
             <div class=" w-[350px] p-9 rounded-lg bg-gray-50 shadow-md">
                 <h3 class="text-green-900 font-semibold text-4xl">Participantes</h3>
-                <h2 class="text-green-400 font-semibold text-5xl">30</h2>
+                <h2 class="text-green-400 font-semibold text-5xl">
+                    {%if participants %} {{participants_count}} {%else%} 0 {%endif%}
+                </h2>
                 <div class="pt-5">
                     {% svg 'participants' %}
                 </div>
@@ -29,24 +32,67 @@
                     <th class = "rounded-tr-md">Função</th>
                 </tr>
             </thead>
-    
-            
-            <tbody>
-                <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
-                    <td class ="rounded-bl-md">
-                        <div class = "w-10 h-10 rounded-full bg-gray-300">
 
-                        </div>
-                    </td>
-                    <td> <div class = "default-tag">Fulano</div> </td>
-                    <td>12/09/2023</td>
-                    <td>fulano@gmail.com</td>
-                    <td class = "rounded-br-md">Participante</td>
-                </tr>
-            </tbody>
-    
+            {% if participants%}
+                {% for participant in participants %}
+                    <tbody>
+                        <tr class = "prose-td:px-3 prose-td:py-5 prose-td:bg-gray-50">
+                            <td class ="rounded-bl-md">
+                            {%if participant.avatar%}
+                                <img
+                                src="{{ participant.avatar.url }}"
+                                alt="Foto de usuario"
+                                class = "rounded-full h-10 w-10 object-cover"
+                                >
+                            {%else%}
+                                <div  class = "rounded-full h-10 w-10 object-cover bg-gray-300"></div>
+                            {%endif%}
+                            </td>
+                            <td> {{participant.username}} </td>
+                            <td>{{participant.date_joined|date:"d/m/Y"}}</td>
+                            <td>{{participant.email}}</td>
+                            <td class = "rounded-br-md">
+                            {% if participant.groups.all %}
+                                {% for group in participant.groups.all %}
+                                    {% if group.name == "Administrators" %}
+                                        Administrador
+                                    {% elif group.name == "Organizers" %}
+                                        Organizador
+                                    {% else %}
+                                        Participante
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                Participante
+                            {% endif %}
+                        </td>
+                        </tr>
+                    </tbody>
+
+                    {% endfor %}
+                    {% else %}
+                    <div> <span>Sem participantes</span></div>
+                    {%endif%}
+
         </table>
     </div>
+
+    <!--Paginação-->
+    <div class = "py-5 w-full flex flex-col justify-center items-center">
+        <div class = "text-green-900 text-xl">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" >&laquo;</a>
+                <a href="?page={{page_obj.previous_page_number}}"> Voltar </a>
+            {% endif %}
+            {% if page_obj.has_next %}
+                <a href="?page={{page_obj.next_page_number}}"></a>
+                <a href="?page={{page_obj.paginator.num_pages}}"> Próxima &raquo; </a>
+            {% endif%}
+        </div>
+        <span>
+            Pagina {{ page_obj.number }} de {{page_obj.paginator.num_pages }}
+        </span>
+    </div>
 </div>
-  
+
 {% endblock %}

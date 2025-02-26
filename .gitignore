@@ -36,6 +36,8 @@ __pycache__/
 .Python
 env/
 .env
+.env.dev
+.env.prod
 venv/
 build/
 develop-eggs/
@@ -87,6 +89,6 @@ target/
 __pycache__/
 local_settings.py
 
-.env
 db.sqlite3
 staticfiles
+media

@@ -1,24 +1,27 @@
 {% extends "core/base.html" %}
 {% load svg %}
+
+{% block header %}
+<title>SEIF</title>
+{% endblock %}
+
 {% block content %}
 
 <!-- Search input -->
-<div class = "w-full flex justify-end py-12">
-    <div class = " w-[450px] flex items-center gap-3 bg-gray-200 rounded-lg px-5">
+<div class="w-full flex justify-end py-12">
+    <form method="GET" class="w-[450px] flex items-center gap-3 bg-gray-200 rounded-lg px-5">
         {% svg 'search' %}
-        <input
-            type="text"
-            placeholder = "Pesquise aqui"
-            class = "border-none bg-transparent w-full outline-none"
+        <input type="text" name="q" placeholder="Pesquise aqui"
+            class="border-none bg-transparent w-full outline-none"
+            value="{{ request.GET.q|default:'' }}"
         />
-    </div>
+    </form>
 </div>
 <!-- Search input -->
 
 <!-- Carrossel -->
 <div class = "w-full flex flex-col items-center gap-4">
-    <div class= "w-full h-80 bg-gray-250">
-    </div>
+    <img src = "static/img/mainbanner.png" alt class= "w-full h-auto object-contain bg-gray-250"/>
 
     <!--Bolinhas-->
     <ul class = "flex items-center gap-3">
@@ -38,21 +41,34 @@
 
         <!--Filtros-->
         <div class = "flex flex-col items-end gap-3 text-base font-semibold py-5">
-            <span> FILTROS</span>
-            <ul class = "flex items-center gap-4 prose-li:flex prose-li:items-center prose-li:cursor-pointer">
-                <li class = "list-border-bottom">
-                    Status
-                    {% svg 'keyboard_arrow_down' %}
-                </li>
-                <li class = "list-border-bottom">
-                    Tipo
-                    {% svg 'keyboard_arrow_down' %}
-                </li>
-                <li class = "list-border-bottom">
-                    Campi
-                    {% svg 'keyboard_arrow_down' %}
-                </li>
-            </ul>
+            <form method = "GET" action="{% url 'home' %}" id="filter-form">
+                <ul class = "flex items-center gap-4 prose-li:flex prose-li:items-center prose-li:cursor-pointer">
+                    <!--Filtro de status -->
+                    <li class = "list-border-bottom">
+                        <select name="status" class="border-none outline-none" onchange="this.form.submit()">
+                            <option value="" disabled selected>Status</option>
+                            <option value="" {% if request.GET.status == "" %}selected{% endif %}>Todos</option>
+                            {% for value, label in status_choices %}
+                                <option value="{{value}}" {% if request.GET.status == value%}selected{%endif%}>
+                                    {{label}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                    <li class = "list-border-bottom">
+                        <select name="campus" class="border-none outline-none" onchange="this.form.submit()">
+                            <option value="" disabled selected>Campus</option>
+                            <option value="" {% if request.GET.campus == "" %}selected{% endif %}>Todos</option>
+                            {% for value, label in campus_choices %}
+                                <option value="{{value}}" {% if request.GET.campus == value%}selected{%endif%}>
+                                    {{label}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </li>
+                </ul>
+            </form>
+
         </div>
 
 
@@ -60,61 +76,89 @@
     </div>
     <!--Cards-->
     <section class = "w-full flex flex-col gap-9 pb-12">
-        <div class= "card-event">
-            <!--Imagem-->
-            <div class = "w-full sm:w-[350px] min-h-[220px] bg-gray-200 rounded-tl-lg rounded-bl-lg"></div>
+        {% if events %}
+            {% for event in events %}
+                    <div class= "card-event">
+                        <!--Imagem-->
+                            <img
+                                src="{{event.banner.url}}"
+                                alt=""
+                                class = "w-full sm:w-[350px] h-[250px] rounded-tl-lg rounded-bl-lg object-cover"
+                            />
+                        <div class = "w-full px-7 py-4">
+                                <!--Tags-->
+                            <div class = "flex items-center gap-3 overflow-x-scroll sm:scrollbar-hide">
+                                {% for tag in event.tags.all %}
+                                    <div class = "tag-default">{{ tag.name }}</div>
+                                {% endfor %}
+                                <div class = {% if event.get_status_display == "Ativo" %}"tag-default"{%else%}"tag-finished"{%endif%}>
+                                    {{ event.get_status_display }}</div>
+                            </div>
 
-            <div class = "w-full px-7 py-4">
-                    <!--Tags-->
-                <div class = "flex items-center gap-3 overflow-x-scroll sm:scrollbar-hide">
-                    <div class = "tag-default">em breve</div>
-                    <div class = "tag-default">pesquisa</div>
-                    <div class = "tag-default">aberto ao público</div>
-                </div>
+                            <!--infoa-->
+                            <div class = "flex flex-col py-5 font-semibold text-gray-300">
+                                <h3 class = "font-bold text-2xl text-black">{{event.title}}</h3>
+                                <span clas = "">{{event.get_campus_display}}</span>
+                                <span>{{event.init_date|date:"d/m/Y"}} ate {{event.end_date|date:"d/m/Y"}}</span>
+                            </div>
 
-                <!--infoa-->
-                <div class = "flex flex-col py-5 font-semibold text-gray-300">
-                    <h3 class = "font-bold text-2xl text-black">SEMAP</h3>
-                    <span clas = "">Campus Pau dos ferros</span>
-                    <span>00/00/0000 ate 00/00/0000</span>
-                </div>
+                            <div class = "flex justify-end">
+                                <a href="{% url 'event_details' event.id %}">
+                                    <button class = "btn-default w-full sm:w-[200px]">Participar</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class = "flex justify-end">
-                    <button class = "btn-default w-full sm:w-[200px]"> <a href="{% url 'event_details' %}">Participar</a></button>
-                </div>
-            </div>
-        </div>
-
-        <div class= "card-event">
-            <!--Imagem-->
-            <div class = "w-full sm:w-[350px] min-h-[220px] bg-gray-200 rounded-tl-lg rounded-bl-lg"></div>
-
-            <div class = "w-full px-7 py-4">
-                    <!--Tags-->
-                <div class = "flex items-center gap-3 overflow-x-scroll sm:scrollbar-hide">
-                    <div class = "tag-default">em breve</div>
-                    <div class = "tag-default">pesquisa</div>
-                    <div class = "tag-default">aberto ao público</div>
-                </div>
-
-                <!--infoa-->
-                <div class = "flex flex-col py-5 font-semibold text-gray-300">
-                    <h3 class = "font-bold text-2xl text-black">SEMAP</h3>
-                    <span clas = "">Campus Pau dos ferros</span>
-                    <span>00/00/0000 ate 00/00/0000</span>
-                </div>
-
-                <div class = "flex justify-end">
-                    <button class = "btn-default w-full sm:w-[200px]">Participar</button>
-                </div>
-            </div>
-        </div>
-
-
-
-
-
+            {% endfor %}
+        {% else%}
+        <span class = ""> Sem eventos</span>
+        {% endif%}
     </section>
+
+    <!-- Paginação -->
+    <div class="flex justify-center mt-8">
+        <nav class="flex items-center gap-3 text-lg">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="text-green-500 flex items-center gap-1">
+                    <span>Anterior</span>
+                    <span class="text-2xl font-bold">&lt;</span>
+                </a>
+            {% else %}
+                <span class="text-gray-300 flex items-center gap-1 cursor-default">
+                    <span>Anterior</span>
+                    <span class="text-2xl font-bold">&lt;</span>
+                </span>
+            {% endif %}
+
+            {% for page in page_range %}
+                {% if page == None %}
+                    <span class="text-gray-400">...</span>
+                {% elif page == page_obj.number %}
+                    <span class="w-10 h-10 flex items-center justify-center rounded-full bg-green-900 text-white font-bold">
+                        {{ page }}
+                    </span>
+                {% else %}
+                    <a href="?page={{ page }}" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 text-gray-700 font-bold hover:bg-gray-300">
+                        {{ page }}
+                    </a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="text-green-500 flex items-center gap-1">
+                    <span class="text-2xl font-bold">&gt;</span>
+                    <span>Próximo</span>
+                </a>
+            {% else %}
+                <span class="text-gray-300 flex items-center gap-1 cursor-default">
+                    <span class="text-2xl font-bold">&gt;</span>
+                    <span>Próximo</span>
+                </span>
+            {% endif %}
+        </nav>
+    </div>
+    <!--paginação-->
 
 </section>
 {% endblock %}

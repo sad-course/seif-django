@@ -1,8 +1,9 @@
 {% load static tailwind_tags %}
 {% load svg  %}
+{% load custom_filters %}
 {% load static %}
 
-<html lang="pt-br">
+<html lang="pt-br" class = "h-full">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,9 +13,10 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
     {% tailwind_css %}
-    <title>SEIF</title>
+    {% block header %}
+    {% endblock %}
 </head>
-<body class = "bg-gray-200 flex w-full relative">
+<body class = "bg-gray-200 h-full m-0 p-0 flex w-full relative">
 
         <!--Menu hamburger-->
         <div id = "hamburger-menu" class = "px-11 pt-9 absolute cursor-pointer md-screen:hidden z-50">
@@ -22,8 +24,6 @@
         </div>
 
         <aside class = "bg-gray-50 absolute hidden h-full w-[300px] z-40 pt-14 pl-4 md-screen:pt-0 md-screen:pl-0 md-screen:block md-screen:relative">
-
-
 
             <div class = "px-7 py-9 font-medium text-xl text-green-900 ">
 
@@ -33,23 +33,41 @@
 
                 <ul class = "flex flex-col gap-11 prose-li:aside-items">
 
+                    <!--adição da class block para todo o campo redirecionar para o link ao clicar (excluir comentario após revisão)-->
                     <li class = "aside-select-item">
-                       <a href="{% url 'management'%}"> <span>Eventos</span></a>
+                       <a href="{% url 'management'%}" class="block"> <span>Eventos</span></a>
                     </li>
-                    <li><a href="{% url 'organizers' %}"> <span>Organizadores</span></a></li>
+                    <li><a href="{% url 'organizers' %}" class="block"> <span>Organizadores</span></a></li>
 
                     <!--Esse só tem para o organizador-->
-                    <li><a href="{% url 'analytics_home'%}"> <span>Panorama analítico</span></a></li>
-                    <li><a href="{% url 'create_event' %}"> <span>Criar evento</span></a></li>
-                    <li><a href="{% url 'participants' %}"> <span>Participantes</span></a></li>
-
+                    <li><a href="{% url 'analytics_home'%}" class="block"> <span>Panorama analítico</span></a></li>
+                    <!--Organizador não tem mais essa rota-->
+                    <li class = "hidden"><a href=""> <span>Criar evento</span></a></li>
+                    <li><a href="{% url 'participants' %}" class="block"> <span>Participantes</span></a></li>
+                    <li><a href = "{% url 'request_create_event' %}" class="block">Publique um evento</a></li>
                     <!--Esse só tem para o administrador-->
-                    <li><a href="{% url 'event_publish_request' %}"> <span>Solicitações</span></a></li>
+                    {% if user|is_admin %}
+                        <li><a href="{% url 'event_publish_request' %}" class="block"> <span>Solicitações</span></a></li>
+                    {% endif %}
+
+                    <div>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <div class = "flex items-center gap-2 cursor-pointer">
+                                <button type="submit">
+                                    <div class="flex gap-3">
+                                      <span>Sair</span>
+                                      {% svg 'logout'%}
+                                    </div>
+                                  </button>
+                            </div>
+                        </form>
+                    </div>
                 </ul>
             </div>
         </aside>
 
-        <main class = "max-w-[1440px] mx-11 mt-5 w-full flex flex-col ">
+        <main class = "max-w-[1440px] mx-11 mt-5 w-full h-full min-h-screen flex flex-col overflow-y-auto">
             {% block content %}
             {% endblock %}
         </main>

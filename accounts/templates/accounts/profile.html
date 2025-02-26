@@ -6,23 +6,61 @@
 <div class="flex gap-10 w-full p-10 flex-wrap lg:flex-nowrap ">
     <div class="flex flex-col gap-8 sm:w-full lg:w-1/2 p-10 rounded-lg shadow-lg shadow-gray-800/25">
         <div class="flex items-center gap-2">
-            {% svg 'edit-profile-pic' class='' %}
-            <span class="text-xl font-medium">Nome do fulano de Tal da Silva</span>
+            <form action="{% url 'profile' %}" method = "POST" enctype="multipart/form-data" id = "upload-form">
+                {% csrf_token %}
+                <input type="file" name="photo" accept="image/*" class="hidden" id="photo-upload">
+
+                <label for="photo-upload" class = "cursor-pointer">
+                    {% if avatar %}
+                        <div style="position: relative; display: inline-block;">
+                            <div class="w-[97px] h-[97px] overflow-hidden flex justify-center items-center">
+                                <img class="rounded-full h-full w-full object-cover" src="{{ avatar.url }}" alt="">
+                            </div>
+                            <svg width="30" fill="none" viewBox="90 75 40 30" style="position: absolute; top: 70px; right: -20px;">
+                                <g clip-path="url(#clip1_4_2)">
+                                    <path d="M120.75 95.75C120.75 96.413 120.487 97.0489 120.018 97.5178C119.549 97.9866 118.913 98.25 118.25 98.25H95.75C95.087 98.25 94.4511 97.9866 93.9822 97.5178C93.5134 97.0489 93.25 96.413 93.25 95.75V82C93.25 81.337 93.5134 80.7011 93.9822 80.2322C94.4511 79.7634 95.087 79.5 95.75 79.5H100.75L103.25 75.75H110.75L113.25 79.5H118.25C118.913 79.5 119.549 79.7634 120.018 80.2322C120.487 80.7011 120.75 81.337 120.75 82V95.75Z" stroke="#1E1E1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M107 93.25C109.761 93.25 112 91.0114 112 88.25C112 85.4886 109.761 83.25 107 83.25C104.239 83.25 102 85.4886 102 88.25C102 91.0114 104.239 93.25 107 93.25Z" stroke="#1E1E1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                                </g>
+                            </svg>
+                        </div>
+                    {% else %}
+                        {% svg 'edit-profile-pic' class='' %}
+                    {% endif %}
+                </label>
+                <button type="submit" class = "hidden">Upload</button>
+            </form>
+
+            <span class="text-xl font-medium">{{user.username}}</span>
         </div>
 
         <div class="flex flex-col gap-5">
-            <span><b>Participei de:</b> 10 Eventos</span>
-            <span><b>Tenho:</b> 3 Certificados </span>
+            <span><b>Participei de:</b>
+                {% if event_count > 0 %}
+                    {{ event_count }} Eventos
+                {% else %}
+                    0 eventos
+                {% endif %}
+            </span>
+            <span><b>Tenho:</b>
+                    0 certificados
+            </span>
         </div>
         <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPersonalData">Modificar Dados</button>
-        <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPassword">Modificar Senha</button>
-
+        {% if not is_suap_user %}
+            <button type="submit" class="self-center btn-default w-full h-[58px]" id="btnModifyPassword">Modificar Senha</button>
+        {% endif %}
         <div class="flex gap-2">
             <button type="submit" class="self-center text-red-200 w-full h-[58px]">Excluir Conta</button>
+
+
             <div class="group w-full">
-                <button type="submit" class="self-center btn-warning-unfilled w-full h-[58px] group-hover:hidden">Sair</button>
-                <button type="submit" class="hidden self-center btn-warning w-full h-[58px] group-hover:block">Sair</button>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="self-center btn-warning-unfilled w-full h-[58px] group-hover:hidden">Sair</button>
+                    <button type="submit" class="hidden self-center btn-warning w-full h-[58px] group-hover:block">Sair</button>
+                </form>
             </div>
+
         </div>
 
 
@@ -31,14 +69,10 @@
 
     <div class="popup-group w-full lg:w-1/2">
         <div class="flex flex-col justify-end gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 hidden" id="popupPersonalData">
-            <div class="badge-message hidden">
-                {% include 'partials/components/badge_message.html' with status='warning' message='CPF informado é inválido!' %}
-            </div>
-
             <div class="flex flex-col sm gap-5">
                 <div class="flex flex-col sm gap-2.5">
-                    <label class="text-sm font-normal" for="fullname">Nome Completo:</label>
-                    <input class="w-full rounded-lg bg-gray-200" type="text" name="text" id="fullname" placeholder="Fulano de Tal da Silva">
+                    <label class="text-sm font-normal" for="name">Nome Completo:</label>
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="name" id="name" placeholder="{{ user.username }}">
                 </div>
 
                 <div class="flex flex-col sm gap-2.5">
@@ -49,12 +83,12 @@
 
                 <div class="flex flex-col sm gap-2.5">
                     <label class="text-sm font-normal" for="cpf">CPF:</label>
-                    <input class="w-full rounded-lg bg-gray-200" type="text" name="cpf" id="cpf" placeholder="XXX.XXX.XXX-XX">
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="cpf" id="cpf" placeholder="XXX.XXX.XXX-XX" maxlength="14">
                 </div>
 
                 <div class="flex flex-col sm gap-2.5">
                     <label class="text-sm font-normal" for="telefone">Telefone:</label>
-                    <input class="w-full rounded-lg bg-gray-200" type="text" name="phone" id="phone" placeholder="(XX)XXXXX-XXXX">
+                    <input class="w-full rounded-lg bg-gray-200" type="text" name="phone" id="phone" placeholder="(XX)XXXXX-XXXX" maxlength="14">
                 </div>
 
                 <div class="flex justify-end">
@@ -64,7 +98,7 @@
         </div>
         <div class="flex flex-col justify-center gap-10 w-full p-12 rounded-lg shadow-sm h-full shadow-gray-800/25 hidden" id="popupPasswordReset">
             <div class="badge-message hidden">
-                {% include 'partials/components/badge_message.html' with status='success' message='Senha alterada com sucesso' %}
+                {% include 'partials/badge_message.html' with status='success' message='Senha alterada com sucesso' %}
             </div>
 
             <div class="flex flex-col sm gap-5">
@@ -91,7 +125,7 @@
     </div>
 
 </div>
-<div class="flex flex-col gap-10 w-full p-10 justify-start">
+{% comment %} <div class="flex flex-col gap-10 w-full p-10 justify-start">
     <h1 class="font-semibold text-2xl">Publicações:</h1>
     <div class="flex flex-col gap-8">
         <section class = "w-full flex flex-col gap-9 pb-12">
@@ -115,7 +149,7 @@
                     </div>
 
                     <div class = "flex justify-end">
-                        <button class = "btn-default w-full sm:w-[200px]"> <a href="{% url 'event_details' %}">Participar</a></button>
+                        <button class = "btn-default w-full sm:w-[200px]"> <a href="">Participar</a></button>
                     </div>
                 </div>
             </div>
@@ -176,7 +210,7 @@
 
         </section>
     </div>
-</div>
+</div> {% endcomment %}
 {% endblock %}
 {% block script %}
 <script src="{% static 'js/profile_script.js' %}"></script>
