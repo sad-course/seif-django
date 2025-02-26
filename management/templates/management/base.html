@@ -1,5 +1,6 @@
 {% load static tailwind_tags %}
 {% load svg  %}
+{% load custom_filters %}
 {% load static %}
 
 <html lang="pt-br" class = "h-full">
@@ -39,13 +40,29 @@
                     <li><a href="{% url 'organizers' %}" class="block"> <span>Organizadores</span></a></li>
 
                     <!--Esse só tem para o organizador-->
-                    <li><a href="{% url 'analytics_home'%}"> <span>Panorama analítico</span></a></li>
+                    <li><a href="{% url 'analytics_home'%}" class="block"> <span>Panorama analítico</span></a></li>
                     <!--Organizador não tem mais essa rota-->
                     <li class = "hidden"><a href=""> <span>Criar evento</span></a></li>
-                    <li><a href="{% url 'participants' %}"> <span>Participantes</span></a></li>
-
+                    <li><a href="{% url 'participants' %}" class="block"> <span>Participantes</span></a></li>
+                    <li><a href = "{% url 'request_create_event' %}" class="block">Publique um evento</a></li>
                     <!--Esse só tem para o administrador-->
-                    <li><a href="{% url 'event_publish_request' %}" class="block"> <span>Solicitações</span></a></li>
+                    {% if user|is_admin %}
+                        <li><a href="{% url 'event_publish_request' %}" class="block"> <span>Solicitações</span></a></li>
+                    {% endif %}
+
+                    <div>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <div class = "flex items-center gap-2 cursor-pointer">
+                                <button type="submit">
+                                    <div class="flex gap-3">
+                                      <span>Sair</span>
+                                      {% svg 'logout'%}
+                                    </div>
+                                  </button>
+                            </div>
+                        </form>
+                    </div>
                 </ul>
             </div>
         </aside>
