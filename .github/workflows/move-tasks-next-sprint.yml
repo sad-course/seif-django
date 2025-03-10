@@ -1,7 +1,7 @@
 on:
   schedule:
     # Runs "at 05:00, only on Monday" (see https://crontab.guru)
-    - cron: '35 12 * * 1'
+    - cron: '37 * * * *'
 
 jobs:
   move-to-next-iteration:
