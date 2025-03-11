@@ -1,8 +1,9 @@
+name: Move tasks from last sprint to the current
 on:
   schedule:
     # Runs "at 05:00, only on Monday" (see https://crontab.guru)
-    - cron: '00 8 * * 1'
-  workflow_dispatch: #Enables manual execution
+    - cron: '4 * * * *'
+  workflow_dispatch: 
 
 jobs:
   move-to-next-iteration:
